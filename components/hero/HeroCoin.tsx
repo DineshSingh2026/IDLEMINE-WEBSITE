@@ -47,10 +47,10 @@ export function CoinFallback({ animate = true, className }: { animate?: boolean;
       <div className={cn("relative aspect-square w-[76%]", animate && "float-y")}>
         {/* rim */}
         <div
-          className="absolute inset-0 rounded-full shadow-[0_30px_80px_-20px_rgba(245,197,66,0.55),0_0_120px_rgba(245,197,66,0.18)]"
+          className="absolute inset-0 rounded-full shadow-[0_30px_80px_-20px_rgba(0,198,201,0.55),0_0_120px_rgba(0,198,201,0.18)]"
           style={{
             background:
-              "conic-gradient(from 210deg, #8a5a12, #f5c542, #fff1c2, #e0a531, #7a4c0e, #f5c542, #ffe08a, #b67c1c, #8a5a12)",
+              "conic-gradient(from 210deg, #8a5a12, #00C6C9, #fff1c2, #e0a531, #7a4c0e, #00C6C9, #4DD9DB, #b67c1c, #8a5a12)",
           }}
         />
         {/* reeded edge hint */}
@@ -62,7 +62,7 @@ export function CoinFallback({ animate = true, className }: { animate?: boolean;
         <div
           className="absolute inset-[5%] rounded-full"
           style={{
-            background: "linear-gradient(145deg, #ffe9a8 0%, #c9931e 45%, #6e430b 100%)",
+            background: "linear-gradient(145deg, #ffe9a8 0%, #018082 45%, #6e430b 100%)",
             boxShadow: "inset 0 2px 6px rgba(255,255,255,0.35), inset 0 -4px 10px rgba(0,0,0,0.45)",
           }}
         />
@@ -107,8 +107,8 @@ export function HeroCoin({ className }: { className?: string }) {
   return (
     <div className={cn("relative isolate aspect-square w-full", className)} aria-hidden>
       {/* Halo: gold core, violet / mint underglow */}
-      <div className="pointer-events-none absolute inset-[8%] -z-10 rounded-full bg-[radial-gradient(circle,rgba(245,197,66,0.22),transparent_62%)] blur-2xl" />
-      <div className="pointer-events-none absolute inset-x-[14%] bottom-[2%] top-[56%] -z-10 rounded-full bg-[radial-gradient(ellipse_at_30%_50%,rgba(153,69,255,0.35),transparent_60%),radial-gradient(ellipse_at_70%_50%,rgba(20,241,149,0.22),transparent_60%)] blur-3xl" />
+      <div className="pointer-events-none absolute inset-[8%] -z-10 rounded-full bg-[radial-gradient(circle,rgba(0,198,201,0.22),transparent_62%)] blur-2xl" />
+      <div className="pointer-events-none absolute inset-x-[14%] bottom-[2%] top-[56%] -z-10 rounded-full bg-[radial-gradient(ellipse_at_30%_50%,rgba(155,123,255,0.35),transparent_60%),radial-gradient(ellipse_at_70%_50%,rgba(61,245,176,0.22),transparent_60%)] blur-3xl" />
 
       <div
         className={cn(

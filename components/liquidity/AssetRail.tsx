@@ -14,7 +14,7 @@ export function AssetRail() {
       items={rwaAssets.map((a) => (
         <div
           key={a.ticker}
-          className="group flex h-14 items-center gap-3 rounded-full border border-line bg-white/[0.03] py-2 pl-2 pr-5 backdrop-blur-sm transition-colors duration-300 hover:border-line-strong hover:bg-white/[0.06]"
+          className="group flex h-14 items-center gap-3 rounded-full border border-line bg-surface py-2 pl-2 pr-5 transition-colors duration-200 ease-out hover:border-line-strong"
         >
           <Image
             src={a.logo}
@@ -22,10 +22,10 @@ export function AssetRail() {
             width={40}
             height={40}
             sizes="40px"
-            className="size-10 rounded-full opacity-70 grayscale transition-[filter,opacity] duration-500 ease-quint group-hover:opacity-100 group-hover:grayscale-0"
+            className="size-10 rounded-full opacity-70 grayscale transition-[filter,opacity] duration-300 ease-out group-hover:opacity-100 group-hover:grayscale-0"
           />
           <span className="flex flex-col leading-tight">
-            <span className="text-[15px] font-semibold text-ink">{a.name}</span>
+            <span className="text-[15px] font-medium text-ink">{a.name}</span>
             <span className="font-mono text-xs text-ink-3">{a.ticker}</span>
           </span>
         </div>

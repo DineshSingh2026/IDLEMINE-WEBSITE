@@ -8,26 +8,27 @@ import { useTokenStats } from "@/hooks/useTokenStats";
 import { RAYDIUM_POOLS, type PoolStat, type TokenStats } from "@/lib/token";
 import { fmtInt, fmtUsd } from "@/lib/format";
 import { Button } from "@/components/ui/Button";
-import { EASE } from "@/components/ui/Reveal";
 import { poolsSection, tokenLogos } from "@/data/content/liquidity";
 import { PoolCard } from "./PoolCard";
 import { DexChartEmbed } from "./DexChartEmbed";
 
+const EASE_OUT = [0.16, 1, 0.3, 1] as const;
 const quoteOf = (p: PoolStat) => p.label.split("/").pop()?.trim() ?? "";
 const dexName = (id: string) => id.charAt(0).toUpperCase() + id.slice(1);
 
 function TokenIcon({ symbol }: { symbol: string }) {
   const src = tokenLogos[symbol];
-  if (src) return <Image src={src} alt="" width={28} height={28} className="size-7 rounded-full ring-2 ring-bg-deep" />;
-  const sol = symbol === "SOL";
+  if (src) return <Image src={src} alt="" width={28} height={28} className="size-7 rounded-full ring-2 ring-surface" />;
+  if (symbol === "SOL")
+    return (
+      <span aria-hidden className="grid size-7 place-items-center rounded-full bg-surface-2 ring-2 ring-surface">
+        <Image src="/assets/logos/solana.svg" alt="" width={14} height={12} className="h-[11px] w-auto" />
+      </span>
+    );
   return (
     <span
       aria-hidden
-      className={
-        sol
-          ? "grid size-7 place-items-center rounded-full bg-[linear-gradient(135deg,#9945ff,#14f195)] font-mono text-[8px] font-bold text-white ring-2 ring-bg-deep"
-          : "grid size-7 place-items-center rounded-full bg-surface-2 font-mono text-[8px] font-bold text-ink-2 ring-2 ring-bg-deep"
-      }
+      className="grid size-7 place-items-center rounded-full bg-surface-2 font-mono text-[8px] font-medium text-ink-2 ring-2 ring-surface"
     >
       {symbol.slice(0, 4)}
     </span>
@@ -51,11 +52,11 @@ export function PoolList({ initial }: { initial?: TokenStats }) {
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-controls="live-pools"
-            className="inline-flex h-12 items-center gap-2 rounded-full bg-gold px-6 text-[15px] font-semibold text-[#0B0B0F] shadow-[0_0_0_1px_rgba(245,197,66,0.4),0_8px_32px_-8px_rgba(245,197,66,0.55)] transition-colors duration-300 hover:bg-gold-2 active:scale-[0.98]"
+            className="inline-flex h-12 items-center gap-2 rounded-[12px] bg-teal-500 px-6 text-[15px] font-semibold text-[#05080A] transition-[background-color,transform] duration-200 ease-out hover:bg-teal-400 active:scale-[0.98] active:bg-teal-600"
           >
             <Layers aria-hidden className="size-4" />
             {poolsSection.loadPools}
-            {pools.length > 0 && <span className="rounded-full bg-black/15 px-2 py-0.5 font-mono text-xs">{pools.length}</span>}
+            {pools.length > 0 && <span className="rounded-[6px] bg-black/15 px-1.5 py-0.5 font-mono text-xs">{pools.length}</span>}
           </button>
           <Button href={RAYDIUM_POOLS} variant="secondary">
             {poolsSection.openRaydium}
@@ -71,11 +72,11 @@ export function PoolList({ initial }: { initial?: TokenStats }) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.8, ease: EASE }}
+            transition={{ duration: 0.3, ease: EASE_OUT }}
             className="overflow-hidden"
           >
-            <div className="mt-8 overflow-hidden rounded-xl border border-line bg-surface/70 backdrop-blur-sm">
-              <div className="hidden grid-cols-[1.6fr_0.8fr_1.4fr_1fr_0.8fr_24px] gap-4 border-b border-line px-6 py-4 text-[11px] font-medium uppercase tracking-[0.12em] text-ink-3 md:grid">
+            <div className="mt-6 overflow-hidden rounded-[20px] border border-line bg-surface">
+              <div className="hidden grid-cols-[1.6fr_0.8fr_1.4fr_1fr_0.8fr_24px] gap-4 border-b border-line px-6 py-4 font-mono text-[12px] font-medium uppercase tracking-[0.08em] text-ink-3 md:grid">
                 <span>Pool</span>
                 <span>DEX</span>
                 <span>{poolsSection.metrics.liquidity}</span>
@@ -86,7 +87,7 @@ export function PoolList({ initial }: { initial?: TokenStats }) {
               <motion.ul
                 initial="hidden"
                 animate="show"
-                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.15 } } }}
+                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.03, delayChildren: 0.05 } } }}
               >
                 {pools.map((p) => {
                   const q = quoteOf(p);
@@ -95,8 +96,8 @@ export function PoolList({ initial }: { initial?: TokenStats }) {
                     <motion.li
                       key={p.pairAddress}
                       variants={{
-                        hidden: { opacity: 0, y: 12 },
-                        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+                        hidden: { opacity: 0, y: 8 },
+                        show: { opacity: 1, y: 0, transition: { duration: 0.25, ease: EASE_OUT } },
                       }}
                       className="border-b border-line last:border-b-0"
                     >
@@ -104,7 +105,7 @@ export function PoolList({ initial }: { initial?: TokenStats }) {
                         href={p.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group grid grid-cols-2 items-center gap-x-4 gap-y-3 px-5 py-4 transition-colors duration-300 hover:bg-white/[0.04] md:grid-cols-[1.6fr_0.8fr_1.4fr_1fr_0.8fr_24px] md:px-6"
+                        className="group grid grid-cols-2 items-center gap-x-4 gap-y-3 px-5 py-4 transition-colors duration-200 ease-out hover:bg-surface-2 md:grid-cols-[1.6fr_0.8fr_1.4fr_1fr_0.8fr_24px] md:px-6"
                       >
                         <span className="col-span-2 flex items-center gap-3 md:col-span-1">
                           <span className="flex">
@@ -113,24 +114,24 @@ export function PoolList({ initial }: { initial?: TokenStats }) {
                               <TokenIcon symbol={q} />
                             </span>
                           </span>
-                          <span className="font-semibold text-ink">{p.label}</span>
+                          <span className="font-medium text-ink">{p.label}</span>
                         </span>
                         <span className="hidden text-sm text-ink-2 md:block">{dexName(p.dexId)}</span>
                         <span className="flex items-center gap-3">
-                          <span className="md:hidden text-[11px] uppercase tracking-[0.12em] text-ink-3">Liq.</span>
+                          <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-3 md:hidden">Liq.</span>
                           <span className="font-mono text-sm text-ink">{fmtUsd(p.liquidityUsd)}</span>
-                          <span aria-hidden className="hidden h-1 flex-1 overflow-hidden rounded-full bg-white/5 md:block">
-                            <span className="block h-full rounded-full bg-gradient-to-r from-gold-deep to-gold" style={{ width: `${share}%` }} />
+                          <span aria-hidden className="hidden h-1 flex-1 overflow-hidden rounded-full bg-line md:block">
+                            <span className="block h-full rounded-full bg-teal-400/70" style={{ width: `${share}%` }} />
                           </span>
                         </span>
                         <span className="flex items-center gap-2 font-mono text-sm text-ink-2">
-                          <span className="md:hidden font-sans text-[11px] uppercase tracking-[0.12em] text-ink-3">Vol.</span>
+                          <span className="text-[11px] uppercase tracking-[0.08em] text-ink-3 md:hidden">Vol.</span>
                           {fmtUsd(p.volume24h)}
                         </span>
                         <span className="hidden font-mono text-sm text-ink-2 md:block">{fmtInt(p.txns24h)}</span>
                         <ArrowUpRight
                           aria-hidden
-                          className="hidden size-4 text-ink-3 transition-[transform,color] duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-gold-2 md:block"
+                          className="hidden size-4 text-ink-3 transition-[transform,color] duration-200 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-teal-300 md:block"
                         />
                         <span className="sr-only">(opens DexScreener in a new tab)</span>
                       </a>

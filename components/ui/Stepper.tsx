@@ -31,7 +31,7 @@ export function Stepper({ steps, className }: { steps: Step[]; className?: strin
           )}
           <span
             aria-hidden
-            className="flex size-12 items-center justify-center rounded-full border border-gold/50 bg-gold/10 font-display text-lg font-bold text-gold shadow-[0_0_40px_rgba(0,198,201,0.2)] md:size-14 md:text-xl"
+            className="flex size-12 items-center justify-center rounded-full border border-gold/50 bg-gold/10 font-display text-lg font-bold text-gold md:size-14 md:text-xl"
           >
             {i + 1}
           </span>

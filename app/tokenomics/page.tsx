@@ -13,13 +13,13 @@ import { ClosingCta } from "@/components/tokenomics/ClosingCta";
 import { tokenomicsCss } from "@/components/tokenomics/styles";
 
 export const metadata = pageMeta(tokenomicsMeta);
-export const viewport: Viewport = { themeColor: "#07061f" };
+export const viewport: Viewport = { themeColor: "#05080A" };
 export const revalidate = 60;
 
 export default async function TokenomicsPage() {
   const stats = await getTokenStats();
   return (
-    <div className="bg-bg-deep">
+    <div className="bg-bg">
       <style dangerouslySetInnerHTML={{ __html: tokenomicsCss }} />
       <TokenomicsHero />
       <TokenGlance initial={stats} />

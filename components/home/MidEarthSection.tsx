@@ -22,7 +22,7 @@ export function MidEarthSection() {
     >
       <RevealGroup className="max-w-[560px]">
         <RevealItem>
-          <LogoTile src={midearth.logo} wordmark={midearth.wordmark} glow="rgba(20,241,149,0.6)" />
+          <LogoTile src={midearth.logo} wordmark={midearth.wordmark} glow="rgba(61,245,176,0.6)" />
         </RevealItem>
         <RevealItem className="mt-10">
           <Eyebrow>{midearth.eyebrow}</Eyebrow>

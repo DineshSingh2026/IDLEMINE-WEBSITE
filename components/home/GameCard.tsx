@@ -23,7 +23,7 @@ export function GameCard({ game, accent }: { game: MobileGame; accent: "violet" 
         <span
           className={cn(
             "inline-flex h-6 items-center rounded-full border px-2.5 text-[11px] font-semibold uppercase tracking-[0.1em]",
-            accent === "violet" ? "border-violet/40 bg-violet/15 text-[#C9A5FF]" : "border-gold/40 bg-gold/10 text-gold-2",
+            accent === "violet" ? "border-violet/40 bg-violet/15 text-[#C4B2FF]" : "border-gold/40 bg-gold/10 text-gold-2",
           )}
         >
           {game.tag}

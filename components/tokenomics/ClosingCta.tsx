@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
-import { Grain } from "@/components/layout/Grain";
 import { Button } from "@/components/ui/Button";
 import { Heading } from "@/components/ui/Heading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -8,24 +7,26 @@ import { closing, hero } from "@/data/content/tokenomics";
 
 export function ClosingCta() {
   return (
-    <section aria-labelledby="tk-closing" className="relative isolate overflow-hidden py-28 md:py-40">
-      <div aria-hidden className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_70%_at_50%_100%,rgba(245,197,66,0.45),transparent_60%),radial-gradient(ellipse_60%_60%_at_10%_20%,rgba(153,69,255,0.45),transparent_60%),radial-gradient(ellipse_50%_60%_at_95%_30%,rgba(20,241,149,0.22),transparent_60%),linear-gradient(180deg,#07061F,#120B3A)]" />
-        <div className="dot-grid absolute inset-0" />
-        <Grain />
-        <Image src={hero.mark.src} alt="" width={640} height={640} className="absolute left-1/2 top-1/2 w-[560px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-[0.07]" />
-      </div>
-      <Container className="text-center">
-        <Heading id="tk-closing" size="xl" className="mx-auto" highlight={["Own."]}>
-          {closing.title}
-        </Heading>
-        <Reveal delay={0.2} className="mt-12 flex flex-wrap justify-center gap-3">
-          {closing.ctas.map((c) => (
-            <Button key={c.label} href={c.href} variant={c.variant}>
-              {c.label}
-            </Button>
-          ))}
-        </Reveal>
+    <section aria-labelledby="tk-closing" className="relative pb-16 md:pb-24 lg:pb-[120px]">
+      <Container>
+        <div className="relative overflow-hidden rounded-[20px] border border-line bg-surface px-6 py-16 text-center md:px-12 md:py-24">
+          <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,#018082,#00C6C9,#3DF5B0)]" />
+          <Reveal>
+            <span className="mx-auto block size-14 rounded-full border border-line bg-surface-2 p-2">
+              <Image src={hero.mark.src} alt="" width={56} height={56} className="size-full object-contain" />
+            </span>
+          </Reveal>
+          <Heading id="tk-closing" size="xl" className="mx-auto mt-8">
+            {closing.title}
+          </Heading>
+          <Reveal delay={0.2} className="mt-10 flex flex-wrap justify-center gap-3">
+            {closing.ctas.map((c) => (
+              <Button key={c.label} href={c.href} variant={c.variant}>
+                {c.label}
+              </Button>
+            ))}
+          </Reveal>
+        </div>
       </Container>
     </section>
   );

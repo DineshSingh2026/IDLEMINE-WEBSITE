@@ -10,7 +10,7 @@ export function ArenaCard({ arena, badge }: { arena: Arena; badge: string }) {
   return (
     <SmartLink
       href={arena.href}
-      className="group relative block overflow-hidden rounded-lg border border-white/10 bg-surface transition-[transform,border-color,box-shadow] duration-500 ease-quint hover:-translate-y-1 hover:border-mint/40 hover:shadow-[0_30px_80px_-30px_rgba(20,241,149,0.35)]"
+      className="group relative block overflow-hidden rounded-lg border border-white/10 bg-surface transition-[transform,border-color,box-shadow] duration-500 ease-quint hover:-translate-y-1 hover:border-mint/40 hover:shadow-[0_30px_80px_-30px_rgba(61,245,176,0.35)]"
     >
       <div className="relative aspect-[4/5] overflow-hidden">
         <Image
@@ -21,7 +21,7 @@ export function ArenaCard({ arena, badge }: { arena: Arena; badge: string }) {
           className="object-cover transition-transform duration-[1200ms] ease-quint group-hover:scale-[1.08]"
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[#06080d] via-[#06080d]/40 to-transparent" />
-        <div aria-hidden className="absolute inset-0 opacity-0 transition-opacity duration-700 ease-quint group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_100%,rgba(20,241,149,0.25),transparent_60%)]" />
+        <div aria-hidden className="absolute inset-0 opacity-0 transition-opacity duration-700 ease-quint group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_100%,rgba(61,245,176,0.25),transparent_60%)]" />
         <Badge status="alpha" className="absolute left-4 top-4 backdrop-blur-md">
           {badge}
         </Badge>

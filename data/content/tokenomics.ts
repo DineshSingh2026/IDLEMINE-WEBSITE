@@ -29,7 +29,7 @@ export const glance = {
     ticker: { label: "Ticker", value: "$IDLE" },
     chain: { label: "Chain", value: "Solana" },
     contract: { label: "Contract address", value: contract },
-    price: { label: "Price", note: "24h change" },
+    price: { label: "Price", note: "live" },
     marketCap: { label: "Market cap", note: "live" },
     totalSupply: { label: "Total supply", note: "from FDV" },
     circulating: { label: "Circulating supply", note: "live" },

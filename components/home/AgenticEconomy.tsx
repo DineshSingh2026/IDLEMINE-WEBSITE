@@ -32,26 +32,26 @@ const TONE: Record<Tone, { card: string; tile: string; glow: string; hex: string
   gold: {
     card: "group-data-[active=true]/n:border-gold/45",
     tile: "group-data-[active=true]/n:border-gold/50 group-data-[active=true]/n:bg-gold/15 group-data-[active=true]/n:text-gold",
-    glow: "rgba(245,197,66,0.30)",
-    hex: "#F5C542",
+    glow: "rgba(0,198,201,0.30)",
+    hex: "#00C6C9",
   },
   violet: {
     card: "group-data-[active=true]/n:border-violet/55",
-    tile: "group-data-[active=true]/n:border-violet/60 group-data-[active=true]/n:bg-violet/20 group-data-[active=true]/n:text-[#C9A5FF]",
-    glow: "rgba(153,69,255,0.34)",
-    hex: "#9945FF",
+    tile: "group-data-[active=true]/n:border-violet/60 group-data-[active=true]/n:bg-violet/20 group-data-[active=true]/n:text-[#C4B2FF]",
+    glow: "rgba(155,123,255,0.34)",
+    hex: "#9B7BFF",
   },
   mint: {
     card: "group-data-[active=true]/n:border-mint/45",
     tile: "group-data-[active=true]/n:border-mint/50 group-data-[active=true]/n:bg-mint/15 group-data-[active=true]/n:text-mint",
-    glow: "rgba(20,241,149,0.26)",
-    hex: "#14F195",
+    glow: "rgba(61,245,176,0.26)",
+    hex: "#3DF5B0",
   },
   white: {
     card: "group-data-[active=true]/n:border-white/35",
     tile: "group-data-[active=true]/n:border-white/40 group-data-[active=true]/n:bg-white/10 group-data-[active=true]/n:text-ink",
-    glow: "rgba(255,224,138,0.28)",
-    hex: "#FFE08A",
+    glow: "rgba(77,217,219,0.28)",
+    hex: "#4DD9DB",
   },
 };
 
@@ -168,16 +168,16 @@ function Diagram({ stageRef, pathRefs, sparkRef }: {
         >
           <defs>
             <radialGradient id="ae-spark">
-              <stop offset="0%" stopColor="#FFF8E1" />
-              <stop offset="35%" stopColor="#FFE08A" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#F5C542" stopOpacity="0" />
+              <stop offset="0%" stopColor="#E6FBFB" />
+              <stop offset="35%" stopColor="#4DD9DB" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#00C6C9" stopOpacity="0" />
             </radialGradient>
             <filter id="ae-blur" x="-50%" y="-50%" width="200%" height="200%">
               <feGaussianBlur stdDeviation="4" />
             </filter>
             {LINKS.map(([, b], i) => (
               <linearGradient key={i} id={`ae-g${i}`} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={geo.h}>
-                <stop offset="0%" stopColor="#FFE08A" />
+                <stop offset="0%" stopColor="#4DD9DB" />
                 <stop offset="100%" stopColor={TONE[META[b].tone].hex} />
               </linearGradient>
             ))}
@@ -211,7 +211,7 @@ function Diagram({ stageRef, pathRefs, sparkRef }: {
           ))}
           <g ref={sparkRef} style={{ opacity: 0 }}>
             <circle r="16" fill="url(#ae-spark)" />
-            <circle r="3" fill="#FFF8E1" />
+            <circle r="3" fill="#E6FBFB" />
           </g>
         </svg>
       )}
@@ -433,7 +433,7 @@ export function AgenticEconomy() {
           <span aria-hidden className="absolute bottom-8 left-[33px] top-8 w-px bg-gradient-to-b from-gold via-violet to-mint opacity-60" />
           {agentic.nodes.map((n) => (
             <li key={n.id} data-active="true" className="group/n relative">
-              <div className={cn("relative flex items-center gap-4 rounded-2xl border bg-[#0d0f1a]/85 p-3 pr-5 backdrop-blur-xl", TONE[META[n.id].tone].card)}>
+              <div className={cn("relative flex items-center gap-4 rounded-2xl border bg-[#0B1114]/85 p-3 pr-5 backdrop-blur-xl", TONE[META[n.id].tone].card)}>
                 <span className="relative bg-bg-deep">
                   <Tile id={n.id} />
                 </span>

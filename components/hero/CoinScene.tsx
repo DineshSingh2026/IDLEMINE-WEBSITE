@@ -232,17 +232,17 @@ export default function CoinScene({ onReady, className }: { onReady?: () => void
         {/* Gold key light */}
         <pointLight position={[2.4, 2.2, 3.2]} intensity={28} color="#ffd98a" distance={12} decay={2} />
         {/* Solana violet + mint rim lights from below / behind */}
-        <pointLight position={[-2.6, -2.2, -1.2]} intensity={40} color="#9945FF" distance={10} decay={2} />
-        <pointLight position={[2.6, -2.4, -1]} intensity={30} color="#14F195" distance={10} decay={2} />
+        <pointLight position={[-2.6, -2.2, -1.2]} intensity={40} color="#9B7BFF" distance={10} decay={2} />
+        <pointLight position={[2.6, -2.4, -1]} intensity={30} color="#3DF5B0" distance={10} decay={2} />
         <Suspense fallback={null}>
           <Coin />
           <Environment preset="city" environmentIntensity={0.9}>
             {/* Brand-tinted light cards so the gold catches violet / mint along the bevel */}
-            <Lightformer form="rect" intensity={2.4} color="#9945FF" position={[-4, -2, -2]} scale={[4, 6, 1]} />
-            <Lightformer form="rect" intensity={2} color="#14F195" position={[4, -2, -2]} scale={[4, 6, 1]} />
-            <Lightformer form="ring" intensity={3} color="#ffe08a" position={[0, 4, 3]} scale={3} />
+            <Lightformer form="rect" intensity={2.4} color="#9B7BFF" position={[-4, -2, -2]} scale={[4, 6, 1]} />
+            <Lightformer form="rect" intensity={2} color="#3DF5B0" position={[4, -2, -2]} scale={[4, 6, 1]} />
+            <Lightformer form="ring" intensity={3} color="#4DD9DB" position={[0, 4, 3]} scale={3} />
           </Environment>
-          <Sparkles count={36} scale={[2.9, 2.9, 1.4]} size={2.2} speed={0.25} opacity={0.7} color="#F5C542" noise={0.6} />
+          <Sparkles count={36} scale={[2.9, 2.9, 1.4]} size={2.2} speed={0.25} opacity={0.7} color="#00C6C9" noise={0.6} />
           <Ready onReady={onReady} />
         </Suspense>
       </Canvas>

@@ -48,7 +48,7 @@ export function CommunitySection() {
                       rel="noopener noreferrer"
                       className="group inline-flex h-11 items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] pl-3 pr-5 text-sm font-medium text-ink-2 transition-[color,border-color,background-color,transform] duration-300 ease-quint hover:-translate-y-0.5 hover:border-gold/40 hover:bg-gold/[0.06] hover:text-ink"
                     >
-                      <span className="flex size-7 items-center justify-center rounded-full bg-white/[0.06] text-ink transition-colors group-hover:bg-gold group-hover:text-[#0B0B0F]">
+                      <span className="flex size-7 items-center justify-center rounded-full bg-white/[0.06] text-ink transition-colors group-hover:bg-gold group-hover:text-[#05080A]">
                         <SocialIcon name={s.key} className="size-3.5" />
                       </span>
                       {s.label}

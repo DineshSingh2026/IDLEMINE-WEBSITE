@@ -43,7 +43,7 @@ export function HeroHome() {
           ]}
         />
         {/* faint radial horizon */}
-        <div className="absolute left-1/2 top-[78%] h-[1200px] w-[2400px] -translate-x-1/2 rounded-[50%] border-t border-white/10 bg-[radial-gradient(closest-side,rgba(8,9,14,0)_70%,rgba(8,9,14,1)_100%)] shadow-[0_-40px_120px_-20px_rgba(153,69,255,0.35),inset_0_40px_80px_-40px_rgba(245,197,66,0.25)]" />
+        <div className="absolute left-1/2 top-[78%] h-[1200px] w-[2400px] -translate-x-1/2 rounded-[50%] border-t border-white/10 bg-[radial-gradient(closest-side,rgba(8,9,14,0)_70%,rgba(8,9,14,1)_100%)] shadow-[0_-40px_120px_-20px_rgba(155,123,255,0.35),inset_0_40px_80px_-40px_rgba(0,198,201,0.25)]" />
         <div className="absolute left-1/2 top-[78%] h-px w-[900px] max-w-full -translate-x-1/2 bg-gradient-to-r from-transparent via-gold-2/70 to-transparent" />
         <div className="dot-grid absolute inset-0 opacity-60 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,#000_30%,transparent_80%)]" />
         <Grain opacity={0.02} />

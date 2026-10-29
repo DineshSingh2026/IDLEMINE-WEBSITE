@@ -4,14 +4,18 @@ import { Heading } from "@/components/ui/Heading";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { FaqAccordion } from "./faq/FaqAccordion";
+import { FaqMark } from "./faq/FaqMark";
 
-/** §6 FAQs — title left, single-open accordion right (stacked on mobile). */
+/** §6 FAQs — title left (sticky, with the animated mark), single-open accordion right (stacked on mobile). */
 export function Faq() {
   return (
     <Section id="faq" ariaLabelledby="faq-title" className="scroll-mt-[var(--header-h)]">
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-6">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-[calc(var(--header-h)+48px)]">
+            <Reveal className="mb-10 hidden lg:block">
+              <FaqMark className="ml-6" />
+            </Reveal>
             <Reveal>
               <Eyebrow className="text-teal-400">FAQs</Eyebrow>
             </Reveal>
@@ -20,9 +24,9 @@ export function Faq() {
             </Heading>
           </div>
         </div>
-        <Reveal delay={0.1} className="lg:col-span-8 xl:col-span-7 xl:col-start-6">
+        <div className="lg:col-span-8 xl:col-span-7 xl:col-start-6">
           <FaqAccordion items={faqs} />
-        </Reveal>
+        </div>
       </div>
     </Section>
   );

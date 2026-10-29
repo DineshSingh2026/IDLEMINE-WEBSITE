@@ -6,8 +6,6 @@ import { liquidityHero, liquidityMeta, poolsSection } from "@/data/content/liqui
 import { TickerBand } from "@/components/home/TickerBand";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { Grain } from "@/components/layout/Grain";
-import { BackgroundBlobs } from "@/components/layout/BackgroundBlobs";
 import { Heading } from "@/components/ui/Heading";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Chip } from "@/components/ui/Chip";
@@ -16,13 +14,13 @@ import { AssetRail } from "@/components/liquidity/AssetRail";
 import { PoolList } from "@/components/liquidity/PoolList";
 
 export const metadata = pageMeta(liquidityMeta);
-export const viewport: Viewport = { themeColor: "#07061f" };
+export const viewport: Viewport = { themeColor: "#05080A" };
 export const revalidate = 60;
 
 export default async function LiquidityPage() {
   const initial = await getTokenStats();
   return (
-    <div className="bg-bg-deep">
+    <div className="bg-bg">
       <TickerBand
         initial={initial}
         fields={[
@@ -33,55 +31,47 @@ export default async function LiquidityPage() {
         ]}
       />
 
-      <section aria-labelledby="liquidity-title" className="relative isolate overflow-hidden pb-20 pt-16 md:pb-28 md:pt-24">
-        <div aria-hidden className="absolute inset-0 -z-10">
-          <BackgroundBlobs
-            blobs={[
-              { color: "teal", pos: { top: "40%", left: "78%" }, size: 720, opacity: 0.4 },
-              { color: "violet", pos: { top: "10%", left: "10%" }, size: 560, opacity: 0.25 },
-              { color: "gold", pos: { top: "90%", left: "45%" }, size: 520, opacity: 0.12 },
-            ]}
-          />
-          <Grain />
-        </div>
-        <Container className="grid items-center gap-12 lg:grid-cols-[1.25fr_1fr] lg:gap-8">
-          <div className="min-w-0">
+      <section aria-labelledby="liquidity-title" className="relative overflow-hidden pb-16 pt-14 md:pb-20 md:pt-20 lg:pt-24">
+        <Container className="grid items-center gap-12 lg:grid-cols-12 lg:gap-6">
+          <div className="min-w-0 lg:col-span-7">
             <Eyebrow>{liquidityHero.eyebrow}</Eyebrow>
-            <Heading as="h1" id="liquidity-title" size="xl" immediate className="text-display-xl mt-6">
+            <Heading as="h1" id="liquidity-title" size="xl" immediate className="mt-6">
               {liquidityHero.title}
             </Heading>
             <p className="text-body-l mt-6 max-w-[600px]">{liquidityHero.sub}</p>
             <ul className="mt-8 flex flex-wrap gap-3">
-              {liquidityHero.chips.map((c, i) => (
+              {liquidityHero.chips.map((c) => (
                 <li key={c}>
-                  <Chip tone={(["mint", "gold", "violet"] as const)[i % 3]}>{c}</Chip>
+                  <Chip tone="gold">{c}</Chip>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="relative mx-auto w-full max-w-[420px]">
-            <div aria-hidden className="absolute inset-[8%] rounded-full bg-teal/40 blur-[80px]" />
-            <div aria-hidden className="absolute inset-0 rounded-full border border-white/5" />
-            <div aria-hidden className="absolute inset-[-8%] rounded-full border border-dashed border-white/[0.06]" />
-            <Image
-              src={liquidityHero.visual}
-              alt="IdleMine Web 3.0 logo"
-              width={640}
-              height={640}
-              priority
-              sizes="(min-width: 1024px) 420px, 80vw"
-              className="float-y relative w-full drop-shadow-[0_30px_80px_rgba(15,163,160,0.45)]"
-            />
+          <div className="relative mx-auto aspect-square w-full max-w-[280px] sm:max-w-[340px] lg:col-span-5 lg:max-w-[400px]">
+            <svg aria-hidden viewBox="0 0 400 400" className="absolute inset-0 h-full w-full overflow-visible">
+              <circle cx="200" cy="200" r="198" fill="none" stroke="#1C2A2F" />
+              <circle cx="200" cy="200" r="172" fill="none" stroke="#1C2A2F" strokeDasharray="2 6" />
+            </svg>
+            <div className="absolute inset-[16%]">
+              <Image
+                src={liquidityHero.visual}
+                alt="IdleMine Web 3.0 logo"
+                fill
+                priority
+                sizes="(min-width: 1024px) 270px, 60vw"
+                className="object-contain"
+              />
+            </div>
           </div>
         </Container>
-        <div className="mt-16 md:mt-20">
+        <div className="mt-16 border-y border-line py-6 md:mt-20">
           <AssetRail />
         </div>
       </section>
 
-      <Section id="pools" ariaLabelledby="pools-title" className="pt-8 md:pt-12 lg:pt-16" blobs={[{ color: "violet", pos: { top: "30%", left: "90%" }, opacity: 0.18 }]}>
+      <Section id="pools" ariaLabelledby="pools-title" className="pt-8 md:pt-12 lg:pt-16">
         <div className="max-w-[720px]">
-          <Heading id="pools-title" size="l" className="text-display-l">
+          <Heading id="pools-title" size="l">
             {poolsSection.title}
           </Heading>
           <Reveal>

@@ -69,7 +69,7 @@ export function SubscribeForm() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="group/btn inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-gold px-6 text-[15px] font-semibold text-[#0B0B0F] shadow-[0_0_0_1px_rgba(245,197,66,0.4),0_8px_32px_-8px_rgba(245,197,66,0.55)] transition-[background-color,transform] duration-300 ease-quint hover:bg-gold-2 active:scale-[0.98] disabled:opacity-70"
+          className="group/btn inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-gold px-6 text-[15px] font-semibold text-[#05080A] shadow-[0_0_0_1px_rgba(0,198,201,0.4),0_8px_32px_-8px_rgba(0,198,201,0.55)] transition-[background-color,transform] duration-300 ease-quint hover:bg-gold-2 active:scale-[0.98] disabled:opacity-70"
         >
           {form.button}
           {status === "loading" ? (

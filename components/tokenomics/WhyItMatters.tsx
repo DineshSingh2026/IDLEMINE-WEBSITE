@@ -6,17 +6,17 @@ import { why } from "@/data/content/tokenomics";
 
 export function WhyItMatters() {
   return (
-    <Section ariaLabelledby="tk-why">
+    <Section ariaLabelledby="tk-why" className="pt-0 md:pt-0 lg:pt-0">
       <Heading id="tk-why" className="text-center">
         {why.title}
       </Heading>
-      <div className="mt-14 grid gap-5 md:mt-20 md:grid-cols-2">
-        <Reveal className="rounded-lg border border-[#FF5C7A]/25 bg-[#FF5C7A]/[0.04] p-8 md:p-10">
+      <div className="mt-12 grid gap-6 md:grid-cols-2">
+        <Reveal className="rounded-[20px] border border-line bg-bg p-8 md:p-10">
           <h3 className="text-heading-s text-ink-2">{why.bad.title}</h3>
           <ul className="mt-6 space-y-4">
             {why.bad.items.map((t) => (
-              <li key={t} className="flex items-center gap-3 text-lg text-ink-3 line-through decoration-[#FF5C7A]/40">
-                <span aria-hidden className="flex size-7 items-center justify-center rounded-full bg-[#FF5C7A]/10 text-[#FF7A93]">
+              <li key={t} className="flex items-center gap-3 text-lg text-ink-3 line-through decoration-ink-3/50">
+                <span aria-hidden className="flex size-7 shrink-0 items-center justify-center rounded-full border border-line text-ink-3">
                   <X className="size-4" />
                 </span>
                 {t}
@@ -24,12 +24,13 @@ export function WhyItMatters() {
             ))}
           </ul>
         </Reveal>
-        <Reveal delay={0.08} className="rounded-lg border border-gold/40 bg-gradient-to-br from-gold/[0.12] to-gold/[0.02] p-8 shadow-[0_0_80px_rgba(245,197,66,0.1)] md:p-10">
-          <h3 className="text-heading-s text-gold-2">{why.good.title}</h3>
+        <Reveal delay={0.08} className="relative overflow-hidden rounded-[20px] border border-line bg-surface p-8 md:p-10">
+          <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,#018082,#00C6C9,#3DF5B0)]" />
+          <h3 className="text-heading-s text-ink">{why.good.title}</h3>
           <ul className="mt-6 space-y-4">
             {why.good.items.map((t) => (
               <li key={t} className="flex items-center gap-3 text-lg text-ink">
-                <span aria-hidden className="flex size-7 items-center justify-center rounded-full bg-gold/15 text-gold">
+                <span aria-hidden className="flex size-7 shrink-0 items-center justify-center rounded-full border border-mint/30 text-mint">
                   <Check className="size-4" />
                 </span>
                 {t}

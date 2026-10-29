@@ -25,37 +25,31 @@ const LABEL_CLS = [
 
 export function FlowDiagram() {
   return (
-    <Section
-      ariaLabelledby="tk-flow"
-      blobs={[
-        { color: "gold", pos: { top: "50%", left: "70%" }, size: 640, opacity: 0.16 },
-        { color: "mint", pos: { top: "80%", left: "10%" }, size: 480, opacity: 0.1 },
-      ]}
-    >
-      <div className="grid items-center gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
-        <div>
+    <Section ariaLabelledby="tk-flow" className="pt-0 md:pt-0 lg:pt-0">
+      <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-6">
+        <div className="lg:col-span-5">
           <Reveal>
             <Eyebrow>{flow.eyebrow}</Eyebrow>
           </Reveal>
-          <Heading id="tk-flow" className="mt-5" highlight={["$IDLE"]}>
+          <Heading id="tk-flow" className="mt-5">
             {flow.title}
           </Heading>
           <Reveal delay={0.1}>
             <p className="text-body-l mt-6 max-w-[480px]">{flow.body}</p>
           </Reveal>
-          <RevealGroup as="ol" className="mt-10 space-y-3" delay={0.15}>
+          <RevealGroup as="ol" className="mt-12 space-y-3" delay={0.15}>
             {flow.stops.map((s, i) => (
               <RevealItem as="li" key={s.n}>
-                <div className="flex items-center gap-4 rounded-2xl border border-line bg-white/[0.02] px-4 py-3.5">
+                <div className="flex items-center gap-4 rounded-[12px] border border-line bg-surface px-4 py-3.5">
                   <span
                     aria-hidden
-                    className="tk-node flex size-10 shrink-0 items-center justify-center rounded-full font-mono text-sm font-semibold text-gold-2"
+                    className="tk-node flex size-10 shrink-0 items-center justify-center rounded-full font-mono text-sm font-medium"
                     style={{ animationDelay: `${i * (LOOP / 3)}s` }}
                   >
                     {s.n}
                   </span>
                   <div className="min-w-0">
-                    <p className="font-display text-[17px] font-semibold text-ink">
+                    <p className="font-display text-[17px] font-semibold tracking-[-0.01em] text-ink">
                       <span className="sr-only">{s.n} · </span>
                       {s.title}
                     </p>
@@ -67,41 +61,29 @@ export function FlowDiagram() {
           </RevealGroup>
         </div>
 
-        <Reveal>
-          <figure className="mx-auto w-full max-w-[560px]">
+        <Reveal className="lg:col-span-6 lg:col-start-7">
+          <figure className="mx-auto w-full max-w-[520px]">
             <div role="img" aria-label={flow.ariaLabel} className="relative aspect-square w-full">
               <svg viewBox="0 0 400 400" aria-hidden className="absolute inset-0 h-full w-full overflow-visible">
                 <defs>
-                  <linearGradient id="tk-flow-ring" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stopColor="#FFE08A" />
-                    <stop offset="0.5" stopColor="#F5C542" stopOpacity="0.5" />
-                    <stop offset="1" stopColor="#9945FF" stopOpacity="0.8" />
-                  </linearGradient>
-                  <radialGradient id="tk-flow-core">
-                    <stop offset="0" stopColor="#F5C542" stopOpacity="0.28" />
-                    <stop offset="1" stopColor="#F5C542" stopOpacity="0" />
-                  </radialGradient>
-                  <filter id="tk-flow-glow" x="-200%" y="-200%" width="500%" height="500%">
-                    <feGaussianBlur stdDeviation="5" />
-                  </filter>
                   <marker id="tk-flow-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-                    <path d="M2,1 L8,5 L2,9" fill="none" stroke="#FFE08A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M2,1 L8,5 L2,9" fill="none" stroke="#4D666C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                   </marker>
                 </defs>
 
-                <circle cx={C} cy={C} r={120} fill="url(#tk-flow-core)" />
-                <circle cx={C} cy={C} r={R + 28} fill="none" stroke="rgba(255,255,255,0.05)" />
-                <circle cx={C} cy={C} r={R - 28} fill="none" stroke="rgba(255,255,255,0.05)" strokeDasharray="2 6" />
-                <circle cx={C} cy={C} r={R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10" />
+                <circle cx={C} cy={C} r={R + 28} fill="none" stroke="#1C2A2F" />
+                <circle cx={C} cy={C} r={R - 28} fill="none" stroke="#1C2A2F" strokeDasharray="2 6" />
+                <circle cx={C} cy={C} r={R} fill="none" stroke="#1C2A2F" strokeWidth="1.5" />
                 <circle
                   className="tk-dash"
                   cx={C}
                   cy={C}
                   r={R}
                   fill="none"
-                  stroke="url(#tk-flow-ring)"
-                  strokeWidth="2"
-                  strokeDasharray="10 10"
+                  stroke="#00C6C9"
+                  strokeOpacity="0.55"
+                  strokeWidth="1.5"
+                  strokeDasharray="2 14"
                   strokeLinecap="round"
                 />
                 {/* Direction chevrons midway between stops */}
@@ -121,33 +103,29 @@ export function FlowDiagram() {
                   );
                 })}
 
-                {/* Travelling particle with a short comet trail */}
+                {/* Travelling particle with a short trail */}
                 <g className="tk-particle">
-                  {[0.36, 0.24, 0.12].map((lag, i) => (
-                    <circle key={lag} r={5 - i * 1.2 - 1} fill="#F5C542" opacity={0.18 + i * 0.14}>
+                  {[0.3, 0.2, 0.1].map((lag, i) => (
+                    <circle key={lag} r={1.6 + i * 0.7} fill="#00C6C9" opacity={0.15 + i * 0.15}>
                       <animateMotion dur={`${LOOP}s`} begin={`${-lag}s`} repeatCount="indefinite" path={PATH} />
                     </circle>
                   ))}
-                  <circle r="14" fill="#F5C542" opacity="0.55" filter="url(#tk-flow-glow)">
-                    <animateMotion dur={`${LOOP}s`} repeatCount="indefinite" path={PATH} />
-                  </circle>
-                  <circle r="5.5" fill="#FFF3C4">
+                  <circle r="4.5" fill="#00C6C9">
                     <animateMotion dur={`${LOOP}s`} repeatCount="indefinite" path={PATH} />
                   </circle>
                 </g>
               </svg>
 
               {/* Center token */}
-              <div aria-hidden className="absolute left-1/2 top-1/2 size-[24%] -translate-x-1/2 -translate-y-1/2">
-                <div className="absolute inset-0 rounded-full shadow-[0_0_80px_10px_rgba(245,197,66,0.25)]" />
-                <Image src={hero.mark.src} alt="" fill sizes="140px" className="object-contain" />
+              <div aria-hidden className="absolute left-1/2 top-1/2 size-[22%] -translate-x-1/2 -translate-y-1/2">
+                <Image src={hero.mark.src} alt="" fill sizes="120px" className="object-contain" />
               </div>
 
               {/* Stops */}
               {flow.stops.map((s, i) => (
                 <div key={s.n} aria-hidden>
                   <span
-                    className="tk-node absolute flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full font-mono text-[15px] font-semibold text-gold-2 backdrop-blur md:size-14 md:text-lg"
+                    className="tk-node absolute flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full font-mono text-[15px] font-medium md:size-14 md:text-lg"
                     style={{ left: `${pos[i].x}%`, top: `${pos[i].y}%`, animationDelay: `${i * (LOOP / 3)}s` }}
                   >
                     {s.n}
