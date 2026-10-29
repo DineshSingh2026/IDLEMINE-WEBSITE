@@ -39,7 +39,7 @@ export function RoadmapHero() {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[70%_40%] opacity-40 grayscale"
+            className="object-cover object-[70%_40%] opacity-60"
           />
         </motion.div>
         {/* Dark gradient masks: left for legibility, bottom into the page canvas, top under the header */}

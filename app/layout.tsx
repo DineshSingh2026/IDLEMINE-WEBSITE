@@ -17,7 +17,7 @@ const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["500", "600"], variab
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: "$IDLE — The token powering IdleMine Games", template: "%s" },
+  title: { default: "$IDLE · Powering the human and Agentic Economies", template: "%s" },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

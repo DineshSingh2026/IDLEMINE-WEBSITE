@@ -71,7 +71,7 @@ export const footer = {
   contact: {
     email: links.email,
     address:
-      "String Fintech HK Ltd., Flat/RM 606, 6/F Hollywood Centre, 77–91 Queen’s Road West, Sheung Wan, Hong Kong",
+      "String Fintech HK Ltd., Flat/RM 606, 6/F Hollywood Centre, 77 to 91 Queen’s Road West, Sheung Wan, Hong Kong",
   },
   disclaimer: {
     lead: "Disclaimer.",

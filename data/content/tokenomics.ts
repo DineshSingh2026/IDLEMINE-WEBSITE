@@ -3,7 +3,7 @@ import { contract, links } from "./site";
 import { RAYDIUM_SWAP, SOLSCAN } from "@/lib/token";
 
 export const tokenomicsMeta = {
-  title: "$IDLE tokenomics — economic ownership, utility and how to buy",
+  title: "$IDLE tokenomics · economic ownership, utility and how to buy",
   description:
     "IDLE is economic ownership in the IdleMine ecosystem: a claim on platform fees, card volume, creator settlement and DeFi yield. See live price, utility, the buyback flywheel and how to buy on Raydium.",
   path: "/tokenomics",

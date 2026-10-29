@@ -22,7 +22,7 @@ export function AssetRail() {
             width={40}
             height={40}
             sizes="40px"
-            className="size-10 rounded-full opacity-70 grayscale transition-[filter,opacity] duration-300 ease-out group-hover:opacity-100 group-hover:grayscale-0"
+            className="size-10 rounded-full transition-transform duration-300 ease-out group-hover:scale-110"
           />
           <span className="flex flex-col leading-tight">
             <span className="text-[15px] font-medium text-ink">{a.name}</span>

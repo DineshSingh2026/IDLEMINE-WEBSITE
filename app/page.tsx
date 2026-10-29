@@ -8,7 +8,7 @@ import { Faq } from "@/components/landing/Faq";
 import { ClosingCta } from "@/components/landing/ClosingCta";
 
 export const metadata: Metadata = pageMeta({
-  title: "$IDLE — Powering the human and Agentic Economies",
+  title: "$IDLE · Powering the human and Agentic Economies",
   description:
     "$IDLE is the token powering human and AI economies. Every transaction across gaming and the agentic economy runs on $IDLE.",
   path: "/",

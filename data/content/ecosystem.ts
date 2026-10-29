@@ -2,7 +2,7 @@
 import { gamesLive, links } from "./site";
 
 export const ecosystemMeta = {
-  title: "The $IDLE ecosystem — IdleMine Games",
+  title: "The $IDLE ecosystem · IdleMine Games",
   description: "$IDLE is the shared currency across IdleMine Games, where people play. More platforms are on the way.",
   path: "/ecosystem",
   og: "/assets/og/ecosystem.png",
