@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/layout/Container";
 import { CopyAddress } from "@/components/ui/CopyAddress";
 import { Reveal } from "@/components/ui/Reveal";
+import { RollingNumber } from "@/components/ui/RollingNumber";
 import { StatNumber } from "@/components/ui/StatNumber";
 import { glance, hero, logos } from "@/data/content/tokenomics";
 import { useTokenStats } from "@/hooks/useTokenStats";
@@ -36,8 +37,6 @@ function Row({ label, children, note, className }: { label: string; children: Re
 export function TokenGlance({ initial }: { initial: TokenStats }) {
   const { stats } = useTokenStats(initial);
   const r = glance.rows;
-  const change = stats.priceChange24h;
-  const up = typeof change === "number" && change >= 0;
 
   return (
     <section aria-labelledby="tk-glance" className="relative -mt-6 pb-8 md:-mt-10">
@@ -68,19 +67,8 @@ export function TokenGlance({ initial }: { initial: TokenStats }) {
                     {r.price.label}
                     <Note live>{r.price.note}</Note>
                   </dt>
-                  <dd className="flex items-end gap-3">
-                    <span className="font-mono text-[40px] font-semibold leading-none tracking-tight text-ink md:text-5xl">
-                      <StatNumber value={stats.priceUsd} format="price" />
-                    </span>
-                    <span
-                      className={cn(
-                        "mb-0.5 inline-flex h-7 items-center rounded-full px-2.5 font-mono text-sm font-semibold",
-                        change == null ? "bg-white/5 text-ink-3" : up ? "bg-mint/10 text-mint" : "bg-[#FF5C7A]/10 text-[#FF7A93]",
-                      )}
-                    >
-                      <span className="sr-only">24h change </span>
-                      <StatNumber value={change} format="pct" />
-                    </span>
+                  <dd className="font-mono text-[40px] font-semibold leading-none tracking-tight text-ink md:text-5xl">
+                    <RollingNumber value={stats.priceUsd} format="price" />
                   </dd>
                 </dl>
               </div>
@@ -97,7 +85,7 @@ export function TokenGlance({ initial }: { initial: TokenStats }) {
                   </span>
                 </Row>
                 <Row label={r.marketCap.label} note={<Note live>{r.marketCap.note}</Note>}>
-                  <StatNumber value={stats.marketCap} format="usd" />
+                  <RollingNumber value={stats.marketCap} format="usd" />
                 </Row>
                 <Row label={r.totalSupply.label} note={<Note>{r.totalSupply.note}</Note>}>
                   <StatNumber value={stats.totalSupply} format="supply" />

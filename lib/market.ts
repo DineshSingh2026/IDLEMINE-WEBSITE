@@ -57,7 +57,7 @@ async function totalVolume(): Promise<number> {
 
 export async function getTokenStats(): Promise<TokenStats> {
   const [market, total] = await Promise.all([
-    fetch(DEXSCREENER_API, { next: { revalidate: 60 } })
+    fetch(DEXSCREENER_API, { next: { revalidate: 15 } })
       .then((r) => (r.ok ? (r.json() as Promise<{ pairs?: DexPair[] | null }>) : null))
       .catch(() => null),
     totalVolume(),

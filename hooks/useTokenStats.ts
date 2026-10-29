@@ -9,10 +9,10 @@ const fetcher = (url: string) =>
     return r.json() as Promise<TokenStats>;
   });
 
-/** Live $IDLE market data, refreshed every 60s. Pass server-fetched stats as `initial` to avoid a flash of dashes. */
+/** Live $IDLE market data, refreshed every 15s. Pass server-fetched stats as `initial` to avoid a flash of dashes. */
 export function useTokenStats(initial?: TokenStats) {
   const { data, error, isLoading } = useSWR<TokenStats>("/api/token", fetcher, {
-    refreshInterval: 60_000,
+    refreshInterval: 15_000,
     fallbackData: initial,
     revalidateOnFocus: false,
   });

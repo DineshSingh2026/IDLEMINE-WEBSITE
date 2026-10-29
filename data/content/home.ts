@@ -13,10 +13,10 @@ export const homeMeta = {
 
 /* A — Live ticker band */
 export const tickerFields: TickerField[] = [
-  { label: "$IDLE price", key: "priceUsd", format: "price", change: true },
-  { label: "Market cap", key: "marketCap", format: "usd" },
-  { label: "Total volume", key: "totalVolume", format: "usd" },
-  { label: "24h trades", key: "txns24h", format: "int" },
+  { label: "$IDLE price", key: "priceUsd", format: "price", roll: true },
+  { label: "Market cap", key: "marketCap", format: "usd", roll: true },
+  { label: "Total volume", key: "totalVolume", format: "usd", roll: true },
+  { label: "24h trades", key: "txns24h", format: "int", roll: true },
   { label: "Games live", fixed: gamesLive, format: "int" },
 ];
 

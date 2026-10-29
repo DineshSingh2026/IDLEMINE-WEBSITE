@@ -26,9 +26,9 @@ export default async function LiquidityPage() {
       <TickerBand
         initial={initial}
         fields={[
-          { label: "$IDLE price", key: "priceUsd", format: "price", change: true },
-          { label: "Total liquidity", key: "liquidityUsd", format: "usd" },
-          { label: "Total volume", key: "totalVolume", format: "usd" },
+          { label: "$IDLE price", key: "priceUsd", format: "price", roll: true },
+          { label: "Total liquidity", key: "liquidityUsd", format: "usd", roll: true },
+          { label: "Total volume", key: "totalVolume", format: "usd", roll: true },
           { label: "Pools", key: "pairs", format: "int" },
         ]}
       />
