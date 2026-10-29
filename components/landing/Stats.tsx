@@ -116,9 +116,16 @@ const CSS = `
 .sb-num-mint { --sb-g: linear-gradient(180deg, #FFFFFF 12%, #A6FBDA 100%); filter: drop-shadow(0 0 28px rgba(61,245,176,.16)); }
 @keyframes sb-shine { 0% { background-position: 100% 0, 0 0; } 42%, 100% { background-position: 0% 0, 0 0; } }
 /* While the odometer runs, its wheels can't share the sweep: keep the live figure on its plain gradient. */
-.sb-num[data-rolling] { animation: none; background-image: var(--sb-g); background-size: 100% 100%; }
-/* Odometer wheels sit on their own transformed layers, which an ancestor's text clip can't reach:
-   each wheel digit carries the same gradient itself (one digit is one line box tall). */
+/* Chrome's text clip on an ancestor also paints glyphs its descendants' overflow hides (the off-wheel
+   digits spill above and below the line), so the rolling figure drops it and every glyph carries its own. */
+.sb-num[data-rolling] { animation: none; background-image: none; }
+/* Separators ($ , %) beside the wheels. */
+.sb-num[data-rolling] .inline-flex > span:not(.relative) {
+  background-image: var(--sb-g);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+/* Odometer wheels sit on their own transformed layers: each wheel digit carries the gradient itself
+   (one digit is one line box tall). */
 .sb-num [style*="translate3d"] > span {
   background-image: linear-gradient(180deg, #FFFFFF 18%, #B3F0F1 100%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
