@@ -2,43 +2,33 @@
 
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { WORLDS, type WorldKey } from "./worlds";
 
-const MAX_TILT = 6; // degrees
-const PARALLAX = 10; // px the artwork drifts against the tilt
 const STIFFNESS = 140;
 const DAMPING = 17;
 
-const RING = {
-  mint: "conic-gradient(from 0deg, transparent 0deg, transparent 200deg, rgba(1,128,130,0.0) 210deg, #00C6C9 290deg, #3DF5B0 335deg, transparent 360deg)",
-  violet:
-    "conic-gradient(from 0deg, transparent 0deg, transparent 200deg, rgba(0,198,201,0.0) 210deg, #00C6C9 285deg, #9B7BFF 335deg, transparent 360deg)",
-} as const;
-
-const SPOT = {
-  mint: "radial-gradient(closest-side, rgba(61,245,176,0.16), rgba(0,198,201,0.07) 45%, transparent 100%)",
-  violet: "radial-gradient(closest-side, rgba(155,123,255,0.20), rgba(0,198,201,0.05) 50%, transparent 100%)",
-} as const;
-
 /**
- * Card shell with pointer-driven 3D tilt (spring-smoothed, fine pointers only, off for reduced motion),
- * a cursor-following spotlight, a rotating gradient hairline that brightens on hover/focus and an
- * artwork parallax hook: any descendant marked `data-eco-parallax` drifts opposite to the tilt.
+ * Card shell: a tinted gradient world with a gradient hairline border, inner glow edges, a rotating
+ * comet on the border, a cursor-following spotlight and a hover wash that intensifies the colour world.
+ * Pointer-driven 3D tilt is spring-smoothed, fine pointers only, off for reduced motion. Any descendant
+ * marked `data-tilt="<px>"` drifts against the tilt by that many px, so art layers separate in depth.
  * Background layers sit at -z-10 inside the card's own stacking context (`isolate`), so the CTA's
  * stretched ::after still covers the whole card.
  */
 export function TiltCard({
-  tone,
+  world,
   spin = "a",
   className,
   children,
 }: {
-  tone: "mint" | "violet";
+  world: WorldKey;
   spin?: "a" | "b" | "c";
   className?: string;
   children: React.ReactNode;
 }) {
   const card = useRef<HTMLElement>(null);
   const spot = useRef<HTMLDivElement>(null);
+  const w = WORLDS[world];
 
   useEffect(() => {
     const el = card.current;
@@ -46,31 +36,34 @@ export function TiltCard({
     if (!el || !light) return;
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const art = el.querySelector<HTMLElement>("[data-eco-parallax]");
+    const layers = Array.from(el.querySelectorAll<HTMLElement>("[data-tilt]")).map((n) => ({
+      n,
+      d: Number(n.dataset.tilt) || 0,
+    }));
 
-    // spring state: x = rotateY driver, y = rotateX driver (both -0.5..0.5)
     const s = { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0, mx: 0, my: 0, tmx: 0, tmy: 0 };
     let rect: DOMRect | null = null;
     let raf = 0;
     let last = 0;
     let hovering = false;
+    let maxTilt = 5;
 
     const render = () => {
-      el.style.transform = `perspective(1100px) rotateX(${(-s.y * 2 * MAX_TILT).toFixed(3)}deg) rotateY(${(s.x * 2 * MAX_TILT).toFixed(3)}deg)`;
-      if (art) art.style.transform = `translate3d(${(-s.x * 2 * PARALLAX).toFixed(2)}px, ${(-s.y * 2 * PARALLAX).toFixed(2)}px, 0)`;
+      el.style.transform = `perspective(1200px) rotateX(${(-s.y * 2 * maxTilt).toFixed(3)}deg) rotateY(${(s.x * 2 * maxTilt).toFixed(3)}deg)`;
+      for (const { n, d } of layers) {
+        n.style.transform = `translate3d(${(-s.x * 2 * d).toFixed(2)}px, ${(-s.y * 2 * d).toFixed(2)}px, 0)`;
+      }
       light.style.transform = `translate3d(${s.mx.toFixed(1)}px, ${s.my.toFixed(1)}px, 0) translate(-50%, -50%)`;
     };
 
     const tick = (t: number) => {
       const dt = Math.min((t - (last || t)) / 1000 || 1 / 60, 1 / 30);
       last = t;
-      const ax = STIFFNESS * (s.tx - s.x) - DAMPING * s.vx;
-      const ay = STIFFNESS * (s.ty - s.y) - DAMPING * s.vy;
-      s.vx += ax * dt;
-      s.vy += ay * dt;
+      s.vx += (STIFFNESS * (s.tx - s.x) - DAMPING * s.vx) * dt;
+      s.vy += (STIFFNESS * (s.ty - s.y) - DAMPING * s.vy) * dt;
       s.x += s.vx * dt;
       s.y += s.vy * dt;
-      const k = 1 - Math.pow(0.0008, dt); // frame-rate independent ease for the spotlight
+      const k = 1 - Math.pow(0.0008, dt);
       s.mx += (s.tmx - s.mx) * k;
       s.my += (s.tmy - s.my) * k;
       render();
@@ -79,7 +72,7 @@ export function TiltCard({
       if (!hovering && settled) {
         s.x = s.y = s.vx = s.vy = 0;
         el.style.transform = "";
-        if (art) art.style.transform = "";
+        for (const { n } of layers) n.style.transform = "";
         raf = 0;
         last = 0;
         return;
@@ -103,8 +96,10 @@ export function TiltCard({
       if (e.pointerType !== "mouse" || !fine.matches || reduce.matches) return;
       hovering = true;
       rect = el.getBoundingClientRect();
+      // wide cards tilt less so their far edge never swings too deep
+      maxTilt = rect.width > 900 ? 2.2 : rect.width > 600 ? 3.5 : 5;
       aim(e);
-      s.mx = s.tmx; // spotlight appears under the cursor, no fly-in
+      s.mx = s.tmx;
       s.my = s.tmy;
       kick();
     };
@@ -141,31 +136,56 @@ export function TiltCard({
   return (
     <article
       ref={card}
-      className={cn("group relative isolate flex h-full flex-col rounded-[20px] p-6", className)}
+      className={cn(
+        "group relative isolate flex h-full flex-col overflow-hidden rounded-[24px] will-change-transform",
+        className,
+      )}
     >
-      {/* hairline: static base + rotating comet that brightens on hover / keyboard focus */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[20px] bg-line">
+      {/* gradient hairline: static tinted border + a rotating comet that brightens on hover / focus */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[24px]" style={{ background: w.border }}>
         <div
           className={cn(
-            "eco-anim eco-spin absolute left-1/2 top-1/2 aspect-square w-[240%] opacity-30 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-within:opacity-100",
+            "eco-anim eco-spin absolute left-1/2 top-1/2 aspect-square w-[260%] opacity-40 transition-opacity duration-500 ease-out group-hover:opacity-100 group-focus-within:opacity-100",
             spin === "b" && "eco-spin-b",
             spin === "c" && "eco-spin-c",
           )}
-          style={{ background: RING[tone] }}
+          style={{ background: w.ring, animationDuration: "9s" }}
         />
       </div>
-      {/* surface + spotlight, inset by the 1px hairline */}
-      <div aria-hidden className="pointer-events-none absolute inset-px -z-10 overflow-hidden rounded-[19px] bg-surface">
+      {/* tinted surface, inset by the 1px border */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-px -z-10 overflow-hidden rounded-[23px]"
+        style={{ background: w.surface }}
+      >
+        {/* hover: the colour world intensifies */}
         <div
-          className="absolute inset-x-0 top-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent)" }}
+          className="absolute inset-0 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-focus-within:opacity-100"
+          style={{ background: w.hover }}
+        />
+        {/* fine noise of light: a soft dot lattice in the accent colour */}
+        <div
+          className="absolute inset-0 opacity-60"
+          style={{
+            backgroundImage: `radial-gradient(rgba(${w.rgb},0.16) 1px, transparent 1px)`,
+            backgroundSize: "22px 22px",
+            maskImage: "linear-gradient(180deg, transparent 40%, #000 75%, transparent 100%)",
+          }}
         />
         <div
           ref={spot}
-          className="absolute left-0 top-0 size-[440px] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
-          style={{ background: SPOT[tone] }}
+          className="absolute left-0 top-0 size-[560px] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+          style={{ background: w.spot }}
         />
       </div>
+      {/* inner glow edges: lit top hairline + accent rim, above the art */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-px z-[5] rounded-[23px] transition-opacity duration-500"
+        style={{
+          boxShadow: `inset 0 1px 0 rgba(255,255,255,0.16), inset 0 0 0 1px rgba(${w.rgb},0.10), inset 0 -60px 90px -70px rgba(${w.rgb},0.55)`,
+        }}
+      />
       {children}
     </article>
   );
