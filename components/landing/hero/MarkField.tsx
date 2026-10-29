@@ -26,6 +26,8 @@ uniform vec2 u_center;
 uniform float u_size;
 uniform float u_dpr;
 uniform vec2 u_par;
+uniform vec3 u_mouse;   // cursor (css px, canvas space) + strength
+uniform float u_scroll; // 0..1 hero scroll progress
 varying vec4 v_col;
 
 const vec3 T300 = vec3(0.302, 0.851, 0.859);
@@ -33,6 +35,7 @@ const vec3 T400 = vec3(0.000, 0.776, 0.788);
 const vec3 T600 = vec3(0.004, 0.584, 0.592);
 const vec3 MINT = vec3(0.239, 0.961, 0.690);
 const vec3 ICE  = vec3(0.880, 1.000, 0.985);
+const vec3 VIO  = vec3(0.608, 0.482, 1.000);
 
 mat2 rot(float a) { float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }
 float easeOut(float x) { return 1.0 - pow(1.0 - x, 4.0); }
@@ -66,32 +69,41 @@ void main() {
     vec2 start = m * 0.35 + dir * (0.45 + 0.85 * a_seed.w) + (a_seed.yz - 0.5) * 0.35;
     m = mix(start, m, g);
 
-    p = u_center + u_par * (k < 0.5 ? 1.0 : 0.6) + vec2(m.x, -m.y) * u_size;
+    // Scroll: the mark lags the page slightly, shrinks and fades as the hero leaves.
+    float sz = u_size * (1.0 - 0.2 * u_scroll);
+    p = u_center + vec2(0.0, u_scroll * 90.0) + u_par * (k < 0.5 ? 1.0 : 0.6) + vec2(m.x, -m.y) * sz;
 
     // Slow diagonal light sweep across the mark.
     float sweep = 0.5 + 0.5 * sin(t * 0.5 - (a_pos.x - a_pos.y) * 6.5);
     float intro = clamp((t - delay) / 1.2, 0.0, 1.0);
 
+    // Colour depth across the mark: mint light from the upper right, violet on the far lower left.
+    float lit = a_pos.x + a_pos.y;
+
     if (k < 0.5) {
       col = mix(T400, T300, a_seed.z);
-      if (a_seed.w > 0.94) col = MINT;
+      col = mix(col, MINT, smoothstep(0.05, 0.55, lit) * 0.75);
+      col = mix(col, VIO, smoothstep(-0.15, -0.6, lit) * 0.55);
+      if (a_seed.w > 0.93) col = MINT;
       col = mix(col, ICE, sweep * sweep * 0.42);
       alpha = (0.58 + 0.42 * sweep) * intro;
       size = (1.5 + 1.5 * a_seed.y) * unit;
     } else if (k < 1.5) {
       float ang = atan(m.y, m.x);
       float glint = pow(0.5 + 0.5 * cos(ang - t * 0.32 - 0.8), 6.0);
-      col = mix(T600, T300, glint);
+      float far = smoothstep(-0.1, -0.7, (a_pos.x + a_pos.y) * 1.414);
+      col = mix(mix(T600, VIO, far * 0.9), T300, glint);
       col = mix(col, ICE, glint * 0.35);
       alpha = (0.40 + 0.60 * glint) * intro;
       size = (1.2 + 1.0 * a_seed.y + 1.2 * glint) * unit;
     } else if (k < 2.5) {
-      col = T400;
-      alpha = (0.14 + 0.16 * a_seed.z) * intro;
+      col = mix(T400, VIO, smoothstep(-0.2, -0.8, (a_pos.x + a_pos.y) * 1.2));
+      alpha = (0.16 + 0.18 * a_seed.z) * intro;
       size = (1.0 + 0.8 * a_seed.y) * unit;
     } else {
       col = mix(T400, T300, a_seed.y);
-      if (a_seed.w > 0.9) col = MINT;
+      if (a_seed.w > 0.86) col = MINT;
+      else if (a_seed.w < 0.2) col = VIO;
       float tw = 0.5 + 0.5 * sin(t * (0.6 + a_seed.z) + a_seed.x * 40.0);
       alpha = (0.06 + 0.22 * tw) * intro;
       size = (1.0 + 1.6 * a_seed.z) * unit;
@@ -101,13 +113,27 @@ void main() {
     float h = u_res.y + 40.0;
     float y = mod(a_seed.y * h - t * (4.0 + 9.0 * a_seed.z), h) - 20.0;
     float x = a_seed.x * u_res.x + sin(t * 0.15 + a_seed.w * 6.2832) * 14.0;
-    p = vec2(x, y) + u_par * 0.3;
+    // Depth layers: near (big) stars parallax more with pointer and scroll than far ones.
+    float depth = a_seed.z;
+    p = vec2(x, y) + u_par * (0.2 + 1.6 * depth) + vec2(0.0, u_scroll * (20.0 + 140.0 * depth));
     float edge = smoothstep(0.0, 120.0, y) * smoothstep(u_res.y, u_res.y - 160.0, y);
     float tw = 0.5 + 0.5 * sin(t * (0.4 + 0.8 * a_seed.z) + a_seed.w * 30.0);
-    col = a_seed.w > 0.93 ? MINT : mix(T400, T300, a_seed.z);
-    alpha = (0.05 + 0.20 * tw) * edge * clamp(t / 2.0, 0.0, 1.0);
+    col = a_seed.w > 0.9 ? MINT : (a_seed.w < 0.16 ? VIO : mix(T400, T300, a_seed.z));
+    alpha = (0.06 + 0.26 * tw) * edge * clamp(t / 2.0, 0.0, 1.0);
     size = 1.0 + 1.4 * a_seed.z;
   }
+
+  // Scroll fade (mark fades faster than the ambient dust).
+  alpha *= 1.0 - (k < 3.5 ? 0.9 : 0.5) * u_scroll;
+
+  // Cursor: a soft radial push; the CPU springs the cursor position so particles ease back.
+  vec2 dm = p - u_mouse.xy;
+  float r2 = dot(dm, dm);
+  float R = 115.0 * unit;
+  float f = exp(-r2 / (R * R)) * u_mouse.z;
+  p += dm / (sqrt(r2) + 0.5) * f * 58.0 * unit;
+  col = mix(col, ICE, f * 0.55);
+  alpha *= 1.0 + f * 0.6;
 
   vec2 clip = (p / u_res) * 2.0 - 1.0;
   gl_Position = vec4(clip.x, -clip.y, 0.0, 1.0);
@@ -291,8 +317,8 @@ export default function MarkField({
 
       const small = window.innerWidth < 768;
       const counts: Counts = small
-        ? { leaf: 1500, ring: 300, orbit: 180, halo: 140, dust: 90 }
-        : { leaf: 5200, ring: 720, orbit: 380, halo: 340, dust: 220 };
+        ? { leaf: 1600, ring: 320, orbit: 180, halo: 160, dust: 120 }
+        : { leaf: 5600, ring: 760, orbit: 420, halo: 420, dust: 380 };
       const { pos, seed, kind, count } = buildBuffers(sample, counts);
 
       const attr = (name: string, data: Float32Array, size: number) => {
@@ -308,7 +334,7 @@ export default function MarkField({
 
       const u = (n: string) => gl.getUniformLocation(prog, n);
       const uTime = u("u_time"), uRes = u("u_res"), uCenter = u("u_center"), uSize = u("u_size");
-      const uDpr = u("u_dpr"), uPar = u("u_par");
+      const uDpr = u("u_dpr"), uPar = u("u_par"), uMouse = u("u_mouse"), uScroll = u("u_scroll");
 
       gl.disable(gl.DEPTH_TEST);
       gl.enable(gl.BLEND);
@@ -338,14 +364,51 @@ export default function MarkField({
       };
       layout();
 
-      // Pointer parallax (fine pointers only), damped, max ±10px.
+      // Pointer parallax (mouse / pen), damped, max ±10px.
       const par = { x: 0, y: 0, tx: 0, ty: 0 };
-      const fine = window.matchMedia("(pointer: fine)").matches;
+      // Mouse / pen only (touch events are ignored in the handlers).
       const onMove = (e: PointerEvent) => {
+        if (e.pointerType === "touch") return;
         par.tx = ((e.clientX / window.innerWidth) * 2 - 1) * 10;
         par.ty = ((e.clientY / window.innerHeight) * 2 - 1) * 8;
       };
-      if (fine && !still) window.addEventListener("pointermove", onMove, { passive: true });
+      if (!still) window.addEventListener("pointermove", onMove, { passive: true });
+
+      // Cursor repel: an under-damped spring follows the pointer, so the field wobbles back.
+      const ms = { x: -9999, y: -9999, vx: 0, vy: 0, tx: -9999, ty: -9999, s: 0, ts: 0, inside: false };
+      const onHostMove = (e: PointerEvent) => {
+        if (e.pointerType === "touch") return;
+        const rect = canvas.getBoundingClientRect();
+        ms.tx = e.clientX - rect.left;
+        ms.ty = e.clientY - rect.top;
+        if (!ms.inside) {
+          ms.inside = true;
+          ms.x = ms.tx;
+          ms.y = ms.ty;
+          ms.vx = ms.vy = 0;
+        }
+        ms.ts = 1;
+      };
+      const onHostLeave = () => {
+        ms.inside = false;
+        ms.ts = 0;
+      };
+      if (!still) {
+        host.addEventListener("pointermove", onHostMove, { passive: true });
+        host.addEventListener("pointerleave", onHostLeave);
+      }
+      const stepMouse = (dt: number) => {
+        if (dt <= 0) return;
+        const h = Math.min(dt, 1 / 30); // keep the spring stable on slow frames
+        const k = 170, c = 15;
+        ms.vx += ((ms.tx - ms.x) * k - ms.vx * c) * h;
+        ms.vy += ((ms.ty - ms.y) * k - ms.vy * c) * h;
+        ms.x += ms.vx * h;
+        ms.y += ms.vy * h;
+        ms.s += (ms.ts - ms.s) * (1 - Math.exp(-dt * 4));
+      };
+      const scrollP = () =>
+        still ? 0 : Math.min(Math.max(window.scrollY / Math.max(host.offsetHeight, 1), 0), 1);
 
       let time = still ? 7.5 : 0;
       let last = 0;
@@ -362,6 +425,9 @@ export default function MarkField({
         gl.uniform1f(uSize, size);
         gl.uniform1f(uDpr, dpr);
         gl.uniform2f(uPar, par.x, par.y);
+        const spd = Math.hypot(ms.vx, ms.vy);
+        gl.uniform3f(uMouse, ms.x, ms.y, ms.s * (0.6 + 0.4 * Math.min(spd / 900, 1)));
+        gl.uniform1f(uScroll, scrollP());
         gl.drawArrays(gl.POINTS, 0, count);
         if (!readySent) {
           readySent = true;
@@ -371,9 +437,11 @@ export default function MarkField({
 
       const frame = (now: number) => {
         if (!running) return;
-        const dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
+        // Wall-clock time (capped for long stalls) so slow GPUs still finish the intro on schedule.
+        const dt = last ? Math.min((now - last) / 1000, 0.25) : 0;
         last = now;
         time += dt;
+        stepMouse(dt);
         draw();
         raf = requestAnimationFrame(frame);
       };
@@ -422,6 +490,8 @@ export default function MarkField({
         ro.disconnect();
         document.removeEventListener("visibilitychange", onVis);
         window.removeEventListener("pointermove", onMove);
+        host.removeEventListener("pointermove", onHostMove);
+        host.removeEventListener("pointerleave", onHostLeave);
         canvas.removeEventListener("webglcontextlost", onLost);
         bufs.forEach((b) => gl.deleteBuffer(b));
         gl.deleteProgram(prog);
