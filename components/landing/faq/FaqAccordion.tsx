@@ -84,7 +84,7 @@ export function FaqAccordion({ items, defaultOpen = 0 }: { items: Faq[]; default
               <div
                 aria-hidden
                 className={cn(
-                  "pointer-events-none absolute -inset-x-3 -inset-y-6 -z-10 md:-inset-x-8 bg-[radial-gradient(closest-side,rgba(0,198,201,0.13),rgba(0,198,201,0.045)_55%,transparent)] transition-opacity duration-500 ease-out",
+                  "pointer-events-none absolute -inset-x-3 -inset-y-6 -z-10 md:-inset-x-5 lg:-inset-x-8 bg-[radial-gradient(closest-side,rgba(0,198,201,0.13),rgba(0,198,201,0.045)_55%,transparent)] transition-opacity duration-500 ease-out",
                   isOpen ? "opacity-100" : "opacity-0",
                 )}
               />
