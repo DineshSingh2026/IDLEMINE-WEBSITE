@@ -7,3 +7,4 @@ next-env.d.ts
 .shots
 .next-dev.log
 .next-build
+.next-alt
