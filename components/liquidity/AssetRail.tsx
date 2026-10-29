@@ -1,0 +1,35 @@
+import Image from "next/image";
+import { LogoRail } from "@/components/ui/LogoRail";
+import { rwaAssets } from "@/data/content/liquidity";
+
+/**
+ * Looping marquee of tokenized real-world assets. The official xStocks logos are full-bleed square
+ * tiles, so they're rendered as discs: greyscale at 70% → full colour on hover.
+ */
+export function AssetRail() {
+  return (
+    <LogoRail
+      label="Tokenized real-world assets"
+      duration={36}
+      items={rwaAssets.map((a) => (
+        <div
+          key={a.ticker}
+          className="group flex h-14 items-center gap-3 rounded-full border border-line bg-white/[0.03] py-2 pl-2 pr-5 backdrop-blur-sm transition-colors duration-300 hover:border-line-strong hover:bg-white/[0.06]"
+        >
+          <Image
+            src={a.logo}
+            alt=""
+            width={40}
+            height={40}
+            sizes="40px"
+            className="size-10 rounded-full opacity-70 grayscale transition-[filter,opacity] duration-500 ease-quint group-hover:opacity-100 group-hover:grayscale-0"
+          />
+          <span className="flex flex-col leading-tight">
+            <span className="text-[15px] font-semibold text-ink">{a.name}</span>
+            <span className="font-mono text-xs text-ink-3">{a.ticker}</span>
+          </span>
+        </div>
+      ))}
+    />
+  );
+}
