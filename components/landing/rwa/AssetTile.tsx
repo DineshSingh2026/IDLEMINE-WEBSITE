@@ -1,41 +1,59 @@
 import Image from "next/image";
-import { monoFilterId, monoScale } from "./monoFilters";
+import { cn } from "@/lib/utils";
 
 type Asset = { name: string; ticker: string; logo: string };
 
-/**
- * One cell of the RWA logo wall. At rest: a white monochrome mark inside a round token frame.
- * On hover/focus-within: the full-colour token crossfades in (250ms ease-out).
- */
-export function AssetTile({ asset, pairSuffix }: { asset: Asset; pairSuffix: string }) {
+/** One cell of the RWA tile row: full-colour token in a round frame, pair name + asset name. */
+export function AssetTile({
+  asset,
+  pairSuffix,
+  active = false,
+  onActive,
+}: {
+  asset: Asset;
+  pairSuffix: string;
+  active?: boolean;
+  onActive?: (ticker: string | null) => void;
+}) {
   return (
-    <div className="group/tile relative flex h-full flex-col items-center gap-5 bg-bg/70 px-3 pt-7 pb-6 text-center md:pt-9 md:pb-8 transition-colors duration-[250ms] ease-out hover:bg-surface">
-      <span className="relative block size-14 overflow-hidden rounded-full border border-line bg-surface-2/60 transition-[border-color] duration-[250ms] ease-out group-hover/tile:border-transparent md:size-[72px]">
-        {/* Monochrome mark */}
-        <Image
-          src={asset.logo}
-          alt=""
+    <div
+      onPointerEnter={() => onActive?.(asset.ticker)}
+      onPointerLeave={() => onActive?.(null)}
+      className={cn(
+        "group/tile relative flex h-full flex-col items-center gap-5 px-3 pt-7 pb-6 text-center transition-colors duration-[250ms] ease-out md:pt-8 md:pb-7",
+        active ? "bg-surface" : "bg-bg/70",
+      )}
+    >
+      {/* top hairline lights up while this pair is active */}
+      <span
+        aria-hidden
+        className={cn(
+          "absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-teal-400 to-transparent transition-opacity duration-300",
+          active ? "opacity-100" : "opacity-0",
+        )}
+      />
+      <span className="relative block size-14 md:size-16">
+        <span
           aria-hidden
-          width={144}
-          height={144}
-          sizes="72px"
-          className="absolute inset-0 size-full opacity-80 transition-opacity duration-[250ms] ease-out group-hover/tile:opacity-0"
-          style={{ filter: `url(#${monoFilterId(asset.ticker)})`, transform: `scale(${monoScale(asset.ticker)})` }}
+          className={cn(
+            "absolute inset-0 rounded-full bg-teal-400/35 blur-lg transition-opacity duration-300 ease-out",
+            active ? "opacity-100" : "opacity-0",
+          )}
         />
-        {/* Full colour */}
-        <Image
-          src={asset.logo}
-          alt={`${asset.name} tokenized asset logo`}
-          width={144}
-          height={144}
-          sizes="72px"
-          className="absolute inset-0 size-full opacity-0 transition-opacity duration-[250ms] ease-out group-hover/tile:opacity-100"
-        />
+        <span
+          className={cn(
+            "relative block size-full overflow-hidden rounded-full ring-1 transition-[transform,box-shadow] duration-300 ease-out",
+            active ? "-translate-y-1 ring-teal-300/80" : "ring-white/12",
+          )}
+        >
+          <Image src={asset.logo} alt={`${asset.name} tokenized asset logo`} width={144} height={144} sizes="64px" className="size-full" />
+          <span aria-hidden className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,0.24),transparent_45%)]" />
+        </span>
       </span>
       <span className="flex flex-col items-center gap-1.5">
-        <span className="font-mono text-[13px] leading-5 tracking-tight text-ink tabular-nums whitespace-nowrap md:text-sm">
+        <span className="font-mono text-[13px] leading-5 tracking-tight whitespace-nowrap text-ink tabular-nums md:text-sm">
           {asset.ticker}
-          <span className="text-ink-3 transition-colors duration-[250ms] group-hover/tile:text-teal-400">{pairSuffix}</span>
+          <span className={cn("transition-colors duration-[250ms]", active ? "text-teal-400" : "text-ink-3")}>{pairSuffix}</span>
         </span>
         <span className="text-[13px] leading-5 text-ink-3">{asset.name}</span>
       </span>
