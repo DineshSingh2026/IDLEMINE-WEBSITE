@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { EASE } from "./Reveal";
 
@@ -39,7 +39,6 @@ export function Heading({
   immediate?: boolean;
   delay?: number;
 }) {
-  const reduce = useReducedMotion();
   const words = children.split(" ");
   const trigger = immediate
     ? { initial: "hidden", animate: "show" }
@@ -58,11 +57,11 @@ export function Heading({
           <span key={i} className="inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom">
             <motion.span
               className={cn("inline-block", highlight.includes(w) && "text-grad-brand")}
+              // MotionConfig reducedMotion="user" (SmoothScroll) skips this transform for reduced-motion users.
+              // Don't branch on useReducedMotion here: it differs between server and client and breaks hydration.
               variants={{
-                hidden: reduce ? { opacity: 0 } : { y: "110%" },
-                show: reduce
-                  ? { opacity: 1, transition: { duration: 0.6 } }
-                  : { y: "0%", transition: { duration: 0.9, ease: EASE } },
+                hidden: { y: "110%" },
+                show: { y: "0%", transition: { duration: 0.9, ease: EASE } },
               }}
             >
               {w}
