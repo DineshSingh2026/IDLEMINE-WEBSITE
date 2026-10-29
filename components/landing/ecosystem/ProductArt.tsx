@@ -2,9 +2,9 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Living artwork for the three ecosystem cards, built as depth layers (back, mid, fore).
+ * Living artwork for the three ecosystem chapters, built as depth layers (back, mid, fore).
  * Each <Layer> nests three transform owners so they never fight:
- *   data-depth (scroll parallax, EcoStage) > data-tilt (pointer parallax, TiltCard) > eco-fade (entrance)
+ *   data-depth (scroll parallax, EcoStage) > data-tilt (pointer parallax, FloatRow) > eco-fade (entrance)
  * and the loops (eco-anim) sit on the children. Transform/opacity only; loops pause off-screen and are
  * removed under reduced motion. Everything is full colour: no grayscale, no desaturation.
  */
@@ -98,7 +98,7 @@ function ArtTile({
             className="relative h-full w-full overflow-hidden rounded-[16px] transition-transform duration-500 ease-out group-hover:scale-[1.04]"
             style={{
               boxShadow:
-                "0 0 0 1px rgba(61,245,176,0.5), 0 30px 60px -24px rgba(1,40,42,0.95), 0 18px 50px -18px rgba(0,198,201,0.5)",
+                "0 30px 60px -24px rgba(1,20,22,0.95), 0 24px 60px -18px rgba(0,198,201,0.55), 0 0 80px -30px rgba(61,245,176,0.6)",
             }}
           >
             <Image src={src} alt={alt} fill sizes="(min-width: 1024px) 300px, 45vw" className="object-cover" />
@@ -127,16 +127,16 @@ const centred = (size: string, top = "46%"): React.CSSProperties => ({
 export function IdlemineArt({ images, badge, mark }: { images: readonly string[]; badge: string; mark: string }) {
   const [a, b] = images;
   return (
-    <div className="absolute inset-0 [container-type:size] [mask-image:linear-gradient(180deg,#000_84%,transparent)]">
+    <div className="absolute inset-0 [container-type:size]">
       {/* back: light pool + orbit rings */}
       <Layer depth={-24} tilt={-6} delay={300}>
-        <div
-          className="eco-anim eco-glow absolute rounded-full"
-          style={{
-            ...centred("130cqmin"),
-            background: "radial-gradient(closest-side, rgba(61,245,176,0.36), rgba(0,198,201,0.16) 50%, transparent)",
-          }}
-        />
+        {/* outer owns the centring transform, inner owns the breathing loop (both use transform) */}
+        <div className="absolute" style={centred("130cqmin")}>
+          <div
+            className="eco-anim eco-glow absolute inset-0 rounded-full"
+            style={{ background: "radial-gradient(closest-side, rgba(61,245,176,0.36), rgba(0,198,201,0.16) 50%, transparent)" }}
+          />
+        </div>
         <div className="absolute rounded-full border border-[rgba(61,245,176,0.18)]" style={centred("104cqmin")} />
         <div className="absolute rounded-full border border-dashed border-[rgba(0,198,201,0.26)]" style={centred("72cqmin")} />
         <div className="absolute" style={centred("104cqmin")}>
@@ -220,21 +220,26 @@ const COLUMNS = [
   ["tricky-cups", "limbo", "american-roulette", "mafia-roulette", "rabbit-9x", "snake-arcade"],
 ] as const;
 const COL_SPEED = [46, 38, 50, 42];
+/** The cover wall dissolves into the canvas on every side: an edgeless ellipse, never a rectangle. */
+const WALL_MASK = "radial-gradient(ellipse 50% 50% at 50% 50%, #000 24%, rgba(0,0,0,0.55) 56%, transparent 90%)";
 /** [cover, position, rotation, late phase] */
 const FLOATERS: readonly [string, React.CSSProperties, string, boolean][] = [
-  ["plinko", { left: "-4%", bottom: "16%" }, "-8deg", false],
-  ["blackjack", { right: "-5%", top: "8%" }, "7deg", true],
+  ["plinko", { left: "1%", bottom: "14%" }, "-8deg", false],
+  ["blackjack", { right: "0%", top: "8%" }, "7deg", true],
 ];
 
 export function IdleGamesArt({ logo }: { logo?: string }) {
   return (
-    <div className="absolute inset-0 [container-type:size] [mask-image:linear-gradient(180deg,#000_72%,transparent)]">
+    <div className="absolute inset-0 [container-type:size]">
       {/* back: the full-colour cover wall on a tilted plane */}
       <Layer depth={-18} tilt={-8} delay={300}>
-        <div className="absolute inset-0 [perspective:900px]">
+        <div
+          className="absolute inset-0 overflow-hidden [perspective:900px]"
+          style={{ maskImage: WALL_MASK, WebkitMaskImage: WALL_MASK }}
+        >
           <div
             aria-hidden
-            className="absolute left-1/2 top-1/2 flex h-[190%] w-[150%] gap-2 transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            className="absolute left-1/2 top-1/2 flex h-[220%] w-[175%] gap-2 transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             style={{ transform: "translate(-50%, -50%) rotateX(28deg) rotateZ(-12deg)", transformOrigin: "50% 50%" }}
           >
             {COLUMNS.map((col, ci) => (
@@ -245,10 +250,7 @@ export function IdleGamesArt({ logo }: { logo?: string }) {
                 >
                   {[...col, ...col, ...col].map((c, i) => (
                     <div key={`${c}-${i}`} className="shrink-0 pb-2">
-                      <div
-                        className="relative aspect-[960/498] w-full overflow-hidden rounded-[8px]"
-                        style={{ boxShadow: "0 0 0 1px rgba(77,217,219,0.28)" }}
-                      >
+                      <div className="relative aspect-[960/498] w-full overflow-hidden rounded-[8px]">
                         <Image src={`/assets/img/games/${c}.webp`} alt="" fill sizes="200px" className="object-cover" />
                       </div>
                     </div>
@@ -258,14 +260,6 @@ export function IdleGamesArt({ logo }: { logo?: string }) {
             ))}
           </div>
         </div>
-        {/* teal atmosphere over the wall: edges sink into the card's colour world */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(5,22,26,0.55) 0%, rgba(5,22,26,0) 30%, rgba(5,22,26,0) 60%, rgba(5,22,26,0.7) 100%), radial-gradient(120% 80% at 50% 50%, transparent 50%, rgba(5,22,26,0.7) 100%)",
-          }}
-        />
       </Layer>
 
       {/* mid: soft halo so the logo reads, plus orbit */}
@@ -302,7 +296,7 @@ export function IdleGamesArt({ logo }: { logo?: string }) {
                 style={{
                   transform: `rotate(${rot})`,
                   boxShadow:
-                    "0 0 0 1px rgba(77,217,219,0.65), 0 24px 40px -16px rgba(2,22,26,0.95), 0 0 36px -8px rgba(0,198,201,0.6)",
+                    "0 24px 40px -16px rgba(2,22,26,0.95), 0 0 44px -6px rgba(0,198,201,0.65)",
                 }}
               >
                 <Image src={`/assets/img/games/${c}.webp`} alt="" fill sizes="220px" className="object-cover" />
@@ -350,19 +344,34 @@ const CUBES: readonly [number, number, number, number, boolean][] = [
   [70, 86, 9, -5, false],
 ];
 
+/** Arena floor and arena screens dissolve into the canvas: no hard edge anywhere. */
+const FLOOR_MASK = "radial-gradient(50% 55% at 50% 45%, #000 15%, transparent 100%)";
+const ARENA_MASK_Y = "linear-gradient(180deg, transparent 0%, #000 16%, #000 58%, transparent 100%)";
+const ARENA_MASK_X = "linear-gradient(90deg, transparent 0%, #000 14%, #000 80%, transparent 100%)";
+/** Vertical and horizontal fades intersected, so each screen is an edgeless glow of light. */
+const arenaMask = (l: boolean): React.CSSProperties => {
+  const x = l ? ARENA_MASK_X : ARENA_MASK_X.replace("90deg", "270deg");
+  return {
+    maskImage: `${ARENA_MASK_Y}, ${x}`,
+    WebkitMaskImage: `${ARENA_MASK_Y}, ${x}`,
+    maskComposite: "intersect",
+    WebkitMaskComposite: "source-in",
+  };
+};
+
 function Arena({ src, alt, side }: { src: string; alt: string; side: "l" | "r" }) {
   const l = side === "l";
   return (
     <div
-      className={cn("absolute top-[47%] aspect-[3/4]", l ? "right-[51%]" : "left-[51%]")}
-      style={{ width: "min(38cqw, 55cqh)", transform: `translateY(-50%) perspective(900px) rotateY(${l ? 20 : -20}deg)`, transformOrigin: l ? "100% 50%" : "0% 50%" }}
+      className={cn("absolute top-[47%] aspect-[3/4]", l ? "right-[47%]" : "left-[47%]")}
+      style={{ ...arenaMask(l), width: "min(38cqw, 55cqh)", transform: `translateY(-50%) perspective(900px) rotateY(${l ? 20 : -20}deg)`, transformOrigin: l ? "100% 50%" : "0% 50%" }}
     >
       <div className={cn("eco-anim eco-bob relative h-full w-full", !l && "eco-bob-late")}>
         <div
           className="relative h-full w-full overflow-hidden rounded-[16px]"
           style={{
             boxShadow:
-              "0 0 0 1px rgba(155,123,255,0.55), 0 0 0 5px rgba(155,123,255,0.08), 0 40px 70px -30px rgba(10,6,30,0.95), 0 0 70px -18px rgba(155,123,255,0.55)",
+              "0 40px 70px -30px rgba(10,6,30,0.95), 0 0 80px -16px rgba(155,123,255,0.6)",
           }}
         >
           <Image src={src} alt={alt} fill sizes="(min-width: 1024px) 300px, 40vw" className={cn("object-cover", l ? "eco-anim eco-kb-a" : "eco-anim eco-kb-b")} />
@@ -383,21 +392,21 @@ function Arena({ src, alt, side }: { src: string; alt: string; side: "l" | "r" }
 export function AgentGamesArt({ images, character }: { images: readonly string[]; character: string }) {
   const [a, b] = images;
   return (
-    <div className="absolute inset-0 [container-type:size] [mask-image:linear-gradient(180deg,#000_72%,transparent)] md:[mask-image:linear-gradient(90deg,transparent,#000_20%)]">
+    <div className="absolute inset-0 [container-type:size]">
       {/* back: violet light + a perspective arena floor */}
       <Layer depth={-20} tilt={-6} delay={300}>
         <div
           className="eco-anim eco-glow absolute left-1/2 top-[44%] aspect-square w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{ background: "radial-gradient(closest-side, rgba(155,123,255,0.40), rgba(0,198,201,0.12) 55%, transparent)" }}
         />
-        <div className="absolute inset-x-[-30%] bottom-[-6%] h-[52%] [perspective:520px]">
+        <div className="absolute inset-x-[-10%] bottom-0 h-[48%] [perspective:520px]">
           <div
             className="absolute inset-0 overflow-hidden"
             style={{
               transform: "rotateX(64deg)",
               transformOrigin: "50% 100%",
-              maskImage: "radial-gradient(60% 90% at 50% 100%, #000 30%, transparent 75%)",
-              WebkitMaskImage: "radial-gradient(60% 90% at 50% 100%, #000 30%, transparent 75%)",
+              maskImage: FLOOR_MASK,
+              WebkitMaskImage: FLOOR_MASK,
             }}
           >
             <div

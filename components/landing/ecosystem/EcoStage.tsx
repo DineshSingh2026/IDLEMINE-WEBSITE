@@ -10,7 +10,10 @@ import { useEffect, useRef, useState } from "react";
  * - Scroll parallax: every descendant marked `data-depth="<px>"` slides vertically by up to that many
  *   px as its card crosses the viewport (transform only, rAF-batched, only while on screen, never
  *   under reduced motion). Positive depth = nearer layer, moves more.
- * Not positioned on purpose, so the absolute background inside binds to the <section>.
+ * - Per chapter entrance: each <article> gets `data-row="in"` when it first enters the viewport, so
+ *   rows further down reveal as they are reached rather than all at once (CSS in Ecosystem.tsx).
+ * Not positioned on purpose, so the absolute background inside binds to the <section>; it clips
+ * horizontal overflow so edgeless glows never cause a sideways scroll on phones.
  */
 export function EcoStage({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -54,6 +57,19 @@ export function EcoStage({ children }: { children: React.ReactNode }) {
       if (visible && !raf && groups.size) raf = requestAnimationFrame(update);
     };
 
+    const rows = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            (e.target as HTMLElement).dataset.row = "in";
+            rows.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0, rootMargin: "0px 0px -14% 0px" },
+    );
+    host.querySelectorAll("article").forEach((a) => rows.observe(a));
+
     let entered = !below;
     const loops = new IntersectionObserver(
       ([e]) => {
@@ -81,13 +97,14 @@ export function EcoStage({ children }: { children: React.ReactNode }) {
       cancelAnimationFrame(raf);
       loops.disconnect();
       entrance.disconnect();
+      rows.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
   }, []);
 
   return (
-    <div ref={ref} className="eco-stage" data-play={play} data-eco={eco}>
+    <div ref={ref} className="eco-stage overflow-x-clip" data-play={play} data-eco={eco}>
       {children}
     </div>
   );
