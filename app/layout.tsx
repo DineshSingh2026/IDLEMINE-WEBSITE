@@ -1,19 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { SITE_URL, socials } from "@/data/content/site";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const interTight = Inter_Tight({
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-  variable: "--font-inter-tight",
-  display: "swap",
-});
-const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["500", "600"], variable: "--font-jetbrains", display: "swap" });
+/* Typography mirrors solana.com: ABC Diatype (sans) + ABC Diatype Semi-Mono (labels), both licensed
+   Dinamo faces. Geist / Geist Mono (OFL) are the free stand-ins until the licensed files are dropped
+   into public/fonts/ — see public/fonts/abc-diatype*.css. Stacks live in app/globals.css (:root). */
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
+
+// The licensed @font-face sheets are linked only when their files exist, so nothing 404s before then.
+const fontsDir = join(process.cwd(), "public", "fonts");
+const hasDiatype = existsSync(join(fontsDir, "ABCDiatype-Regular.woff2"));
+const hasDiatypeMono = existsSync(join(fontsDir, "ABCDiatypeSemi-Mono-Regular.woff2"));
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -56,7 +60,11 @@ const jsonLd = [
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${interTight.variable} ${mono.variable}`}>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
+      <head>
+        {hasDiatype && <link rel="stylesheet" href="/fonts/abc-diatype.css" precedence="default" />}
+        {hasDiatypeMono && <link rel="stylesheet" href="/fonts/abc-diatype-semi-mono.css" precedence="default" />}
+      </head>
       <body>
         <a
           href="#main"

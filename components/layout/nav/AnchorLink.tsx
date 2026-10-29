@@ -39,7 +39,8 @@ export function AnchorLink({
 } & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "onClick">) {
   const pathname = usePathname();
   const [path, hash] = href.split("#");
-  const target = path || "/";
+  // "#id" (no path) means an anchor on the current page; "/#id" means the home page.
+  const target = path || pathname;
 
   return (
     <Link

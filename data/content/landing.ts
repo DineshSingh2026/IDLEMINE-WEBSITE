@@ -49,20 +49,26 @@ export const header = {
 /* ───────── 2. Hero ───────── */
 export const hero = {
   title: "$IDLE powers the human and Agentic Economies",
-  body: "$IDLE is the token powering human and AI economies. Every transaction across gaming and the agentic economy runs on $IDLE, whether a player is earning rewards or an AI agent is competing, transacting, and settling value on its own.",
+  body: "$IDLE is the token powering human and AI economies. Every transaction across gaming and the agentic economy runs on $IDLE.",
   primary: { label: "Get $IDLE", href: RAYDIUM_SWAP_SOL },
-  secondary: { label: "Explore the ecosystem", href: "#ecosystem" },
+  secondary: { label: "Explore the ecosystem", href: "/#ecosystem" },
 };
 
 /* ───────── 3. Stats ───────── */
 export const stats = {
   title: "The Fastest Growing & Leading Gaming Token on Blockchain",
   items: [
-    { label: "Total Users Across $IDLE Ecosystem", value: 5664370, format: "int" },
+    // wander: drifts gently around the base (±0.5%) so the figure never sits still; not a live feed.
+    { label: "Total Users Across $IDLE Ecosystem", value: 5664370, format: "int", wander: 0.005 },
     { label: "Total Transactions", value: 11350677, format: "int" },
+    { label: "Games", value: 25, format: "int", suffix: "+" }, // "25+"
+  ] as const,
+  /** Four-up strip rendered straight after the RWA section (app/page.tsx → <StatsStrip />). */
+  strip: [
     { label: "Trading Volume", value: 200, format: "millions" }, // "$200 Million"
     { label: "Real World Assets Paired with $IDLE", value: 14, format: "int" },
     { label: "Total Fees Paid to Liquidity Providers", value: 750000, format: "usd" }, // "$750,000"
+    { label: "APY", value: 150, format: "percent" }, // "150%"
   ] as const,
   // TODO(client): brief says "Data as of [DATE]" — set to the brief's date; confirm.
   source: "Data as of 29 Oct 2026 · Sources: DexScreener, Raydium, IdleMine platforms",

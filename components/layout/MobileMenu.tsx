@@ -168,7 +168,10 @@ export function MobileMenu({
             </ul>
           </motion.nav>
 
-          <div className="shrink-0 space-y-5 border-t border-line px-6 pb-[max(24px,env(safe-area-inset-bottom))] pt-5">
+          <div
+            className="shrink-0 space-y-5 border-t border-line px-6 pb-[max(24px,env(safe-area-inset-bottom))] pt-5"
+            onClick={(e) => (e.target as HTMLElement).closest("a") && onClose()}
+          >
             <Button href={header.cta.href} className="w-full">
               {header.cta.label}
             </Button>

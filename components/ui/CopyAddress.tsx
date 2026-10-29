@@ -47,7 +47,7 @@ export function CopyAddress({
       <button
         type="button"
         onClick={copy}
-        className="inline-flex size-8 shrink-0 items-center justify-center rounded-md border border-line text-ink-2 transition-colors hover:border-line-strong hover:text-gold"
+        className="inline-flex size-8 shrink-0 items-center justify-center rounded-[8px] border border-line text-ink-2 transition-[color,background-color,border-color,transform] duration-200 ease-out hover:border-line-strong hover:bg-white/[0.04] hover:text-gold active:scale-95"
         aria-label={copied ? "Contract address copied" : "Copy contract address"}
       >
         {copied ? <Check aria-hidden className="size-4 text-mint" /> : <Copy aria-hidden className="size-4" />}

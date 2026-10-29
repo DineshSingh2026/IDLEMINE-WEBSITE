@@ -1,0 +1,33 @@
+/*
+  ABC Diatype Semi-Mono (Dinamo) — the mono used for labels/eyebrows on solana.com
+  (their CSS calls it "DSemi"). Commercial font: license it from https://abcdinamo.com and
+  place these web files in /public/fonts/ (names must match exactly):
+
+    ABCDiatypeSemi-Mono-Regular.woff2   (400)
+    ABCDiatypeSemi-Mono-Medium.woff2    (500)
+    ABCDiatypeSemi-Mono-Bold.woff2      (700)
+
+  app/layout.tsx links this stylesheet only once ABCDiatypeSemi-Mono-Regular.woff2 exists.
+  Until then the mono stack in app/globals.css falls back to Geist Mono.
+*/
+@font-face {
+  font-family: "ABC Diatype Semi-Mono";
+  src: url("/fonts/ABCDiatypeSemi-Mono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ABC Diatype Semi-Mono";
+  src: url("/fonts/ABCDiatypeSemi-Mono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ABC Diatype Semi-Mono";
+  src: url("/fonts/ABCDiatypeSemi-Mono-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { cn, isExternal } from "@/lib/utils";
+import { AnchorLink } from "@/components/layout/nav/AnchorLink";
 
 type Variant = "primary" | "secondary" | "ghost";
 type Size = "md" | "sm";
 
 const base =
-  "group/btn relative inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold transition-[background-color,border-color,color,transform] duration-200 ease-out active:scale-[0.98] select-none";
+  "group/btn relative inline-flex items-center justify-center gap-2 whitespace-nowrap font-semibold tracking-[-0.01em] transition-[background-color,border-color,color,transform,box-shadow] duration-200 ease-out active:scale-[0.98] select-none";
 
 const variants: Record<Variant, string> = {
-  primary: "rounded-[12px] bg-teal-500 text-[#05080A] hover:bg-teal-400 active:bg-teal-600",
+  primary: "rounded-[12px] bg-teal-500 text-[#05080A] hover:bg-teal-400 hover:shadow-[0_8px_28px_-10px_rgba(0,198,201,0.65)] active:bg-teal-600 active:shadow-none",
   secondary: "rounded-[12px] border border-line-strong text-ink hover:border-teal-300/60 hover:bg-white/[0.04]",
   ghost: "text-teal-400 hover:text-teal-300",
 };
@@ -63,6 +64,14 @@ export function Button({ href, children, variant = "primary", size = "md", class
 
   const cls = cn(base, variants[variant], !ghost && sizes[size], className);
 
+  if (href.includes("#") && !external) {
+    // In-page / home-page anchor: smooth-scroll with the header offset (see AnchorLink).
+    return (
+      <AnchorLink href={href} className={cls} aria-label={ariaLabel}>
+        {content}
+      </AnchorLink>
+    );
+  }
   if (external || href.startsWith("mailto:")) {
     return (
       <a href={href} className={cls} aria-label={ariaLabel} {...(external && { target: "_blank", rel: "noopener noreferrer" })}>

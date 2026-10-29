@@ -77,7 +77,7 @@ export function Header() {
                 <AnchorLink
                   href={header.rwa.href}
                   onNavigate={() => setMenu(null)}
-                  className="inline-flex h-10 items-center rounded-[10px] px-3.5 text-[15px] font-medium text-ink-2 transition-colors duration-200 ease-out hover:text-ink"
+                  className="inline-flex h-10 items-center rounded-[10px] px-3.5 text-[15px] font-normal text-ink-2 transition-colors duration-200 ease-out hover:text-ink"
                 >
                   {header.rwa.label}
                 </AnchorLink>

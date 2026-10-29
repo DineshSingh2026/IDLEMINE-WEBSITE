@@ -131,7 +131,7 @@ export function DesktopDropdown({
           onOpenChange(!open);
         }}
         className={cn(
-          "inline-flex h-10 items-center gap-1.5 rounded-[10px] px-3.5 text-[15px] font-medium transition-colors duration-200 ease-out",
+          "inline-flex h-10 items-center gap-1.5 rounded-[10px] px-3.5 text-[15px] font-normal transition-colors duration-200 ease-out",
           open ? "bg-white/[0.04] text-ink" : "text-ink-2 hover:text-ink",
         )}
       >

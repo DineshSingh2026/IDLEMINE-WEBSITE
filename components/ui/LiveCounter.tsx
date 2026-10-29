@@ -9,7 +9,7 @@ const STRIP = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
  * One odometer wheel that only ever rolls forward: 7 → 2 travels 7 → 8 → 9 → 0 → 1 → 2 on a doubled
  * strip, then snaps (without transition) back to the first copy. The digit tints teal while it moves.
  */
-function Wheel({ d, ms }: { d: number; ms: number }) {
+function Wheel({ d, ms, dir = "up" }: { d: number; ms: number; dir?: "up" | "down" }) {
   const posRef = useRef(d);
   const [pos, setPos] = useState(d);
   const [snap, setSnap] = useState(false);
@@ -18,13 +18,42 @@ function Wheel({ d, ms }: { d: number; ms: number }) {
   useEffect(() => {
     const cur = posRef.current;
     if (cur % 10 === d) return;
+    if (dir === "down") {
+      // Rolls backward: nearest position below the current one; 0 → 9 first snaps up to the second copy.
+      const below = d + 10 < cur ? d + 10 : d < cur ? d : null;
+      if (below != null) {
+        posRef.current = below;
+        setSnap(false);
+        setRolling(true);
+        setPos(below);
+        return;
+      }
+      posRef.current = d;
+      setSnap(true);
+      setPos(cur + 10);
+      let r2 = 0;
+      let started = false;
+      const r1 = requestAnimationFrame(() => {
+        r2 = requestAnimationFrame(() => {
+          started = true;
+          setSnap(false);
+          setRolling(true);
+          setPos(d);
+        });
+      });
+      return () => {
+        cancelAnimationFrame(r1);
+        cancelAnimationFrame(r2);
+        if (!started) posRef.current = cur + 10; // superseded before rolling: resume from the snapped spot
+      };
+    }
     // Nearest position at or after the current one (which may still be on the second copy mid-roll).
     const next = d >= cur ? d : d + 10;
     posRef.current = next;
     setSnap(false);
     setRolling(true);
     setPos(next);
-  }, [d]);
+  }, [d, dir]);
 
   const onEnd = () => {
     setRolling(false);
@@ -73,12 +102,15 @@ export function LiveCounter({
   rolling,
   reserve,
   ms = 700,
+  dir = "up",
   className,
 }: {
   text: string;
   rolling: boolean;
   reserve?: string;
   ms?: number;
+  /** Which way the wheels turn for this change ("down" for a value that just decreased). */
+  dir?: "up" | "down";
   className?: string;
 }) {
   const chars = text.split("");
@@ -94,7 +126,7 @@ export function LiveCounter({
               // Keyed from the right so wheels keep their place if the string grows a digit.
               const k = chars.length - i;
               return /\d/.test(ch) ? (
-                <Wheel key={`d${k}`} d={Number(ch)} ms={ms} />
+                <Wheel key={`d${k}`} d={Number(ch)} ms={ms} dir={dir} />
               ) : (
                 <span key={`c${k}`} className="inline-block">
                   {ch}

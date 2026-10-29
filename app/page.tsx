@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { pageMeta } from "@/lib/seo";
 import { Hero } from "@/components/landing/Hero";
-import { Stats } from "@/components/landing/Stats";
+import { Stats, StatsStrip } from "@/components/landing/Stats";
 import { Ecosystem } from "@/components/landing/Ecosystem";
 import { Rwa } from "@/components/landing/Rwa";
 import { Faq } from "@/components/landing/Faq";
@@ -15,7 +15,7 @@ export const metadata: Metadata = pageMeta({
   og: "/assets/og/home.png",
 });
 
-// Page order per the Design Brief: Header → Hero → Stats → Ecosystem → RWA → FAQs → Footer.
+// Page order per the Design Brief: Header → Hero → Stats → Ecosystem → RWA → Stats strip → FAQs → Footer.
 export default function HomePage() {
   return (
     <>
@@ -23,6 +23,7 @@ export default function HomePage() {
       <Stats />
       <Ecosystem />
       <Rwa />
+      <StatsStrip />
       <Faq />
       <ClosingCta />
     </>

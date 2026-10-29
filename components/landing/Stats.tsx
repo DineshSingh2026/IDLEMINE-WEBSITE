@@ -27,10 +27,36 @@ export async function Stats() {
         </Heading>
       </div>
 
-      <StatsBand items={stats.items} initial={initial} serverNow={Date.now()} />
+      <StatsBand items={stats.items} initial={initial} serverNow={Date.now()} layout="pair" />
 
       <p className="mt-12 font-mono text-[12px] leading-5 tracking-[0.02em] text-ink-3 lg:mt-14">
-        {stats.source} · Total transactions and trading volume update live from DexScreener&apos;s 24h rate
+        {stats.source} · Total transactions update live from DexScreener&apos;s 24h rate
+      </p>
+    </Section>
+  );
+}
+
+/**
+ * Four-up stats strip that sits straight after the RWA section: Trading Volume (live), RWAs paired,
+ * LP fees and APY. Stacked on phones, 2×2 from md, four columns from xl (StatsBand "quad").
+ */
+export async function StatsStrip() {
+  const initial = await Promise.race<TokenStats | undefined>([
+    getTokenStats().catch(() => undefined),
+    new Promise((r) => setTimeout(() => r(undefined), 2500)),
+  ]);
+
+  return (
+    <Section ariaLabelledby="stats-strip-title" className="pt-0 md:pt-0 lg:pt-0">
+      <style href="idle-stats-band" precedence="medium">{CSS}</style>
+      <h2 id="stats-strip-title" className="sr-only">
+        $IDLE market figures
+      </h2>
+
+      <StatsBand items={stats.strip} initial={initial} serverNow={Date.now()} layout="quad" />
+
+      <p className="mt-12 font-mono text-[12px] leading-5 tracking-[0.02em] text-ink-3 lg:mt-14">
+        {stats.source} · Trading volume updates live from DexScreener&apos;s 24h rate
       </p>
     </Section>
   );
@@ -60,6 +86,11 @@ const CSS = `
   .sb-fig:first-child { padding-left: 0; }
   .sb-fig:last-child { padding-right: 0; }
   .sb-fig:not(:first-child)::before { content: ""; }
+}
+/* §3 "pair" layout goes three-up from lg: the third figure gets the same indent + hairline before xl. */
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+  .sb-panel[data-layout="pair"] .sb-fig:nth-child(3) { padding-left: 40px; }
+  .sb-panel[data-layout="pair"] .sb-fig:nth-child(3)::before { content: ""; }
 }
 
 /* Borderless brand light behind the numbers: soft radial glows (no edges) drifting slowly. */
