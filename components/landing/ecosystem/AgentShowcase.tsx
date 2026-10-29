@@ -331,17 +331,32 @@ export function AgentShowcase({ images, logo }: { images: readonly string[]; log
           />
         ))}
         {logo && (
-          <div className="eco-anim ag-bob absolute -top-[4%] right-[3%] flex items-center gap-2" style={{ animationDelay: "-2s" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={logo}
-              alt="MidEarth"
-              width={28}
-              height={28}
-              className="size-6 sm:size-7"
-              style={{ filter: `drop-shadow(0 0 10px rgba(${M},0.7))` }}
-            />
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#BFF8E6] sm:text-[11px]">MidEarth arenas</span>
+          // MidEarth lockup (mark + wordmark, as app.midearth.ai renders it), floating at the centre of the
+          // scene like the Idle Games logo over its cover wall.
+          <div className="absolute left-1/2 top-[46%] z-10 -translate-x-1/2 -translate-y-1/2">
+            <div className="eco-anim ag-bob relative flex items-center gap-[0.32em] text-[clamp(30px,4.2vw,56px)]" style={{ animationDelay: "-2s" }}>
+              {/* borderless halo */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute left-1/2 top-1/2 h-[3.4em] w-[7.2em] -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
+                style={{ background: `radial-gradient(closest-side, rgba(${M},0.38), rgba(${T},0.18) 55%, transparent)` }}
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={logo}
+                alt=""
+                width={256}
+                height={256}
+                className="relative h-[1.25em] w-[1.25em] object-contain"
+                style={{ filter: `drop-shadow(0 0 18px rgba(${M},0.75)) drop-shadow(0 6px 14px rgba(0,0,0,0.5))` }}
+              />
+              <span
+                className="relative font-display font-bold leading-none tracking-[-0.03em] text-white"
+                style={{ textShadow: `0 0 28px rgba(${M},0.45), 0 4px 18px rgba(0,0,0,0.65)` }}
+              >
+                MidEarth
+              </span>
+            </div>
           </div>
         )}
       </Layer>
