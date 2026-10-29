@@ -34,7 +34,7 @@ export function Section({
     <section
       id={id}
       aria-labelledby={ariaLabelledby}
-      className={cn("relative isolate py-16 md:py-24 lg:py-[120px]", className)}
+      className={cn("relative isolate py-16 md:py-20 lg:py-24", className)}
     >
       <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden">
         {blobs?.length ? <BackgroundBlobs blobs={blobs} /> : null}

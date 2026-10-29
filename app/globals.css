@@ -237,18 +237,24 @@ img {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  padding: 0.04em 0.1em 0.2em 0.04em;
+  margin: -0.04em -0.1em -0.2em -0.04em;
 }
 @utility text-grad-sol {
   background: var(--grad-sol);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  padding: 0.04em 0.1em 0.2em 0.04em;
+  margin: -0.04em -0.1em -0.2em -0.04em;
 }
 @utility text-grad-text {
   background: var(--grad-text);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  padding: 0.04em 0.1em 0.2em 0.04em;
+  margin: -0.04em -0.1em -0.2em -0.04em;
 }
 
 /* ───────────────────────── Background system (SPEC §2.6) ───────────────────────── */

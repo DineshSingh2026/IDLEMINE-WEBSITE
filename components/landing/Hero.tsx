@@ -39,6 +39,9 @@ const HERO_CSS = `
 .hero-word{display:inline-block;animation:hero-word .85s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--i) * 55ms + 60ms)}
 .hero-grad{
   color:transparent;-webkit-background-clip:text;background-clip:text;
+  /* background-clip:text only paints inside the box: extend it past descenders (g) and the last glyph's
+     overhang (s), and cancel the extra space with negative margins so layout doesn't move. */
+  padding:.04em .1em .2em .04em;margin:-.04em -.1em -.2em -.04em;
   background-image:linear-gradient(100deg,rgba(214,255,243,0) 38%,rgba(214,255,243,.9) 50%,rgba(214,255,243,0) 62%),var(--hero-grad);
   background-size:320% 100%,100% 100%;background-repeat:no-repeat;background-position:100% 0,0 0;
   animation:hero-word .85s cubic-bezier(.16,1,.3,1) calc(var(--i) * 55ms + 60ms) both,hero-shimmer 7.5s cubic-bezier(.45,0,.55,1) calc(1.7s + var(--j) * .9s) infinite}

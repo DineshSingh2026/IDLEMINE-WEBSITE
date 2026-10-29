@@ -53,3 +53,14 @@ Dev server: http://localhost:3333 (already running — never start/stop it, no `
 Screenshots: `node scripts/shot.mjs / 1440` (viewport) · `node scripts/tour.mjs / 1440` (section-by-section viewport shots → .shots/tour_*). Read the PNGs and iterate.
 Type check: `npx tsc --noEmit 2>&1 | grep -v TS6053 | grep <your files>`.
 The project folder name contains an apostrophe: never import .css files from components (it breaks the dev compiler); use Tailwind classes or inline <style>. Prefer Write/Edit tools over bash heredocs.
+
+## CLIENT RULE #1 (Oct 29, latest — overrides everything above): NO BOXES
+"Avoid boxes in my website — that's the worst part. Make it look professional." No bordered panels, no card containers,
+no tile grids with outlines, no tinted rectangles, no bands. Content flows directly on the bg-void canvas.
+- Group and separate with: whitespace, typography scale, soft brand-colour light (blurred radial glows with no edges),
+  thin gradient hairlines that fade out at both ends (never a closed rectangle), and alignment.
+- Images/art float freely with depth (glow, parallax, soft masks fading into the canvas) — never inside a framed box.
+- Allowed exceptions only: buttons, small pills/badges, round token logos, the header dropdown menu panel, form inputs.
+- Section rhythm: every home section uses EXACTLY `py-16 md:py-20 lg:py-24` (64/80/96px) and no extra outer margins,
+  so the gap between two sections is one section's padding pair, never more. Heading → content gap 40–48px.
+- Stay colourful (teal / mint / violet light), animated and premium. No grayscale. No dash characters in visible copy.
