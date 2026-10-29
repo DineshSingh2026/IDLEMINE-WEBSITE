@@ -6,8 +6,10 @@ import { chromium } from "playwright-core";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 
-const args = process.argv.slice(2);
-const path = args.find((a) => a.startsWith("/")) ?? "/";
+// Git Bash (MSYS) rewrites "/roadmap" into "C:/Program Files/Git/roadmap" — undo that.
+const args = process.argv.slice(2).map((a) => a.replace(/^[A-Za-z]:[\\/].*?Git[\\/]/, "/").replace(/\\/g, "/"));
+const bare = args.find((a) => /^[a-z][a-z-]*$/i.test(a));
+const path = args.find((a) => a.startsWith("/")) ?? (bare ? `/${bare}` : "/");
 const width = Number(args.find((a) => /^\d+$/.test(a)) ?? 1440);
 const full = args.includes("--full");
 const scroll = Number((args.find((a) => a.startsWith("--scroll=")) ?? "--scroll=0").split("=")[1]);
