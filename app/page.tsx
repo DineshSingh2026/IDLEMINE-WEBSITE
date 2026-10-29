@@ -5,6 +5,7 @@ import { Stats } from "@/components/landing/Stats";
 import { Ecosystem } from "@/components/landing/Ecosystem";
 import { Rwa } from "@/components/landing/Rwa";
 import { Faq } from "@/components/landing/Faq";
+import { ClosingCta } from "@/components/landing/ClosingCta";
 
 export const metadata: Metadata = pageMeta({
   title: "$IDLE — Powering the human and Agentic Economies",
@@ -23,6 +24,7 @@ export default function HomePage() {
       <Ecosystem />
       <Rwa />
       <Faq />
+      <ClosingCta />
     </>
   );
 }

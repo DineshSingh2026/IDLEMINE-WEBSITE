@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion, type Variants } from "framer-motion";
 import { Plus, ShieldAlert } from "lucide-react";
 import type { Faq } from "@/data/content/landing";
@@ -33,7 +33,11 @@ function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
 /** Accordion: one item open at a time, spring height, sliding accent bar, WAI-ARIA accordion pattern + arrow-key nav. */
 export function FaqAccordion({ items, defaultOpen = 0 }: { items: Faq[]; defaultOpen?: number | null }) {
   const [open, setOpen] = useState<number | null>(defaultOpen);
-  const reduce = useReducedMotion();
+  // Gate on mount: the server can't know the preference, and a differing first render breaks hydration.
+  const prefersReduced = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const reduce = mounted && prefersReduced;
   const baseId = useId();
   const buttons = useRef<Array<HTMLButtonElement | null>>([]);
 
