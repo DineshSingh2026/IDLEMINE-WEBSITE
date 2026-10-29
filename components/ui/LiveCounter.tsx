@@ -36,7 +36,9 @@ function Wheel({ d, ms }: { d: number; ms: number }) {
   };
 
   return (
-    <span className="relative inline-block h-[1.1em] w-[1ch] overflow-hidden">
+    <span className="relative inline-block h-[1.1em] overflow-hidden">
+      {/* Sizes the wheel exactly like the plain-text digit (tabular advance + the parent's tracking). */}
+      <span className="invisible">{d}</span>
       <span
         className={cn(
           "absolute inset-x-0 top-0 flex flex-col motion-reduce:transition-none",
