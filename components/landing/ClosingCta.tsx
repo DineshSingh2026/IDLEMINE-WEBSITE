@@ -31,7 +31,7 @@ export function ClosingCta() {
               <Button href={hero.primary.href} variant="primary" icon="external">
                 {hero.primary.label}
               </Button>
-              <Button href={hero.secondary.href} variant="secondary" icon="arrow" className="bg-bg/40">
+              <Button href={hero.secondary.href} variant="secondary" icon="arrow" className="border-teal-400/45 bg-teal-900/45 backdrop-blur-sm hover:border-teal-300/80 hover:bg-teal-900/70">
                 {hero.secondary.label}
               </Button>
             </Reveal>

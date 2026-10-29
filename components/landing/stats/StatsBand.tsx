@@ -123,9 +123,15 @@ export function StatsBand({
     <div
       ref={ref}
       data-phase={phase}
-      className="sb-panel relative mt-12 overflow-hidden rounded-[20px] border border-line"
+      className="sb-panel relative isolate mt-12 overflow-hidden rounded-[20px] p-px"
     >
-      <div className="grid grid-cols-1 gap-px bg-line md:grid-cols-2 xl:grid-cols-[minmax(0,1.12fr)_minmax(0,1.2fr)_minmax(0,1.42fr)_minmax(0,0.78fr)_minmax(0,1fr)]">
+      {/* Animated gradient border: a faint static teal rim plus a rotating conic sweep, seen only in the 1px gap. */}
+      <div aria-hidden className="sb-rim pointer-events-none absolute inset-0 rounded-[inherit]">
+        <div className="sb-orbit absolute left-1/2 top-1/2 aspect-square w-[460%] md:w-[240%] xl:w-[125%]" />
+      </div>
+
+      <div className="sb-surface relative overflow-hidden rounded-[19px]">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[minmax(0,1.12fr)_minmax(0,1.2fr)_minmax(0,1.42fr)_minmax(0,0.78fr)_minmax(0,1fr)]">
         {items.map((item, i) => {
           const p = progress(i);
           const isTx = item.label === "Total Transactions";
@@ -133,6 +139,7 @@ export function StatsBand({
           const fullVol = isVol && vol != null;
           const live = (isTx && txRate(stats) != null) || (fullVol && volRate(stats) != null);
           const rolling = live && phase === "live" && !reduce;
+          const accent = isTx || isVol;
 
           let text: string;
           let reserve: string;
@@ -152,16 +159,25 @@ export function StatsBand({
             <div
               key={item.label}
               onPointerMove={spot}
+              data-accent={accent ? "mint" : "teal"}
               className={cn(
-                "sb-tile group relative isolate flex flex-col bg-surface px-6 pb-7 pt-6 xl:min-h-[260px] xl:px-5 xl:pb-8 xl:pt-7 2xl:px-6",
+                "sb-tile group relative isolate flex flex-col px-6 pb-7 pt-6 xl:min-h-[260px] xl:px-5 xl:pb-8 xl:pt-7 2xl:px-6",
                 i === items.length - 1 && "md:col-span-2 xl:col-span-1",
               )}
               style={{ "--d": `${i * STAGGER_MS}ms` } as React.CSSProperties}
             >
-              <div className="flex h-4 items-center justify-between gap-3">
-                <span aria-hidden className="sb-rule block h-[2px] w-8 rounded-full bg-teal-400" />
+              <div className="flex h-5 items-center justify-between gap-3">
+                <span
+                  aria-hidden
+                  className={cn(
+                    "sb-rule block h-[2px] w-8 rounded-full",
+                    accent
+                      ? "bg-[linear-gradient(90deg,#00C6C9,#3DF5B0)] shadow-[0_0_10px_rgba(61,245,176,0.55)]"
+                      : "bg-[linear-gradient(90deg,#018082,#00C6C9)] shadow-[0_0_10px_rgba(0,198,201,0.5)]",
+                  )}
+                />
                 {live && (
-                  <span className="sb-fade inline-flex items-center gap-2 font-mono text-[11px] leading-4 tracking-[0.04em] text-ink-3">
+                  <span className="sb-fade inline-flex items-center gap-2 rounded-full border border-mint/25 bg-mint/[0.07] px-2.5 py-0.5 font-mono text-[11px] leading-4 tracking-[0.04em] text-mint/90">
                     <span className="relative inline-flex h-1.5 w-1.5">
                       <span aria-hidden className="sb-ping absolute inset-0 rounded-full bg-mint" />
                       <span className="relative h-1.5 w-1.5 rounded-full bg-mint" />
@@ -171,7 +187,12 @@ export function StatsBand({
                 )}
               </div>
 
-              <p className="mt-10 whitespace-nowrap font-display font-semibold leading-none tracking-[-0.035em] text-ink text-[clamp(36px,11vw,56px)] md:text-[clamp(36px,5.2vw,56px)] xl:mt-auto xl:text-[clamp(28px,2.55vw,44px)]">
+              <p
+                className={cn(
+                  "sb-num mt-10 whitespace-nowrap font-display font-semibold leading-none tracking-[-0.035em] text-[clamp(36px,11vw,56px)] md:text-[clamp(36px,5.2vw,56px)] xl:mt-auto xl:text-[clamp(28px,2.55vw,44px)]",
+                  accent && "sb-num-mint",
+                )}
+              >
                 <LiveCounter text={text} reserve={reserve} rolling={rolling} />
                 {isVol && !fullVol && (
                   <>
@@ -182,7 +203,7 @@ export function StatsBand({
                   </>
                 )}
               </p>
-              <p className="sb-label mt-4 max-w-[24ch] text-[14px] leading-5 text-ink-2 xl:min-h-[60px]">
+              <p className="sb-label mt-4 max-w-[24ch] text-[14px] leading-5 text-[#A9C4C7] xl:min-h-[60px]">
                 {item.label}
               </p>
             </div>
@@ -190,9 +211,10 @@ export function StatsBand({
         })}
       </div>
 
-      {/* Ambient layers: a slow light sweep and a travelling teal→mint hairline. */}
+      {/* Ambient layers: a slow light sweep and a travelling teal to mint hairline. */}
       <span aria-hidden className="sb-sweep pointer-events-none absolute inset-0 z-10" />
       <span aria-hidden className="sb-line pointer-events-none absolute inset-x-0 top-0 z-20 h-px" />
+      </div>
     </div>
   );
 }

@@ -42,12 +42,77 @@ const CSS = `
 .sb-panel[data-phase="armed"] .sb-tile > * { opacity: 0; transform: translate3d(0, 14px, 0); }
 .sb-panel[data-phase="armed"] .sb-rule { transform: scaleX(0); }
 
+/* Animated gradient border: static teal rim + a rotating conic sweep (transform only, on the compositor). */
+.sb-rim { background: linear-gradient(135deg, rgba(0,198,201,.55), rgba(1,128,130,.22) 35%, rgba(1,59,61,.35) 65%, rgba(61,245,176,.45)); }
+.sb-orbit {
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(0,198,201,0) 40deg, #00C6C9 82deg, #3DF5B0 104deg, transparent 128deg,
+    transparent 210deg, rgba(0,198,201,0) 220deg, #4DD9DB 262deg, #B3F0F1 280deg, transparent 300deg, transparent 360deg);
+  animation: sb-orbit 14s linear infinite; will-change: transform;
+}
+@keyframes sb-orbit { to { transform: translate(-50%, -50%) rotate(360deg); } }
+.sb-orbit { transform: translate(-50%, -50%); }
+
+/* Deep teal surface: teal-900 crown fading into bg-void, with a soft brand bloom. */
+.sb-surface {
+  background:
+    radial-gradient(90% 120% at 50% -30%, rgba(0,198,201,.22), transparent 62%),
+    radial-gradient(40% 70% at 100% 110%, rgba(61,245,176,.07), transparent 70%),
+    radial-gradient(40% 70% at 0% 110%, rgba(155,123,255,.06), transparent 70%),
+    linear-gradient(180deg, #013B3D 0%, #032A2C 40%, #061A1C 75%, #071315 100%);
+  box-shadow: inset 0 1px 0 rgba(179,240,241,.10);
+}
+/* Fine dot texture and a teal horizon along the bottom edge. */
+.sb-surface::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(179,240,241,.07) 1px, transparent 1px); background-size: 22px 22px;
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent 85%); mask-image: linear-gradient(180deg, #000, transparent 85%);
+}
+.sb-surface::after {
+  content: ""; position: absolute; inset-inline: 8%; bottom: 0; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(0,198,201,.45), rgba(61,245,176,.45), transparent);
+}
+
+/* Teal hairline separators (right + bottom of each tile; the panel clips the outer ones). */
+.sb-tile { box-shadow: 1px 0 0 0 rgba(0,198,201,.16), 0 1px 0 0 rgba(0,198,201,.16); }
+
+/* Faint coloured top glow per tile (teal, or mint on the two live tiles). */
+.sb-tile::after {
+  content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(70% 55% at 30% 0%, rgba(0,198,201,.20), transparent 72%),
+    linear-gradient(180deg, rgba(0,198,201,.05), transparent 45%);
+}
+.sb-tile[data-accent="mint"]::after {
+  background:
+    radial-gradient(70% 55% at 30% 0%, rgba(61,245,176,.17), transparent 72%),
+    linear-gradient(180deg, rgba(61,245,176,.045), transparent 45%);
+}
+
+/* Numbers: subtle white to teal-100 gradient (white to pale mint on the live tiles). */
+.sb-num {
+  color: #F2FBFB;
+  background-image: linear-gradient(180deg, #FFFFFF 15%, #B3F0F1 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sb-num-mint { background-image: linear-gradient(180deg, #FFFFFF 10%, #A6FBDA 100%); }
+/* Odometer wheels sit on their own transformed layers, which an ancestor's text clip can't reach:
+   each wheel digit carries the same gradient itself (one digit is one line box tall). */
+.sb-num [style*="translate3d"] > span {
+  background-image: linear-gradient(180deg, #FFFFFF 15%, #B3F0F1 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sb-num-mint [style*="translate3d"] > span { background-image: linear-gradient(180deg, #FFFFFF 10%, #A6FBDA 100%); }
+/* While a wheel turns it tints teal (mint on the live tiles), as LiveCounter intends. */
+.sb-num [class*="text-teal-300"] > span { -webkit-text-fill-color: #4DD9DB; }
+.sb-num-mint [class*="text-teal-300"] > span { -webkit-text-fill-color: #3DF5B0; }
+
 /* Cursor spotlight (per tile). */
 .sb-tile::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(0,198,201,.09), transparent 70%);
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(0,198,201,.14), transparent 70%);
   opacity: 0; transition: opacity .3s ease-out;
 }
+.sb-tile[data-accent="mint"]::before { background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(61,245,176,.11), transparent 70%); }
 .sb-tile:hover::before { opacity: 1; }
 
 /* Slow light sweep across the whole panel. */
@@ -84,6 +149,7 @@ const CSS = `
 
 @media (prefers-reduced-motion: reduce) {
   .sb-sweep, .sb-line::before { display: none; }
+  .sb-orbit { animation: none; }
   .sb-ping { animation: none; opacity: 0; }
   .sb-tile > *, .sb-rule { transition: none; }
 }

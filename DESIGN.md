@@ -38,7 +38,7 @@ radius-sm 8 (chips, inputs, small buttons) · **radius-md 12 (buttons, list rows
 
 ## Rules
 - Buttons: primary = teal-500 fill + #05080A text (Button `variant="primary"`); secondary = border-strong outline. 12px radius. NOT pills. No glows.
-- **Borders, not shadows**: separate surfaces with hairlines and the bg-void → surface-1 step. No big drop shadows, no coloured glows on cards.
+- **Client override (Oct 29):** the client wants a colourful, premium, animated site — no flat grey or black-and-white boxes or images. Tinted brand surfaces (teal-900 gradients), gradient borders and soft brand-colour glows on featured cards are approved. Never use grayscale/desaturate filters. No dash characters in visible copy. Text contrast stays AA.
 - Mint and violet are for labels, icons, dots and chart series — not long paragraphs.
 - Logo only on bg-void or surface-1; clear space = leaf height; don't recolour it or add shadows.
 - **Motion 200–300ms ease-out**; the hero background drifts slowly; honour reduce-motion (still frame).

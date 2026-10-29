@@ -51,11 +51,11 @@ const DUST = (() => {
 })();
 
 const RINGS = [
-  { r: 12, cls: "border-teal-400/[0.16]" },
-  { r: 22, cls: "border-teal-400/[0.18]" },
-  { r: 34, cls: "border-teal-400/[0.12] border-dashed" },
-  { r: 48, cls: "border-teal-400/[0.09]" },
-  { r: 64, cls: "border-teal-400/[0.06]" },
+  { r: 12, cls: "border-teal-400/[0.28]" },
+  { r: 22, cls: "border-teal-400/[0.26]" },
+  { r: 34, cls: "border-mint/[0.16] border-dashed" },
+  { r: 48, cls: "border-violet/[0.16]" },
+  { r: 64, cls: "border-teal-400/[0.10]" },
 ];
 
 export function CtaPanel({ children }: { children: React.ReactNode }) {
@@ -96,7 +96,7 @@ export function CtaPanel({ children }: { children: React.ReactNode }) {
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-      className="cta-root relative isolate overflow-hidden rounded-[20px] bg-line"
+      className="cta-root relative isolate overflow-hidden rounded-[20px] bg-[linear-gradient(135deg,rgba(0,198,201,0.5)_0%,rgba(1,59,61,0.6)_45%,rgba(155,123,255,0.4)_100%)]"
     >
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
@@ -115,20 +115,25 @@ export function CtaPanel({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Inner panel (bg-void) */}
-      <div className="relative m-px overflow-hidden rounded-[19px] bg-bg">
+      <div className="relative m-px overflow-hidden rounded-[19px] bg-[linear-gradient(180deg,#022A2C_0%,#031A1C_45%,#05080A_100%)]">
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          {/* Aurora mesh — radial gradients (no blur filters), drifting slowly */}
+          {/* Aurora mesh: radial gradients (no blur filters), drifting slowly */}
           <div
-            className="cta-a1 absolute -left-[20%] -top-[40%] h-[110%] w-[80%]"
-            style={{ background: "radial-gradient(closest-side, rgba(0,198,201,0.22), rgba(0,198,201,0.06) 55%, transparent)" }}
+            className="cta-a1 absolute -left-[20%] -top-[40%] h-[120%] w-[85%]"
+            style={{ background: "radial-gradient(closest-side, rgba(0,198,201,0.50), rgba(0,198,201,0.16) 50%, transparent)" }}
           />
           <div
-            className="cta-a2 absolute -right-[18%] -top-[20%] h-[100%] w-[70%]"
-            style={{ background: "radial-gradient(closest-side, rgba(155,123,255,0.16), rgba(155,123,255,0.04) 55%, transparent)" }}
+            className="cta-a2 absolute -right-[18%] -top-[25%] h-[110%] w-[72%]"
+            style={{ background: "radial-gradient(closest-side, rgba(155,123,255,0.42), rgba(155,123,255,0.12) 52%, transparent)" }}
           />
           <div
-            className="cta-a3 absolute -bottom-[45%] left-[18%] h-[100%] w-[70%]"
-            style={{ background: "radial-gradient(closest-side, rgba(61,245,176,0.12), rgba(61,245,176,0.03) 55%, transparent)" }}
+            className="cta-a3 absolute -bottom-[50%] left-[14%] h-[110%] w-[76%]"
+            style={{ background: "radial-gradient(closest-side, rgba(61,245,176,0.34), rgba(61,245,176,0.09) 52%, transparent)" }}
+          />
+          {/* Deep teal core behind the headline */}
+          <div
+            className="cta-pulse absolute left-1/2 top-[42%] h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2"
+            style={{ background: "radial-gradient(closest-side, rgba(1,128,130,0.35), rgba(1,59,61,0.18) 55%, transparent)" }}
           />
 
           {/* Dot grid, faded to the edges */}
@@ -201,7 +206,7 @@ export function CtaPanel({ children }: { children: React.ReactNode }) {
           ))}
 
           {/* Vignette keeps edges calm and copy legible */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_70%_at_50%_45%,transparent_40%,rgba(5,8,10,0.75)_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_80%_at_50%_45%,transparent_55%,rgba(5,8,10,0.45)_100%)]" />
           {/* top hairline sheen */}
           <div className="absolute inset-x-[10%] top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(0,198,201,0.5),rgba(155,123,255,0.4),transparent)]" />
         </div>
@@ -216,8 +221,8 @@ export function CtaPanel({ children }: { children: React.ReactNode }) {
 export function CtaEmblem() {
   return (
     <div aria-hidden className="relative mx-auto size-[76px] md:size-[92px]">
-      <div className="cta-pulse absolute -inset-10 rounded-full bg-[radial-gradient(circle,rgba(0,198,201,0.22)_0%,rgba(0,198,201,0.06)_45%,transparent_70%)]" />
-      <div className="absolute inset-0 rounded-full border border-teal-400/30 bg-surface" />
+      <div className="cta-pulse absolute -inset-10 rounded-full bg-[radial-gradient(circle,rgba(0,198,201,0.42)_0%,rgba(0,198,201,0.10)_45%,transparent_70%)]" />
+      <div className="absolute inset-0 rounded-full border border-teal-400/50 bg-[radial-gradient(circle,#05080A_0%,#05080A_55%,#013B3D_100%)] shadow-[0_0_30px_rgba(0,198,201,0.35)]" />
       <div className="absolute inset-[22%]">
         <Image src="/assets/img/idlemine-mark.png" alt="" fill sizes="56px" className="object-contain" />
       </div>
