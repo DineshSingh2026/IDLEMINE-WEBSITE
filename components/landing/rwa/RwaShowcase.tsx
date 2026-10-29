@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { EASE } from "@/components/ui/Reveal";
+import { Button } from "@/components/ui/Button";
 import { AssetTile } from "./AssetTile";
 import { PairingHub, type HubAsset } from "./PairingHub";
 
 const tileIn = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } } };
 
 /**
- * Hub + tile row in one panel. Hovering an asset in either place highlights the same pair in both.
+ * Hub floating freely on the canvas, then the asset row (no outlines: spacing, light and one fading
+ * hairline). Hovering an asset in either place highlights the same pair in both.
  */
 export function RwaShowcase({
   assets,
@@ -26,8 +27,14 @@ export function RwaShowcase({
   const [active, setActive] = useState<string | null>(null);
 
   return (
-    <div className="mt-12 overflow-hidden rounded-[20px] border border-line bg-bg/60 lg:mt-16">
+    <div className="relative mt-4 lg:mt-2">
+      {/* borderless teal + violet light behind the hub, fully transparent well before any edge */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[-10%] bottom-[20%] -z-10 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(0,198,201,0.16),rgba(0,198,201,0.04)_55%,transparent_75%),radial-gradient(ellipse_30%_30%_at_72%_62%,rgba(155,123,255,0.10),transparent_70%),radial-gradient(ellipse_28%_30%_at_28%_34%,rgba(61,245,176,0.07),transparent_70%)]" />
+
       <PairingHub assets={assets} pairSuffix={pairSuffix} active={active} onActive={setActive} />
+
+      {/* fading hairline: teal at the centre, gone at both ends */}
+      <div aria-hidden className="mx-auto mt-6 h-px w-full max-w-[960px] bg-[linear-gradient(90deg,transparent,rgba(0,198,201,0.45)_30%,rgba(61,245,176,0.4)_50%,rgba(155,123,255,0.35)_70%,transparent)] md:mt-8" />
 
       <motion.ul
         aria-label="Tokenized assets paired with $IDLE"
@@ -35,32 +42,23 @@ export function RwaShowcase({
         whileInView="show"
         viewport={{ once: true, amount: 0.3 }}
         variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } } }}
-        className="grid grid-cols-2 gap-px border-t border-line bg-line sm:grid-cols-4 lg:grid-cols-7"
+        className="mt-8 flex flex-wrap justify-center gap-y-8 md:mt-10 lg:flex-nowrap lg:justify-between"
       >
         {assets.map((a) => (
-          <li key={a.ticker} className="bg-bg">
+          <li key={a.ticker} className="w-1/4 lg:w-auto lg:flex-1">
             <motion.div variants={tileIn} className="h-full">
               <AssetTile asset={a} pairSuffix={pairSuffix} active={active === a.ticker} onActive={setActive} />
             </motion.div>
           </li>
         ))}
-        {/* 8th cell completes the grid below desktop; on desktop the CTA sits in the header. */}
-        <li className="bg-bg lg:hidden">
-          <motion.a
-            variants={tileIn}
-            href={cta.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={ctaAria}
-            className="group/more flex h-full min-h-[172px] flex-col items-center justify-center gap-5 bg-bg/70 px-3 text-center transition-colors duration-[250ms] ease-out hover:bg-surface focus-visible:bg-surface"
-          >
-            <span className="flex size-14 items-center justify-center rounded-full border border-line-strong text-ink transition-colors duration-[250ms] group-hover/more:border-teal-400 group-hover/more:text-teal-400 md:size-16">
-              <ArrowUpRight aria-hidden className="size-5" />
-            </span>
-            <span className="text-sm font-semibold text-ink">{cta.label}</span>
-          </motion.a>
-        </li>
       </motion.ul>
+
+      {/* On desktop the CTA sits beside the heading; below desktop it closes the row. */}
+      <div className="mt-10 flex justify-center lg:hidden">
+        <Button href={cta.href} variant="secondary" icon="external" ariaLabel={ctaAria}>
+          {cta.label}
+        </Button>
+      </div>
     </div>
   );
 }

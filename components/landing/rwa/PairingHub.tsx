@@ -117,7 +117,7 @@ export function PairingHub({
       tokR = compact ? 24 : 38;
       coinR = compact ? 40 : 60;
       rx = compact ? W / 2 - tokR - 14 : Math.min(W * 0.36, 440);
-      ry = compact ? H / 2 - tokR - 18 : H / 2 - tokR - 56;
+      ry = compact ? H / 2 - tokR - 18 : H / 2 - tokR - 40;
     };
     resize();
     const ro = new ResizeObserver(resize);
@@ -358,7 +358,7 @@ export function PairingHub({
       ref={stageRef}
       role="img"
       aria-label={`${assets.map((a) => a.ticker + pairSuffix).join(", ")}`}
-      className="rwa-hub relative h-[400px] w-full select-none sm:h-[480px] lg:h-[560px]"
+      className="rwa-hub relative h-[380px] w-full select-none sm:h-[460px] lg:h-[520px]"
     >
       <style>{HUB_CSS}</style>
 
@@ -434,7 +434,7 @@ export function PairingHub({
               </span>
               <span
                 className={cn(
-                  "relative mt-2 rounded-md bg-bg/85 px-1.5 py-0.5 font-mono text-[12px] leading-4 tracking-[0.04em] transition-colors duration-[250ms] max-sm:hidden",
+                  "relative mt-2 font-mono [text-shadow:0_0_10px_#05080A,0_0_4px_#05080A] text-[12px] leading-4 tracking-[0.04em] transition-colors duration-[250ms] max-sm:hidden",
                   on ? "text-teal-300" : "text-ink-2",
                 )}
               >

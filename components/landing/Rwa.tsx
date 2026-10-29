@@ -10,7 +10,7 @@ import { RwaShowcase } from "./rwa/RwaShowcase";
 export function Rwa() {
   const ctaAria = `${rwa.cta.label}: Raydium liquidity pools (opens in a new tab)`;
   return (
-    <Section id={rwa.id} ariaLabelledby="rwa-title" className="border-y border-line bg-teal-900/30">
+    <Section id={rwa.id} ariaLabelledby="rwa-title">
       <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-6">
         <div className="lg:col-span-8">
           <Reveal>
@@ -33,7 +33,7 @@ export function Rwa() {
       <RwaShowcase assets={rwa.assets} pairSuffix={rwa.pairSuffix} cta={rwa.cta} ctaAria={ctaAria} />
 
       <Reveal delay={0.1}>
-        <p className="mt-6 max-w-[80ch] text-[13px] leading-5 text-ink-3">{rwa.note}</p>
+        <p className="mx-auto mt-10 max-w-[80ch] text-center text-[13px] leading-5 text-ink-3">{rwa.note}</p>
       </Reveal>
     </Section>
   );
