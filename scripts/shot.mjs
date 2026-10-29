@@ -27,7 +27,7 @@ const errors = [];
 page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
 page.on("pageerror", (e) => errors.push(String(e)));
 
-await page.goto(base + path, { waitUntil: "networkidle", timeout: 60000 });
+await page.goto(base + path, { waitUntil: "load", timeout: 90000 });
 // Walk the page so whileInView reveals fire before capture.
 await page.evaluate(async () => {
   const h = document.documentElement.scrollHeight;

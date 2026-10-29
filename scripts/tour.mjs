@@ -6,7 +6,7 @@ const path = args.find((a) => a.startsWith("/")) ?? "/";
 const w = Number(args.find((a) => /^\d+$/.test(a)) ?? 1440), h = w < 768 ? 844 : 900;
 const b = await chromium.launch({ channel: "msedge", headless: true });
 const p = await b.newPage({ viewport: { width: w, height: h } });
-await p.goto("http://localhost:3333" + path, { waitUntil: "networkidle" });
+await p.goto("http://localhost:3333" + path, { waitUntil: "load", timeout: 90000 });
 await p.waitForTimeout(1200);
 const total = await p.evaluate(() => document.documentElement.scrollHeight);
 const name = (path.replace(/[^a-z0-9]+/gi, "") || "home") + "_" + w;

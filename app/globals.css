@@ -1,35 +1,92 @@
 @import "tailwindcss";
 
-/* ───────────────────────── Design tokens (SPEC §2.2) ───────────────────────── */
+/* ───────────────────────── $IDLE Design System — client token file (idle-tokens.css, verbatim) ─────────────────────────
+   Dark is default; add data-theme="light" on <html> for light. Site aliases below map onto these. */
 :root {
-  --bg:#05080a;
-  --bg-deep:#05080a;
-  --surface:#0b1114;
-  --surface-2:#111a1e;
-  --border:#1c2a2f;
-  --border-strong:#4d666c;
-  --text:#f2fbfb;
-  --text-2:#9fb3b7;
-  --text-3:#6e8589;
-
-  --gold:#00c6c9;
-  --gold-2:#4dd9db;
-  --gold-deep:#018082;
-  --violet:#9b7bff;
-  --mint:#3df5b0;
-  --cyan:#00c6c9;
-  --teal:#01afb1; /* IdleMine mark */
-
-  --grad-brand:linear-gradient(90deg, #018082 0%, #00c6c9 50%, #3df5b0 100%);
-  --grad-sol:linear-gradient(90deg, #00c6c9 0%, #9b7bff 100%);
-  --grad-text: linear-gradient(90deg, #ffffff 0%, #a6abbd 100%);
-
+  --bg-void: #05080A;
+  --surface-1: #0B1114;
+  --surface-2: #111A1E;
+  --border: #1C2A2F;
+  --border-strong: #4D666C;
+  --text-primary: #F2FBFB;
+  --text-secondary: #9FB3B7;
+  --text-muted: #6E8589;
+  --teal-100: #B3F0F1;
+  --teal-300: #4DD9DB;
+  --teal-400: #00C6C9;
+  --teal-500: #01AFB1;
+  --teal-600: #019597;
+  --teal-700: #018082;
+  --teal-800: #015E60;
+  --teal-900: #013B3D;
+  --brand: #00C6C9;
+  --brand-fill: #01AFB1;
+  --on-brand: #05080A;
+  --mint: #3DF5B0;
+  --agent-violet: #9B7BFF;
+  --success: #2BD98A;
+  --warning: #FFB547;
+  --error: #FF6B78;
+  --gradient-idle: linear-gradient(135deg, #018082 0%, #00C6C9 55%, #3DF5B0 100%);
+  --gradient-economies: linear-gradient(90deg, #00C6C9 0%, #9B7BFF 100%);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-12: 48px;
+  --space-30: 120px;
   --radius-sm: 8px;
-  --radius:12px;
-  --radius-lg:20px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  /* next/font self-hosts these families under generated names, so the loaded font variable comes first. */
+  --font-display: var(--font-inter-tight), "Inter Tight", system-ui, sans-serif;
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace;
+}
+[data-theme="light"] {
+  --bg-void: #FFFFFF;
+  --surface-1: #F4F8F8;
+  --surface-2: #E8F0F0;
+  --border: #D3E0E1;
+  --border-strong: #7F979B;
+  --text-primary: #05080A;
+  --text-secondary: #3F5357;
+  --text-muted: #5B6B6E;
+  --brand: #015E60;
+  --brand-fill: #018082;
+  --on-brand: #FFFFFF;
+  --mint: #0B7A5A;
+  --agent-violet: #6B4FE0;
+  --success: #0B7A5A;
+  --warning: #A3620A;
+  --error: #C8283A;
+}
+
+/* ───────────────────────── Site aliases → client tokens ───────────────────────── */
+:root {
+  --bg: var(--bg-void);
+  --bg-deep: var(--bg-void);
+  --surface: var(--surface-1);
+  --text: var(--text-primary);
+  --text-2: var(--text-secondary);
+  --text-3: var(--text-muted);
+  /* Legacy accent names (gold-era components) now resolve to the brand teal. */
+  --gold: var(--brand);
+  --gold-2: var(--teal-300);
+  --gold-deep: var(--teal-700);
+  --violet: var(--agent-violet);
+  --cyan: var(--brand);
+  --teal: var(--brand-fill);
+
+  --grad-brand: var(--gradient-idle);
+  --grad-sol: var(--gradient-economies);
+  --grad-text: linear-gradient(90deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+
+  --radius: var(--radius-md);
   --radius-xl: 32px;
-  --shadow-glow-gold:0 0 80px rgba(0, 198, 201, 0.18);
-  --shadow-glow-sol:0 0 80px rgba(155, 123, 255, 0.18);
+  --shadow-glow-gold: 0 0 80px rgba(0, 198, 201, 0.18);
+  --shadow-glow-sol: 0 0 80px rgba(155, 123, 255, 0.18);
 
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
