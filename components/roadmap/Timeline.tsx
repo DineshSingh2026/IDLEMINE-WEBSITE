@@ -4,22 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { roadmap, type RoadmapStatus } from "@/data/content/site";
-import { BackgroundBlobs } from "@/components/layout/BackgroundBlobs";
-import { DotGrid } from "@/components/layout/DotGrid";
 import { cn } from "@/lib/utils";
 import { MilestoneCard } from "./MilestoneCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const nodeCls: Record<RoadmapStatus, string> = {
-  done: "border-mint/60 bg-bg shadow-[0_0_24px_rgba(20,241,149,0.35)]",
-  live: "border-gold bg-bg shadow-[0_0_0_6px_rgba(245,197,66,0.12),0_0_48px_rgba(245,197,66,0.65)]",
+  done: "border-mint/60 bg-bg",
+  live: "border-teal-400 bg-bg ring-4 ring-teal-400/10",
   next: "border-line-strong bg-bg",
   future: "border-line-strong bg-bg",
 };
 const dotCls: Record<RoadmapStatus, string> = {
   done: "bg-mint",
-  live: "bg-gold pulse-dot",
+  live: "bg-teal-400 pulse-dot",
   next: "bg-ink-3",
   future: "bg-ink-3",
 };
@@ -29,7 +27,7 @@ const MOBILE = "(max-width: 1023.98px) and (prefers-reduced-motion: no-preferenc
 const REDUCED = "(prefers-reduced-motion: reduce)";
 
 /**
- * Roadmap rail. ≥1024px: section pins, the track translates horizontally (scrub 0.8) while a gold
+ * Roadmap rail. ≥1024px: section pins, the track translates horizontally (scrub 0.8) while a teal
  * progress line fills and each phase node lights as the line reaches it (solana.com event rail).
  * <1024px or reduced motion: vertical timeline, everything visible.
  */
@@ -124,20 +122,11 @@ export function Timeline() {
       aria-labelledby="roadmap-phases"
       className="relative isolate overflow-hidden lg:motion-safe:h-[100svh]"
     >
-      <div aria-hidden className="absolute inset-0 -z-10">
-        <BackgroundBlobs
-          blobs={[
-            { color: "gold", pos: { top: "55%", left: "20%" }, size: 640, opacity: 0.16 },
-            { color: "violet", pos: { top: "40%", left: "85%" }, size: 720, opacity: 0.22 },
-          ]}
-        />
-        <DotGrid />
-      </div>
       <h2 id="roadmap-phases" className="sr-only">
         Roadmap phases
       </h2>
 
-      <div className="relative py-16 md:py-24 lg:motion-safe:flex lg:motion-safe:h-full lg:motion-safe:flex-col lg:motion-safe:justify-center lg:motion-safe:pb-0 lg:motion-safe:pt-[72px]">
+      <div className="relative pb-16 pt-8 md:pb-24 md:pt-12 lg:motion-safe:flex lg:motion-safe:h-full lg:motion-safe:flex-col lg:motion-safe:justify-center lg:motion-safe:pb-0 lg:motion-safe:pt-[72px]">
         {/* Desktop phase counter */}
         <div className="mx-auto mb-14 hidden w-full max-w-[1280px] items-end justify-between px-12 lg:motion-safe:flex">
           <div aria-hidden className="flex items-baseline gap-4 font-mono">
@@ -152,8 +141,8 @@ export function Timeline() {
               <span
                 key={m.phase}
                 className={cn(
-                  "h-1 rounded-full transition-[width,background-color] duration-500 ease-quint",
-                  i === active ? "w-10 bg-gold" : i < active ? "w-4 bg-gold/50" : "w-4 bg-white/15",
+                  "h-1 rounded-full transition-[width,background-color] duration-300 ease-out",
+                  i === active ? "w-10 bg-teal-400" : i < active ? "w-4 bg-teal-400/40" : "w-4 bg-line-strong/60",
                 )}
               />
             ))}
@@ -168,13 +157,13 @@ export function Timeline() {
             {/* Base rail */}
             <span
               aria-hidden
-              className="absolute bottom-6 left-[11px] top-6 w-px bg-gradient-to-b from-white/15 via-white/15 to-white/0 lg:motion-safe:bottom-auto lg:motion-safe:left-0 lg:motion-safe:-right-40 lg:motion-safe:top-[11px] lg:motion-safe:h-px lg:motion-safe:w-auto lg:motion-safe:bg-gradient-to-r"
+              className="absolute bottom-6 left-[11px] top-6 w-px bg-gradient-to-b from-line-strong/70 via-line-strong/70 to-transparent lg:motion-safe:bottom-auto lg:motion-safe:left-0 lg:motion-safe:-right-40 lg:motion-safe:top-[11px] lg:motion-safe:h-px lg:motion-safe:w-auto lg:motion-safe:bg-gradient-to-r"
             />
-            {/* Gold progress fill */}
+            {/* Teal progress fill */}
             <span
               ref={fill}
               aria-hidden
-              className="absolute bottom-6 left-[10px] top-6 w-[3px] origin-top rounded-full bg-gradient-to-b from-gold-2 via-gold to-gold-deep opacity-0 shadow-[0_0_18px_rgba(245,197,66,0.7)] lg:motion-safe:bottom-auto lg:motion-safe:left-0 lg:motion-safe:right-0 lg:motion-safe:top-[10px] lg:motion-safe:h-[3px] lg:motion-safe:w-auto lg:motion-safe:origin-left lg:motion-safe:bg-gradient-to-r"
+              className="absolute bottom-6 left-[10.5px] top-6 w-[2px] origin-top rounded-full bg-teal-400 opacity-0 lg:motion-safe:bottom-auto lg:motion-safe:left-0 lg:motion-safe:right-0 lg:motion-safe:top-[10.5px] lg:motion-safe:h-[2px] lg:motion-safe:w-auto lg:motion-safe:origin-left"
             />
 
             <ol className="relative flex flex-col gap-8 lg:motion-safe:flex-row lg:motion-safe:gap-8">
@@ -196,7 +185,7 @@ export function Timeline() {
                   {/* Stem from node to card (desktop) */}
                   <span
                     aria-hidden
-                    className="absolute left-[43px] top-[23px] hidden h-[41px] w-px bg-gradient-to-b from-white/25 to-white/0 lg:motion-safe:block"
+                    className="absolute left-[43px] top-[23px] hidden h-[41px] w-px bg-line-strong/60 lg:motion-safe:block"
                   />
                   <div data-card className="h-full">
                     <MilestoneCard m={m} />
