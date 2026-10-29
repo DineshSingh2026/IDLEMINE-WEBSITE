@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTokenStats } from "@/hooks/useTokenStats";
 import type { TokenStats } from "@/lib/token";
 import { LiveCounter } from "@/components/ui/LiveCounter";
@@ -112,26 +112,16 @@ export function StatsBand({
   const progress = (i: number) =>
     phase === "armed" ? 0 : easeOut(Math.min(1, Math.max(0, (elapsed - i * STAGGER_MS) / COUNT_MS)));
 
-  const spot = (e: PointerEvent<HTMLDivElement>) => {
-    const t = e.currentTarget;
-    const r = t.getBoundingClientRect();
-    t.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    t.style.setProperty("--my", `${e.clientY - r.top}px`);
-  };
-
   return (
-    <div
-      ref={ref}
-      data-phase={phase}
-      className="sb-panel relative isolate mt-12 overflow-hidden rounded-[20px] p-px"
-    >
-      {/* Animated gradient border: a faint static teal rim plus a rotating conic sweep, seen only in the 1px gap. */}
-      <div aria-hidden className="sb-rim pointer-events-none absolute inset-0 rounded-[inherit]">
-        <div className="sb-orbit absolute left-1/2 top-1/2 aspect-square w-[460%] md:w-[240%] xl:w-[125%]" />
+    <div ref={ref} data-phase={phase} className="sb-panel relative isolate mt-10 lg:mt-12">
+      {/* Borderless brand light: blurred teal / mint / violet glows drifting slowly behind the figures. */}
+      <div aria-hidden className="pointer-events-none absolute -inset-y-24 inset-x-0 -z-10">
+        <div className="sb-glow sb-glow-a absolute left-[-6%] top-[8%] h-[80%] w-[52%]" />
+        <div className="sb-glow sb-glow-b absolute left-[34%] top-[18%] h-[72%] w-[46%]" />
+        <div className="sb-glow sb-glow-c absolute right-[-4%] top-[4%] h-[70%] w-[38%]" />
       </div>
 
-      <div className="sb-surface relative overflow-hidden rounded-[19px]">
-      <div className="relative grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[minmax(0,1.12fr)_minmax(0,1.2fr)_minmax(0,1.42fr)_minmax(0,0.78fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-y-12 md:grid-cols-2 md:gap-y-14 xl:grid-cols-[minmax(0,186fr)_minmax(0,210fr)_minmax(0,258fr)_minmax(0,150fr)_minmax(0,178fr)] xl:gap-y-0">
         {items.map((item, i) => {
           const p = progress(i);
           const isTx = item.label === "Total Transactions";
@@ -158,15 +148,11 @@ export function StatsBand({
           return (
             <div
               key={item.label}
-              onPointerMove={spot}
               data-accent={accent ? "mint" : "teal"}
-              className={cn(
-                "sb-tile group relative isolate flex flex-col px-6 pb-7 pt-6 xl:min-h-[260px] xl:px-5 xl:pb-8 xl:pt-7 2xl:px-6",
-                i === items.length - 1 && "md:col-span-2 xl:col-span-1",
-              )}
-              style={{ "--d": `${i * STAGGER_MS}ms` } as React.CSSProperties}
+              className="sb-fig relative flex min-w-0 flex-col"
+              style={{ "--d": `${i * STAGGER_MS}ms`, "--i": i } as React.CSSProperties}
             >
-              <div className="flex h-5 items-center justify-between gap-3">
+              <div className="flex h-6 items-center gap-3">
                 <span
                   aria-hidden
                   className={cn(
@@ -188,8 +174,9 @@ export function StatsBand({
               </div>
 
               <p
+                data-rolling={rolling || undefined}
                 className={cn(
-                  "sb-num mt-10 whitespace-nowrap font-display font-semibold leading-none tracking-[-0.035em] text-[clamp(36px,11vw,56px)] md:text-[clamp(36px,5.2vw,56px)] xl:mt-auto xl:text-[clamp(28px,2.55vw,44px)]",
+                  "sb-num mt-6 whitespace-nowrap font-display font-semibold leading-none tracking-[-0.04em] text-[clamp(40px,12vw,54px)] md:text-[clamp(44px,5.8vw,64px)] xl:mt-7 xl:text-[clamp(34px,2.78vw,40px)]",
                   accent && "sb-num-mint",
                 )}
               >
@@ -203,17 +190,10 @@ export function StatsBand({
                   </>
                 )}
               </p>
-              <p className="sb-label mt-4 max-w-[24ch] text-[14px] leading-5 text-[#A9C4C7] xl:min-h-[60px]">
-                {item.label}
-              </p>
+              <p className="sb-label mt-4 max-w-[24ch] text-[15px] leading-[1.45] text-[#A9C4C7]">{item.label}</p>
             </div>
           );
         })}
-      </div>
-
-      {/* Ambient layers: a slow light sweep and a travelling teal to mint hairline. */}
-      <span aria-hidden className="sb-sweep pointer-events-none absolute inset-0 z-10" />
-      <span aria-hidden className="sb-line pointer-events-none absolute inset-x-0 top-0 z-20 h-px" />
       </div>
     </div>
   );

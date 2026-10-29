@@ -6,9 +6,10 @@ import type { TokenStats } from "@/lib/token";
 import { StatsBand } from "./stats/StatsBand";
 
 /**
- * §3 Stats — a calm, Solana-style performance band: five large numbers on one dark panel, separated by
- * hairlines. Total Transactions and Trading Volume are live running totals (DexScreener 24h rate, ticking
- * every second); the other three count up once on reveal and then sit still. SSR carries real values.
+ * §3 Stats — open, Solana-style performance figures: five huge gradient numbers straight on the canvas,
+ * separated only by spacing and fading vertical hairlines, over drifting borderless brand light.
+ * Total Transactions and Trading Volume are live running totals (DexScreener 24h rate, ticking every
+ * second); the other three count up once on reveal and then sit still. SSR carries real values.
  */
 export async function Stats() {
   // Server-fetched market data so the first paint already shows the live totals (never zeros, no swap).
@@ -28,7 +29,7 @@ export async function Stats() {
 
       <StatsBand items={stats.items} initial={initial} serverNow={Date.now()} />
 
-      <p className="mt-5 font-mono text-[12px] leading-5 tracking-[0.02em] text-ink-3">
+      <p className="mt-12 font-mono text-[12px] leading-5 tracking-[0.02em] text-ink-3 lg:mt-14">
         {stats.source} · Total transactions and trading volume update live from DexScreener&apos;s 24h rate
       </p>
     </Section>
@@ -36,109 +37,65 @@ export async function Stats() {
 }
 
 const CSS = `
-.sb-tile > * { transition: opacity .7s var(--ease-out-quint) var(--d), transform .8s var(--ease-out-quint) var(--d); }
-.sb-tile .sb-label { transition-delay: calc(var(--d) + 220ms); }
+/* Entrance: staggered rise per figure, hairlines draw from the centre. */
+.sb-fig > * { transition: opacity .7s var(--ease-out-quint) var(--d), transform .8s var(--ease-out-quint) var(--d); }
+.sb-fig .sb-label { transition-delay: calc(var(--d) + 220ms); }
 .sb-rule { transform-origin: left center; transition: transform .9s var(--ease-out-quint) calc(var(--d) + 120ms); }
-.sb-panel[data-phase="armed"] .sb-tile > * { opacity: 0; transform: translate3d(0, 14px, 0); }
+.sb-fig::before { transition: transform 1.1s var(--ease-out-quint) calc(var(--d) + 160ms), opacity 1.1s ease-out calc(var(--d) + 160ms); }
+.sb-panel[data-phase="armed"] .sb-fig > * { opacity: 0; transform: translate3d(0, 14px, 0); }
 .sb-panel[data-phase="armed"] .sb-rule { transform: scaleX(0); }
+.sb-panel[data-phase="armed"] .sb-fig::before { transform: scaleY(0); opacity: 0; }
 
-/* Animated gradient border: static teal rim + a rotating conic sweep (transform only, on the compositor). */
-.sb-rim { background: linear-gradient(135deg, rgba(0,198,201,.55), rgba(1,128,130,.22) 35%, rgba(1,59,61,.35) 65%, rgba(61,245,176,.45)); }
-.sb-orbit {
-  background: conic-gradient(from 0deg, transparent 0deg, rgba(0,198,201,0) 40deg, #00C6C9 82deg, #3DF5B0 104deg, transparent 128deg,
-    transparent 210deg, rgba(0,198,201,0) 220deg, #4DD9DB 262deg, #B3F0F1 280deg, transparent 300deg, transparent 360deg);
-  animation: sb-orbit 14s linear infinite; will-change: transform;
+/* Separation: spacing plus a faint vertical hairline that fades out at both ends (never a closed shape). */
+.sb-fig::before {
+  content: none; position: absolute; left: 0; top: -12px; bottom: -12px; width: 1px; pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(0,198,201,.34) 30%, rgba(61,245,176,.22) 70%, transparent 100%);
 }
-@keyframes sb-orbit { to { transform: translate(-50%, -50%) rotate(360deg); } }
-.sb-orbit { transform: translate(-50%, -50%); }
-
-/* Deep teal surface: teal-900 crown fading into bg-void, with a soft brand bloom. */
-.sb-surface {
-  background:
-    radial-gradient(90% 120% at 50% -30%, rgba(0,198,201,.22), transparent 62%),
-    radial-gradient(40% 70% at 100% 110%, rgba(61,245,176,.07), transparent 70%),
-    radial-gradient(40% 70% at 0% 110%, rgba(155,123,255,.06), transparent 70%),
-    linear-gradient(180deg, #013B3D 0%, #032A2C 40%, #061A1C 75%, #071315 100%);
-  box-shadow: inset 0 1px 0 rgba(179,240,241,.10);
+@media (min-width: 768px) and (max-width: 1279.98px) {
+  .sb-fig:nth-child(even) { padding-left: 40px; }
+  .sb-fig:nth-child(even)::before { content: ""; }
 }
-/* Fine dot texture and a teal horizon along the bottom edge. */
-.sb-surface::before {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background-image: radial-gradient(rgba(179,240,241,.07) 1px, transparent 1px); background-size: 22px 22px;
-  -webkit-mask-image: linear-gradient(180deg, #000, transparent 85%); mask-image: linear-gradient(180deg, #000, transparent 85%);
-}
-.sb-surface::after {
-  content: ""; position: absolute; inset-inline: 8%; bottom: 0; height: 1px; pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(0,198,201,.45), rgba(61,245,176,.45), transparent);
+@media (min-width: 1280px) {
+  .sb-fig { padding-inline: 20px; }
+  .sb-fig:first-child { padding-left: 0; }
+  .sb-fig:last-child { padding-right: 0; }
+  .sb-fig:not(:first-child)::before { content: ""; }
 }
 
-/* Teal hairline separators (right + bottom of each tile; the panel clips the outer ones). */
-.sb-tile { box-shadow: 1px 0 0 0 rgba(0,198,201,.16), 0 1px 0 0 rgba(0,198,201,.16); }
+/* Borderless brand light behind the numbers: soft radial glows (no edges) drifting slowly. */
+.sb-glow { border-radius: 9999px; filter: blur(48px); will-change: transform; }
+.sb-glow-a { background: radial-gradient(closest-side, rgba(0,198,201,.26), rgba(0,198,201,.09) 55%, transparent); animation: sb-drift-a 22s ease-in-out infinite; }
+.sb-glow-b { background: radial-gradient(closest-side, rgba(61,245,176,.18), rgba(61,245,176,.06) 55%, transparent); animation: sb-drift-b 27s ease-in-out infinite; }
+.sb-glow-c { background: radial-gradient(closest-side, rgba(155,123,255,.18), rgba(155,123,255,.06) 55%, transparent); animation: sb-drift-c 31s ease-in-out infinite; }
+@keyframes sb-drift-a { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(9%,6%,0) scale(1.12); } }
+@keyframes sb-drift-b { 0%,100% { transform: translate3d(0,4%,0) scale(1.05); } 50% { transform: translate3d(-10%,-6%,0) scale(.92); } }
+@keyframes sb-drift-c { 0%,100% { transform: translate3d(0,-4%,0) scale(.95); } 50% { transform: translate3d(-8%,8%,0) scale(1.1); } }
 
-/* Faint coloured top glow per tile (teal, or mint on the two live tiles). */
-.sb-tile::after {
-  content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none;
-  background:
-    radial-gradient(70% 55% at 30% 0%, rgba(0,198,201,.20), transparent 72%),
-    linear-gradient(180deg, rgba(0,198,201,.05), transparent 45%);
-}
-.sb-tile[data-accent="mint"]::after {
-  background:
-    radial-gradient(70% 55% at 30% 0%, rgba(61,245,176,.17), transparent 72%),
-    linear-gradient(180deg, rgba(61,245,176,.045), transparent 45%);
-}
-
-/* Numbers: subtle white to teal-100 gradient (white to pale mint on the live tiles). */
+/* Numbers: white to teal-100 (white to mint on the live figures) with a slow light sweep through the glyphs. */
 .sb-num {
+  --sb-g: linear-gradient(180deg, #FFFFFF 18%, #B3F0F1 100%);
   color: #F2FBFB;
-  background-image: linear-gradient(180deg, #FFFFFF 15%, #B3F0F1 100%);
+  background-image: linear-gradient(100deg, rgba(255,255,255,0) 40%, rgba(214,255,243,.95) 50%, rgba(255,255,255,0) 60%), var(--sb-g);
+  background-size: 340% 100%, 100% 100%; background-repeat: no-repeat; background-position: 100% 0, 0 0;
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  padding: .06em .08em .12em 0; margin: -.06em -.08em -.12em 0;
+  filter: drop-shadow(0 0 28px rgba(0,198,201,.16));
+  animation: sb-shine 9s cubic-bezier(.45,0,.55,1) calc(2.2s + var(--i) * .32s) infinite;
 }
-.sb-num-mint { background-image: linear-gradient(180deg, #FFFFFF 10%, #A6FBDA 100%); }
+.sb-num-mint { --sb-g: linear-gradient(180deg, #FFFFFF 12%, #A6FBDA 100%); filter: drop-shadow(0 0 28px rgba(61,245,176,.16)); }
+@keyframes sb-shine { 0% { background-position: 100% 0, 0 0; } 42%, 100% { background-position: 0% 0, 0 0; } }
+/* While the odometer runs, its wheels can't share the sweep: keep the live figure on its plain gradient. */
+.sb-num[data-rolling] { animation: none; background-image: var(--sb-g); background-size: 100% 100%; }
 /* Odometer wheels sit on their own transformed layers, which an ancestor's text clip can't reach:
    each wheel digit carries the same gradient itself (one digit is one line box tall). */
 .sb-num [style*="translate3d"] > span {
-  background-image: linear-gradient(180deg, #FFFFFF 15%, #B3F0F1 100%);
+  background-image: linear-gradient(180deg, #FFFFFF 18%, #B3F0F1 100%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
-.sb-num-mint [style*="translate3d"] > span { background-image: linear-gradient(180deg, #FFFFFF 10%, #A6FBDA 100%); }
-/* While a wheel turns it tints teal (mint on the live tiles), as LiveCounter intends. */
+.sb-num-mint [style*="translate3d"] > span { background-image: linear-gradient(180deg, #FFFFFF 12%, #A6FBDA 100%); }
+/* While a wheel turns it tints teal (mint on the live figures), as LiveCounter intends. */
 .sb-num [class*="text-teal-300"] > span { -webkit-text-fill-color: #4DD9DB; }
 .sb-num-mint [class*="text-teal-300"] > span { -webkit-text-fill-color: #3DF5B0; }
-
-/* Cursor spotlight (per tile). */
-.sb-tile::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(0,198,201,.14), transparent 70%);
-  opacity: 0; transition: opacity .3s ease-out;
-}
-.sb-tile[data-accent="mint"]::before { background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(61,245,176,.11), transparent 70%); }
-.sb-tile:hover::before { opacity: 1; }
-
-/* Slow light sweep across the whole panel. */
-.sb-sweep { overflow: hidden; border-radius: inherit; }
-.sb-sweep::after {
-  content: ""; position: absolute; top: -20%; bottom: -20%; left: 0; width: 34%;
-  background: linear-gradient(100deg, transparent 0%, rgba(77,217,219,.035) 38%, rgba(242,251,251,.055) 50%, rgba(77,217,219,.035) 62%, transparent 100%);
-  transform: translate3d(-110%, 0, 0) skewX(-14deg);
-  animation: sb-sweep 11s cubic-bezier(.45,0,.25,1) 1.5s infinite;
-}
-@keyframes sb-sweep {
-  0% { transform: translate3d(-110%, 0, 0) skewX(-14deg); }
-  55%, 100% { transform: translate3d(320%, 0, 0) skewX(-14deg); }
-}
-
-/* Travelling teal → mint hairline on the top edge. */
-.sb-line { overflow: hidden; background: linear-gradient(90deg, transparent, rgba(0,198,201,.18), transparent); }
-.sb-line::before {
-  content: ""; position: absolute; inset-block: 0; left: 0; width: 42%;
-  background: linear-gradient(90deg, transparent, var(--teal-400) 40%, var(--mint) 70%, transparent);
-  animation: sb-line 8s linear infinite;
-}
-@keyframes sb-line {
-  from { transform: translate3d(-100%, 0, 0); }
-  to { transform: translate3d(240%, 0, 0); }
-}
 
 /* Live dot ping. */
 .sb-ping { animation: sb-ping 2.2s cubic-bezier(0,0,.2,1) infinite; }
@@ -148,9 +105,8 @@ const CSS = `
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sb-sweep, .sb-line::before { display: none; }
-  .sb-orbit { animation: none; }
+  .sb-glow, .sb-num { animation: none; }
   .sb-ping { animation: none; opacity: 0; }
-  .sb-tile > *, .sb-rule { transition: none; }
+  .sb-fig > *, .sb-rule, .sb-fig::before { transition: none; }
 }
 `;

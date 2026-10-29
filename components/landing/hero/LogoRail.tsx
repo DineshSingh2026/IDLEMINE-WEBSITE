@@ -10,6 +10,9 @@ const LOGOS = [
   { name: "USDC", src: "/assets/logos/usdc.png", w: 256, h: 256, glow: "rgba(39,117,202,0.6)" },
 ];
 
+/** Wide, soft edge fade so the logos dissolve into the hero canvas on both sides. */
+const MASK = "linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%)";
+
 function Row({ hidden = false }: { hidden?: boolean }) {
   // Each half of the track holds the set twice so it always overflows wide viewports.
   const set = [...LOGOS, ...LOGOS];
@@ -29,7 +32,7 @@ function Row({ hidden = false }: { hidden?: boolean }) {
             unoptimized
             className="hero-logo-img h-[26px] w-auto"
           />
-          <span aria-hidden className="font-display text-[17px] font-semibold tracking-[-0.01em] text-ink">
+          <span aria-hidden className="font-display text-[17px] font-semibold tracking-[-0.01em] text-ink/90">
             {l.name}
           </span>
         </li>
@@ -39,30 +42,16 @@ function Row({ hidden = false }: { hidden?: boolean }) {
 }
 
 /**
- * Edge-faded infinite marquee of real partner / infra logos (full colour) on a band tinted with
- * the brand gradient. Pauses on hover; static under reduced motion.
+ * Infinite marquee of real partner / infra logos (full colour) flowing directly over the hero canvas:
+ * no band, no background, no lines; only a wide edge fade. Pauses on hover; static under reduced motion.
  */
 export function LogoRail() {
   return (
     <div className="hero-rail relative">
-      {/* Tinted band: teal, violet, mint washes + gradient hairlines top and bottom. */}
       <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(60% 140% at 18% 50%, rgba(0,198,201,0.16), transparent 70%), radial-gradient(50% 140% at 55% 50%, rgba(155,123,255,0.14), transparent 70%), radial-gradient(50% 140% at 88% 50%, rgba(61,245,176,0.12), transparent 70%), linear-gradient(180deg, rgba(11,17,20,0.6), rgba(11,17,20,0.85))",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(0,198,201,0.7)_20%,rgba(155,123,255,0.7)_55%,rgba(61,245,176,0.7)_85%,transparent)]"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(0,198,201,0.35)_25%,rgba(155,123,255,0.35)_60%,transparent)]"
-      />
-      <div className="hero-rail-mask relative overflow-hidden py-6 lg:py-7">
+        className="relative overflow-hidden py-6 lg:py-8"
+        style={{ WebkitMaskImage: MASK, maskImage: MASK }}
+      >
         <div className="hero-rail-track flex w-max">
           <Row />
           <Row hidden />

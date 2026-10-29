@@ -42,7 +42,7 @@ export function Heading({
   const words = children.split(" ");
   const trigger = immediate
     ? { initial: "hidden", animate: "show" }
-    : { initial: "hidden", whileInView: "show", viewport: { once: true, amount: 0.5 } };
+    : { initial: "hidden", whileInView: "show", viewport: { once: true, amount: 0.15 } };
 
   return (
     <Tag id={id} className={cn(sizeCls[size], "text-ink text-balance", className)}>
