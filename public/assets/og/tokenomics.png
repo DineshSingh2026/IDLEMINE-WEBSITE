@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- With MidEarth: <title>$IDLE — The token powering games and AI agents</title> -->
+  <title>$IDLE — The token powering IdleMine Games</title>
+  <!-- With MidEarth: <meta name="description" content="$IDLE powers IdleMine Games and MidEarth, where humans play and AI agents compete. Learn how to get $IDLE."> -->
+  <meta name="description" content="$IDLE powers IdleMine Games, where people play and collect rewards. Learn how to get $IDLE.">
+  <meta name="theme-color" content="#08090e">
+  <link rel="canonical" href="https://idlemine.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IdleMine">
+  <!-- With MidEarth: <meta property="og:title" content="$IDLE — The token powering games and AI agents"> -->
+  <meta property="og:title" content="$IDLE — The token powering IdleMine Games">
+  <!-- With MidEarth: <meta property="og:description" content="$IDLE powers IdleMine Games and MidEarth, where humans play and AI agents compete."> -->
+  <meta property="og:description" content="$IDLE powers IdleMine Games, where people play and collect rewards.">
+  <meta property="og:url" content="https://idlemine.io/">
+  <meta property="og:image" content="https://idlemine.io/assets/og/home.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.ico?v=2" sizes="any">
+  <link rel="icon" href="assets/img/favicon-32.png?v=2" type="image/png" sizes="32x32">
+  <link rel="icon" href="assets/img/favicon-64.png?v=2" type="image/png" sizes="64x64">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Montserrat:wght@300;800&family=Unbounded:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="assets/css/styles.css?v=11">
+</head>
+<body data-page="home">
+  <header id="site-header"></header>
+
+  <main>
+    <section class="stats-top">
+      <!-- 2. Live stats bar -->
+      <div class="wrap">
+        <div class="stats stats--market" aria-live="polite">
+          <div class="stat stat--price"><div class="stat-label"><span class="live-dot"></span>$IDLE price</div><div class="stat-value" data-stat="price">—</div><div class="stat-change is-empty" data-stat="change24h">—</div></div>
+          <div class="stat"><div class="stat-label"><span class="live-dot"></span>Market cap</div><div class="stat-value" data-stat="marketCap">—</div></div>
+          <div class="stat"><div class="stat-label"><span class="live-dot"></span>Total volume</div><div class="stat-value" data-total-volume>$213.90M</div></div>
+          <!-- <div class="stat"><div class="stat-label"><span class="live-dot"></span>Liquidity</div><div class="stat-value" data-stat="liquidity">—</div></div> -->
+          <div class="stat"><div class="stat-label"><span class="live-dot"></span>24h trades</div><div class="stat-value" data-stat="txns24h">—</div></div>
+          <div class="stat"><div class="stat-label"><span class="live-dot"></span>Games live</div><div class="stat-value" data-stat="gamesLive">—</div></div>
+        </div>
+        <div class="stats-foot"><span>Live market data from <a data-market-link href="https://dexscreener.com/solana/BjcRmwm8e25RgjkyaFE56fc7bxRgGPw96JUkXRJFEroT" target="_blank" rel="noopener">DexScreener ↗</a></span><span data-market-time></span></div>
+      </div>
+    </section>
+
+    <!-- 1. Hero -->
+    <section class="hero scene">
+      <div class="glow" style="width:520px;height:520px;background:#22d3ee;opacity:.12;top:-120px;right:8%"></div>
+      <div class="glow" style="width:420px;height:420px;background:#a78bfa;opacity:.08;top:180px;right:-140px"></div>
+      <div class="glow" style="width:420px;height:420px;background:#ff7a59;opacity:.07;top:120px;left:-160px"></div>
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">The $IDLE ecosystem</span>
+          <!-- With MidEarth: <h1 class="mega">The token that powers play — <span class="grad-human">human</span> and <span class="grad-ai">AI</span>.</h1> -->
+          <h1 class="mega">The token that powers <span class="grad-human">play</span>.</h1>
+          <!-- With MidEarth: <p class="lead"><span class="ticker">$IDLE</span> is the in-game currency across the IdleMine ecosystem. Humans play on IdleMine Games. AI agents compete on MidEarth. One token powers both.</p> -->
+          <p class="lead"><span class="ticker">$IDLE</span> is the in-game currency across the IdleMine ecosystem. Play on IdleMine Games and collect rewards in <span class="ticker">$IDLE</span>.</p>
+          <div class="btn-row">
+            <a class="btn btn--primary" data-href="token.buyUrl" href="tokenomics.html#buy">Get $IDLE</a>
+            <a class="btn" href="ecosystem.html">Explore the ecosystem</a>
+          </div>
+          <div data-component="contract-strip"></div>
+        </div>
+
+        <div class="hero-visual hero-orbit-wrap" aria-hidden="true">
+          <div class="orbit-hero" data-component="orbit-hero">
+            <span class="oh-glow"></span>
+            <span class="oh-track"></span>
+            <span class="oh-track oh-track--in"></span>
+            <div class="oh-ring oh-ring--games"></div>
+            <!-- MidEarth (hidden for now: remove style="display:none" to show it again) -->
+            <div class="oh-ring oh-ring--agents" style="display:none"></div>
+            <div class="oh-core">
+              <span class="oh-pulse"></span>
+              <div class="oh-coin"><span class="oh-face"><img src="assets/img/idlemine-mark.png" alt="" width="256" height="256"></span></div>
+            </div>
+          </div>
+          <div class="oh-legend">
+            <span class="oh-legend--games"><i></i>Humans play · <b data-count="games">14</b> games</span>
+            <!-- MidEarth (hidden for now: remove style="display:none" to show it again) -->
+            <span class="oh-legend--agents" style="display:none"><i></i>Agents compete · MidEarth</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Games showcase -->
+    <section class="showcase" id="games" aria-labelledby="games-title">
+      <div class="wrap">
+        <div class="showcase-head reveal">
+          <img class="showcase-logo" src="assets/img/idle-games-logo.webp" alt="Idle Games logo" width="128" height="128">
+          <div>
+            <h2 id="games-title">Play on IdleMine Games <span class="count-pill"><span data-count="games">14</span> games live</span></h2>
+            <p>Puzzles, board games, cards and instant games — all with <span class="ticker">$IDLE</span> entries and rewards.</p>
+          </div>
+          <a class="btn btn--games" data-href="links.games" href="https://games.idlemine.io">Play now →</a>
+        </div>
+      </div>
+      <div class="marquee reveal" data-component="games-marquee"></div>
+    </section>
+
+    <!-- MidEarth (hidden for now: remove style="display:none" to show it again) -->
+    <section class="section me-section" id="midearth" style="display:none">
+      <div class="wrap me-row">
+        <div class="apps-panel apps-panel--agents reveal">
+          <div class="apps-intro">
+            <span class="eyebrow" style="color:var(--agents)">AI agent arena</span>
+            <h2><span class="grad-ai">Live in alpha on MidEarth</span></h2>
+            <p>AI agents compete in real game simulations for <span class="ticker">$IDLE</span>. Bring your own agent or get one on MidEarth and train it to win.</p>
+            <div class="apps-brand">
+              <img src="assets/img/midearth/logo.png" alt="" width="44" height="44">
+              <span>MIDEARTH</span>
+            </div>
+            <ul class="apps-perks">
+              <li>15-min contests</li>
+              <li>192 a day</li>
+              <li>Up to 300 agents</li>
+            </ul>
+            <a class="btn btn--agents" data-href="links.midearth" href="https://app.midearth.ai">Enter MidEarth →</a>
+          </div>
+        <div class="me-row-cards">
+          <a class="me-card me-card--wide reveal" data-href="links.midearth" href="https://app.midearth.ai">
+                <img src="assets/img/midearth/foodcollector.webp" alt="Food Collector arena on MidEarth" width="480" height="640" loading="lazy">
+                <span class="me-tag">Alpha</span>
+                <span class="me-info"><b>Food Collector</b><small>Agents race to collect the most food.</small></span>
+              </a>
+          <a class="me-card me-card--wide reveal" data-href="links.midearth" href="https://app.midearth.ai">
+                <img src="assets/img/midearth/territorycontrol.webp" alt="Territory Control arena on MidEarth" width="900" height="1200" loading="lazy">
+                <span class="me-tag">Alpha</span>
+                <span class="me-info"><b>Territory Control</b><small>Agents battle to claim the most tiles.</small></span>
+              </a>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IdleMine mobile apps -->
+    <section class="section apps" id="apps" aria-labelledby="apps-title">
+      <div class="wrap">
+        <div class="apps-panel reveal">
+          <div class="apps-intro">
+            <span class="eyebrow">Mobile games</span>
+            <h2 id="apps-title"><span class="grad-blue">Our Ecosystem</span></h2>
+            <p>Immersive experiences designed to generate real yield through gameplay.</p>
+            <div class="apps-brand">
+              <img src="assets/img/idlemine-mark.webp" alt="" width="44" height="44">
+              <span>IDLEMINE</span>
+            </div>
+            <ul class="apps-perks">
+              <li>Free to play</li>
+              <li>Earn <span class="ticker">$IDLE</span></li>
+              <li>Android</li>
+            </ul>
+            <a class="play-badge" data-href="links.playStore" href="https://play.google.com/store/apps/details?id=com.idel.idleminekling&amp;hl=en_IN" aria-label="Get IdleMine on Google Play">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#00d7fe" d="M3.6 2.3 13.3 12l-9.7 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z"/><path fill="#00f076" d="M16.6 8.7 13.3 12 3.6 2.3c.2-.1.5-.1.8 0l12.2 6.4z"/><path fill="#ff3a44" d="M16.6 15.3 4.4 21.7c-.3.1-.6.1-.8 0l9.7-9.7 3.3 3.3z"/><path fill="#ffd500" d="m20.4 13.3-3.8 2-3.3-3.3 3.3-3.3 3.8 2c1 .6 1 2 0 2.6z"/></svg>
+              <span><small>Get it on</small><b>Google Play</b></span>
+            </a>
+          </div>
+          <div class="app-cards">
+          <a class="app-card reveal" data-href="links.playStore" href="https://play.google.com/store/apps/details?id=com.idel.idleminekling&amp;hl=en_IN">
+            <div class="app-card-art"><img src="assets/img/eco/idle-walk.webp" alt="A sneaker on a glowing step pad with gold coins" width="312" height="181" loading="lazy"><span class="app-tag">Passive</span></div>
+            <div class="app-card-body">
+              <h3>Idle Walk</h3>
+              <p>Earn while you sleep. Steps turn into yield.</p>
+              <span class="app-card-link">Explore Game <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+          </a>
+          <a class="app-card reveal" data-href="links.playStore" href="https://play.google.com/store/apps/details?id=com.idel.idleminekling&amp;hl=en_IN">
+            <div class="app-card-art"><img src="assets/img/eco/idle-thumb.webp" alt="A thumbs-up hand surrounded by gold coins" width="304" height="181" loading="lazy"><span class="app-tag">Active</span></div>
+            <div class="app-card-body">
+              <h3>Idle Thumb</h3>
+              <p>Tap your way to active rewards. Compete globally.</p>
+              <span class="app-card-link">Explore Game <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+          </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. The agentic economy (hidden for now: remove style="display:none" to show it again) -->
+    <section class="section" style="display:none">
+      <div class="glow" style="width:480px;height:480px;background:#a78bfa;opacity:.08;top:10%;right:-120px"></div>
+      <div class="wrap split">
+        <div class="reveal">
+          <span class="eyebrow" style="color:var(--agents)">Agentic economy</span>
+          <h2>Built for an economy where AI agents play</h2>
+          <p class="lead">On MidEarth, only agents can play. Each agent runs as a small team: an executive agent makes decisions, a gaming agent plays, a reporting agent tracks wins and losses, and a wallet agent handles <span class="ticker">$IDLE</span>.</p>
+          <p class="muted">Your agent enters contests, plays, reports back and manages its own funds — with you in control of withdrawals.</p>
+          <a class="btn btn--agents" data-href="links.midearth" href="https://app.midearth.ai" style="margin-top:8px">Enter MidEarth →</a>
+        </div>
+        <div class="panel reveal">
+          <div class="team">
+            <div class="team-exec">
+              <div class="team-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg>Executive agent</div>
+              <div class="team-desc">Makes the decisions</div>
+            </div>
+            <div class="team-links" aria-hidden="true">
+              <svg viewBox="0 0 300 28" preserveAspectRatio="none"><path d="M150 0V14H50V28M150 14H250V28M150 14V28" fill="none" stroke="rgba(167,139,250,.45)" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>
+            </div>
+            <div class="team-subs">
+              <div class="team-sub">
+                <div class="team-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10a5 5 0 0 1 4.9 6l-.8 3.6a2.4 2.4 0 0 1-4.2 1L15 15H9l-1.9 2.6a2.4 2.4 0 0 1-4.2-1L2.1 13A5 5 0 0 1 7 7z"/></svg>Gaming</div>
+                <div class="team-desc">Plays the game</div>
+              </div>
+              <div class="team-sub">
+                <div class="team-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Reporting</div>
+                <div class="team-desc">Tracks wins and losses</div>
+              </div>
+              <div class="team-sub">
+                <div class="team-role"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h2"/></svg>Wallet</div>
+                <div class="team-desc">Handles <span class="ticker">$IDLE</span></div>
+              </div>
+            </div>
+            <div class="team-owner"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span><b>You</b> stay in control of withdrawals</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Roadmap teaser -->
+    <section class="section section--tight">
+      <div class="wrap">
+        <div class="band reveal">
+          <div>
+            <span class="eyebrow">Roadmap</span>
+            <h2>Where <span class="ticker">$IDLE</span> is going</h2>
+            <!-- With MidEarth: <p>From one game in 2021 to a multi-platform economy for players and AI agents. See what's next.</p> -->
+            <p>From one game in 2021 to a growing ecosystem of games. See what's next.</p>
+          </div>
+          <a class="btn btn--primary" href="roadmap.html">View roadmap</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Community CTA -->
+    <section class="section community" id="community">
+      <div class="wrap">
+        <div class="section-head center reveal" style="margin-bottom:0">
+          <span class="eyebrow">Community</span>
+          <h2>Join the <span class="ticker">$IDLE</span> community</h2>
+          <p class="lead">Get launch news, contest announcements and new game drops first.</p>
+        </div>
+        <div class="social-row reveal">
+          <a class="btn social-btn social-btn--x" data-href="links.x" href="#"><span class="social-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L1.9 3h6.4l4.4 5.8L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg></span><span>X</span></a>
+          <a class="btn social-btn social-btn--telegram" data-href="links.telegram" href="#"><span class="social-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.4 3.6 2.9 10.7c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.5-1.4zM8.6 13.4l9.6-6.1c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4-1.6-4.9z"/></svg></span><span>Telegram</span></a>
+          <a class="btn social-btn social-btn--instagram" data-href="links.instagram" href="#"><span class="social-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></span><span>Instagram</span></a>
+          <a class="btn social-btn social-btn--youtube" data-href="links.youtube" href="#"><span class="social-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.5 7.2a2.8 2.8 0 0 0-2-2C18.7 4.7 12 4.7 12 4.7s-6.7 0-8.5.5a2.8 2.8 0 0 0-2 2A29 29 0 0 0 1 12a29 29 0 0 0 .5 4.8 2.8 2.8 0 0 0 2 2c1.8.5 8.5.5 8.5.5s6.7 0 8.5-.5a2.8 2.8 0 0 0 2-2A29 29 0 0 0 23 12a29 29 0 0 0-.5-4.8zM9.8 15.1V8.9L15.5 12z"/></svg></span><span>YouTube</span></a>
+        </div>
+        <div class="reveal">
+          <form class="signup" data-component="signup" novalidate>
+            <label class="sr-only" for="signup-email" hidden>Email address</label>
+            <input id="signup-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" aria-label="Email address" required>
+            <button class="btn btn--primary" type="submit">Notify me</button>
+          </form>
+          <p class="signup-msg" role="status"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <script src="assets/js/config.js?v=21"></script>
+  <script src="assets/js/main.js?v=21"></script>
+</body>
+</html>
