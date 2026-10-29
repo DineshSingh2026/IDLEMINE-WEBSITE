@@ -31,10 +31,10 @@ export function Card({
   }, []);
 
   const cls = cn(
-    "relative block overflow-hidden rounded-lg border border-line bg-surface",
+    "relative block overflow-hidden rounded-[20px] border border-line bg-surface",
     padded && "p-8",
     interactive &&
-      "card-glow transition-[transform,border-color,box-shadow] duration-500 ease-quint hover:-translate-y-1 hover:border-line-strong hover:shadow-[0_0_80px_rgba(245,197,66,0.08)]",
+      "card-glow transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:border-line-strong",
     className,
   );
 

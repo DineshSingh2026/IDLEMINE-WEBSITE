@@ -10,11 +10,11 @@ const mark = "data:image/png;base64," + readFileSync(join(root, "assets/img/idle
 
 // Titles + descriptions are the real per-page OG copy.
 const cards = [
-  { file: "home", eyebrow: "The $IDLE ecosystem", title: "The token that powers play.", sub: "Play on IdleMine Games and collect rewards in $IDLE.", bg: "#08090E" },
-  { file: "ecosystem", eyebrow: "Ecosystem", title: "The $IDLE ecosystem", sub: "IdleMine Games is live today. More are on the way.", bg: "#08090E" },
-  { file: "tokenomics", eyebrow: "Tokenomics", title: "IDLE is Economic Ownership", sub: "Backed by platform revenue and market buybacks.", bg: "#07061F" },
-  { file: "roadmap", eyebrow: "Roadmap", title: "The road for $IDLE", sub: "From one game in 2021 to a growing ecosystem of games.", bg: "#08090E" },
-  { file: "liquidity", eyebrow: "Liquidity", title: "Liquidity Pools", sub: "Earn yield on IDLE / SOL with full custody of your assets.", bg: "#07061F" },
+  { file: "home", eyebrow: "idlemine.io", title: "$IDLE powers the human and Agentic Economies", sub: "The token powering human and AI economies.", bg: "#05080A" },
+  { file: "ecosystem", eyebrow: "Ecosystem", title: "The $IDLE ecosystem", sub: "IdleMine Games is live today. More are on the way.", bg: "#05080A" },
+  { file: "tokenomics", eyebrow: "Tokenomics", title: "IDLE is Economic Ownership", sub: "Backed by platform revenue and market buybacks.", bg: "#05080A" },
+  { file: "roadmap", eyebrow: "Roadmap", title: "The road for $IDLE", sub: "From one game in 2021 to a growing ecosystem of games.", bg: "#05080A" },
+  { file: "liquidity", eyebrow: "Liquidity", title: "Liquidity Pools", sub: "Earn yield on IDLE / SOL with full custody of your assets.", bg: "#05080A" },
 ];
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
@@ -32,20 +32,20 @@ const html = (c) => `<!doctype html><html><head><meta charset="utf-8">
   .brand{display:flex;align-items:center;gap:14px;font:700 30px 'Inter Tight';letter-spacing:-.02em}
   .brand img{width:48px;height:48px}
   .eb{font:500 18px Inter;text-transform:uppercase;letter-spacing:.14em;color:#8A90A6;display:flex;align-items:center;gap:14px}
-  .eb:before{content:"";width:34px;height:2px;background:linear-gradient(90deg,#F5C542,transparent)}
+  .eb:before{content:"";width:34px;height:2px;background:linear-gradient(90deg,#00C6C9,transparent)}
   h1{font:700 88px/0.98 'Inter Tight';letter-spacing:-.04em;max-width:760px;margin-top:22px}
-  .g{background:linear-gradient(90deg,#F5C542,#FFE08A 50%,#F5C542);-webkit-background-clip:text;color:transparent}
+  .g{background:linear-gradient(90deg,#00C6C9,#4DD9DB 50%,#00C6C9);-webkit-background-clip:text;color:transparent}
   p{font:500 26px/1.4 Inter;color:#A6ABBD;max-width:640px;margin-top:22px}
   .foot{display:flex;justify-content:space-between;align-items:center;font:500 18px Inter;color:#6B7085}
-  .sol{background:linear-gradient(90deg,#9945FF,#14F195);-webkit-background-clip:text;color:transparent;font-weight:700}
+  .sol{background:linear-gradient(90deg,#9B7BFF,#3DF5B0);-webkit-background-clip:text;color:transparent;font-weight:700}
   .coin{position:absolute;right:-40px;top:115px;width:400px;height:400px;border-radius:50%;
-        background:conic-gradient(from 210deg,#C9931E,#FFE08A,#F5C542,#C9931E,#FFE08A,#C9931E);
-        box-shadow:0 0 120px rgba(245,197,66,.35),inset 0 0 40px rgba(0,0,0,.35);padding:26px}
+        background:conic-gradient(from 210deg,#018082,#4DD9DB,#00C6C9,#018082,#4DD9DB,#018082);
+        box-shadow:0 0 120px rgba(0,198,201,.35),inset 0 0 40px rgba(0,0,0,.35);padding:26px}
   .coin img{width:100%;height:100%;border-radius:50%;box-shadow:0 0 0 6px rgba(0,0,0,.25)}
 </style></head><body>
-  <div class="blob" style="width:620px;height:620px;right:-120px;top:-160px;background:#F5C542;opacity:.22"></div>
-  <div class="blob" style="width:560px;height:560px;right:240px;bottom:-320px;background:#9945FF;opacity:.32"></div>
-  <div class="blob" style="width:420px;height:420px;left:-180px;top:-140px;background:#14F195;opacity:.12"></div>
+  <div class="blob" style="width:620px;height:620px;right:-120px;top:-160px;background:#00C6C9;opacity:.22"></div>
+  <div class="blob" style="width:560px;height:560px;right:240px;bottom:-320px;background:#9B7BFF;opacity:.32"></div>
+  <div class="blob" style="width:420px;height:420px;left:-180px;top:-140px;background:#3DF5B0;opacity:.12"></div>
   <div class="dots"></div>
   <div class="coin"><img src="${mark}"></div>
   <div class="wrap">
@@ -55,7 +55,7 @@ const html = (c) => `<!doctype html><html><head><meta charset="utf-8">
   </div>
 </body></html>`;
 
-const icon = (size) => `<!doctype html><html><body style="margin:0;width:${size}px;height:${size}px;background:#08090E;display:grid;place-items:center">
+const icon = (size) => `<!doctype html><html><body style="margin:0;width:${size}px;height:${size}px;background:#05080A;display:grid;place-items:center">
 <img src="${mark}" style="width:${Math.round(size * 0.86)}px;height:${Math.round(size * 0.86)}px"></body></html>`;
 
 mkdirSync(join(root, "assets/og"), { recursive: true });

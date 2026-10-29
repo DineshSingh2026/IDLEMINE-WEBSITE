@@ -7,7 +7,7 @@ const styles: Record<BadgeStatus, string> = {
   done: "border-mint/30 bg-mint/10 text-mint",
   progress: "border-gold/40 bg-gold/10 text-gold-2",
   upcoming: "border-line-strong bg-transparent text-ink-3",
-  alpha: "border-violet/40 bg-violet/15 text-[#C9A5FF]",
+  alpha: "border-violet/40 bg-violet/15 text-[#C4B2FF]",
   neutral: "border-line-strong bg-white/5 text-ink-2",
 };
 const dots: Partial<Record<BadgeStatus, string>> = {

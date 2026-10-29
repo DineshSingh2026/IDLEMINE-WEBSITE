@@ -1,30 +1,28 @@
-import { homeMeta, tickerFields } from "@/data/content/home";
-import { getTokenStats } from "@/lib/market";
+import type { Metadata } from "next";
 import { pageMeta } from "@/lib/seo";
-import { TickerBand } from "@/components/home/TickerBand";
-import { HeroHome } from "@/components/home/HeroHome";
-import { PromoCard } from "@/components/home/PromoCard";
-import { MidEarthSection } from "@/components/home/MidEarthSection";
-import { EcosystemSection } from "@/components/home/EcosystemSection";
-import { AgenticEconomy } from "@/components/home/AgenticEconomy";
-import { RoadmapTeaser } from "@/components/home/RoadmapTeaser";
-import { CommunitySection } from "@/components/home/CommunitySection";
+import { Hero } from "@/components/landing/Hero";
+import { Stats } from "@/components/landing/Stats";
+import { Ecosystem } from "@/components/landing/Ecosystem";
+import { Rwa } from "@/components/landing/Rwa";
+import { Faq } from "@/components/landing/Faq";
 
-export const revalidate = 60;
-export const metadata = pageMeta(homeMeta);
+export const metadata: Metadata = pageMeta({
+  title: "$IDLE — Powering the human and Agentic Economies",
+  description:
+    "$IDLE is the token powering human and AI economies. Every transaction across gaming and the agentic economy runs on $IDLE.",
+  path: "/",
+  og: "/assets/og/home.png",
+});
 
-export default async function HomePage() {
-  const stats = await getTokenStats();
+// Page order per the Design Brief: Header → Hero → Stats → Ecosystem → RWA → FAQs → Footer.
+export default function HomePage() {
   return (
     <>
-      <TickerBand fields={tickerFields} initial={stats} />
-      <HeroHome />
-      <PromoCard />
-      <MidEarthSection />
-      <EcosystemSection />
-      <AgenticEconomy />
-      <RoadmapTeaser />
-      <CommunitySection />
+      <Hero />
+      <Stats />
+      <Ecosystem />
+      <Rwa />
+      <Faq />
     </>
   );
 }

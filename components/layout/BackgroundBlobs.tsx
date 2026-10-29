@@ -16,9 +16,9 @@ export type Blob = {
 };
 
 const COLORS: Record<BlobColor, string> = {
-  gold: "#F5C542",
-  violet: "#9945FF",
-  mint: "#14F195",
+  gold: "#00C6C9",
+  violet: "#9B7BFF",
+  mint: "#3DF5B0",
   teal: "#0FA3A0",
 };
 
@@ -42,7 +42,7 @@ export function BackgroundBlobs({ blobs, speed = 0.3, className }: { blobs: Blob
                 ...b.pos,
                 width: size,
                 height: size,
-                opacity: b.opacity ?? 0.35,
+                opacity: Math.min(b.opacity ?? 0.2, 0.2) * 0.75,
                 background: `radial-gradient(circle at center, ${COLORS[b.color]} 0%, transparent 68%)`,
                 filter: "blur(120px)",
                 transform: "translate3d(-50%, -50%, 0)",
