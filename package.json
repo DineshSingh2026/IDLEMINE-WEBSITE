@@ -12,8 +12,6 @@
     "fetch-assets": "node scripts/fetch-assets.ts"
   },
   "dependencies": {
-    "@react-three/drei": "^10.7.9",
-    "@react-three/fiber": "^9.8.2",
     "clsx": "^2.1.1",
     "framer-motion": "^14.7.1",
     "gsap": "^3.15.0",
@@ -23,8 +21,7 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "swr": "^2.5.1",
-    "tailwind-merge": "^3.7.0",
-    "three": "^0.186.1"
+    "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
@@ -32,12 +29,14 @@
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@types/three": "^0.186.0",
     "eslint": "^9.39.5",
     "eslint-config-next": "^15.5.28",
     "playwright-core": "^1.64.1",
     "prettier": "^3.9.10",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=20.9"
   }
 }
