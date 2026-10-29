@@ -15,6 +15,7 @@ type Product = (typeof ecosystem.products)[number];
 
 const PLAY_BADGE = "/assets/logos/google-play-badge.png";
 const IDLE_MARK = "/assets/img/idlemine-mark.png";
+const MIDEARTH_LOGO = "/assets/img/midearth/logo.png";
 
 /** Section-only keyframes (component CSS imports break the dev compiler under this path). All use
  *  transform/opacity, carry `eco-anim` so they pause off-screen and vanish under reduced motion. */
@@ -71,7 +72,7 @@ function Art({ product }: { product: Product }) {
     case "Idle Games":
       return <IdleGamesArt logo={product.images[0]} />;
     default:
-      return <AgentGamesArt images={product.images} />;
+      return <AgentGamesArt images={product.images} logo={MIDEARTH_LOGO} />;
   }
 }
 

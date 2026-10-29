@@ -1,6 +1,6 @@
 ﻿import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { AgentArena } from "./AgentArena";
+import { AgentShowcase } from "./AgentShowcase";
 
 /**
  * Living artwork for the three ecosystem chapters, built as depth layers (back, mid, fore).
@@ -335,7 +335,7 @@ export function IdleGamesArt({ logo }: { logo?: string }) {
 
 /* ─────────────────────────────── Agent Games: violet → teal ─────────────────────────────── */
 
-/** Live generative agent arena (canvas simulation), see AgentArena.tsx. */
-export function AgentGamesArt({ images }: { images: readonly string[] }) {
-  return <AgentArena images={images} />;
+/** Holographic showcase of the real MidEarth arena renders, see AgentShowcase.tsx. */
+export function AgentGamesArt({ images, logo }: { images: readonly string[]; logo?: string }) {
+  return <AgentShowcase images={images} logo={logo} />;
 }
