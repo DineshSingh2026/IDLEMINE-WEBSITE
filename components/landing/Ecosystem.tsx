@@ -15,7 +15,6 @@ type Product = (typeof ecosystem.products)[number];
 
 const PLAY_BADGE = "/assets/logos/google-play-badge.png";
 const IDLE_MARK = "/assets/img/idlemine-mark.png";
-const AGENT_CHARACTER = "/assets/img/midearth/logo.png";
 
 /** Section-only keyframes (component CSS imports break the dev compiler under this path). All use
  *  transform/opacity, carry `eco-anim` so they pause off-screen and vanish under reduced motion. */
@@ -72,7 +71,7 @@ function Art({ product }: { product: Product }) {
     case "Idle Games":
       return <IdleGamesArt logo={product.images[0]} />;
     default:
-      return <AgentGamesArt images={product.images} character={AGENT_CHARACTER} />;
+      return <AgentGamesArt images={product.images} />;
   }
 }
 
@@ -101,7 +100,7 @@ function Chapter({ product, index, flip, base }: { product: Product; index: numb
   const agent = product.tone === "violet";
   return (
     <FloatRow className="grid grid-cols-1 items-center gap-6 md:grid-cols-12 md:gap-10 lg:gap-16">
-      <div className={cn("relative md:col-span-7", flip && "md:order-2")}>
+      <div className={cn("relative min-w-0 md:col-span-7", flip && "md:order-2")}>
         <ArtLight world={world} />
         <div
           className="eco-rise relative h-[300px] sm:h-[380px] lg:h-[440px]"
@@ -112,7 +111,7 @@ function Chapter({ product, index, flip, base }: { product: Product; index: numb
       </div>
 
       <div
-        className={cn("eco-fade relative flex flex-col items-start md:col-span-5", flip && "md:order-1")}
+        className={cn("eco-fade relative flex min-w-0 flex-col items-start md:col-span-5", flip && "md:order-1")}
         style={{ "--eco-d": base + 180 } as React.CSSProperties}
       >
         <div aria-hidden className="mb-6 flex items-center gap-3 font-mono text-[12px] tracking-[0.18em]" style={{ color: c.a }}>
